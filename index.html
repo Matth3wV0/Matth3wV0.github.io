@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Võ Trọng Đức | Security Engineer & Automation Specialist</title>
+    <meta name="description" content="Professional portfolio of Võ Trọng Đức - Security Engineer specializing in SOC, Network Intrusion Detection, and Automation solutions.">
+    
+    <!-- OpenGraph Meta Tags -->
+    <meta property="og:title" content="Võ Trọng Đức | Security Engineer & Automation Specialist">
+    <meta property="og:description" content="Security Engineer specializing in SOC, NIDS, Algo-Trading, and Automation. Explore CTF write-ups, engineering projects, and certifications.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://matth3wv0.github.io">
+    <meta property="og:image" content="https://matth3wv0.github.io/og-image.png">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Võ Trọng Đức | Security Engineer">
+    <meta name="twitter:description" content="Security Engineer specializing in SOC, NIDS, Algo-Trading, and Automation.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'deep-space': '#050505',
+                        'card': '#0F0F0F',
+                        'card-border': '#1F1F1F',
+                        'emerald-accent': '#10B981',
+                        'blue-accent': '#3B82F6',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                        'mono': ['JetBrains Mono', 'monospace'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Prism.js for Code Highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        body {
+            background-color: #050505;
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        /* Pulsing dot animation */
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+        .pulse-dot {
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+        
+        /* Glow effects */
+        .glow-emerald {
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.15);
+        }
+        .glow-blue {
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.15);
+        }
+        
+        /* Card hover effects */
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            border-color: #2F2F2F;
+        }
+        
+        /* Drawer animation */
+        .drawer {
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        .drawer.open {
+            transform: translateX(0);
+        }
+        
+        /* Timeline line */
+        .timeline-line {
+            background: linear-gradient(to bottom, #10B981, #3B82F6);
+        }
+        
+        /* Gradient text */
+        .gradient-text {
+            background: linear-gradient(135deg, #10B981, #3B82F6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0F0F0F;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2F2F2F;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3F3F3F;
+        }
+        
+        /* Filter button active state */
+        .filter-btn.active {
+            background-color: #10B981;
+            color: #050505;
+        }
+        
+        /* Certifications marquee */
+        @keyframes scroll-marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .marquee-track {
+            animation: scroll-marquee 20s linear infinite;
+        }
+        .marquee-track:hover {
+            animation-play-state: paused;
+        }
+    </style>
+</head>
+<body class="text-gray-100 antialiased">
+    
+    <!-- Sticky Header -->
+    <header id="header" class="fixed top-0 left-0 right-0 z-50 bg-deep-space/80 backdrop-blur-md border-b border-card-border">
+        <nav class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+            <a href="#" class="text-xl font-semibold gradient-text">VTĐ</a>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#projects" class="text-gray-400 hover:text-white transition-colors text-sm">Projects</a>
+                <a href="#vault" class="text-gray-400 hover:text-white transition-colors text-sm">CTF Vault</a>
+                <a href="#timeline" class="text-gray-400 hover:text-white transition-colors text-sm">Experience</a>
+                <a href="#certifications" class="text-gray-400 hover:text-white transition-colors text-sm">Certifications</a>
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="https://github.com/Matth3wV0" target="_blank" rel="noopener" class="text-gray-400 hover:text-white transition-colors">
+                    <i data-lucide="github" class="w-5 h-5"></i>
+                </a>
+                <a href="https://linkedin.com/in/votrongduc" target="_blank" rel="noopener" class="text-gray-400 hover:text-white transition-colors">
+                    <i data-lucide="linkedin" class="w-5 h-5"></i>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="pt-20">
+        
+        <!-- Hero Section -->
+        <section id="hero" class="min-h-[80vh] flex items-center justify-center px-6">
+            <div class="text-center max-w-3xl">
+                <!-- Status Badge -->
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card border border-card-border mb-8">
+                    <span class="w-2 h-2 rounded-full bg-emerald-accent pulse-dot"></span>
+                    <span class="text-sm text-gray-400 font-mono">Status: <span class="text-emerald-accent">Active</span></span>
+                </div>
+                
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
+                    Võ Trọng <span class="gradient-text">Đức</span>
+                </h1>
+                
+                <p class="text-xl md:text-2xl text-gray-400 mb-8">
+                    Security Engineer <span class="text-gray-600">|</span> Automation Specialist
+                </p>
+                
+                <p class="text-gray-500 max-w-xl mx-auto leading-relaxed mb-10">
+                    Building secure systems and automating complex workflows. 
+                    Passionate about threat detection, algo-trading, and CTF challenges.
+                </p>
+                
+                <div class="flex items-center justify-center gap-4">
+                    <a href="#projects" class="px-6 py-3 bg-emerald-accent text-deep-space font-semibold rounded-lg hover:bg-emerald-400 transition-colors">
+                        View Projects
+                    </a>
+                    <a href="#vault" class="px-6 py-3 border border-card-border text-gray-300 rounded-lg hover:border-gray-600 transition-colors">
+                        CTF Write-ups
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Engineering Projects - Bento Grid -->
+        <section id="projects" class="py-24 px-6">
+            <div class="max-w-6xl mx-auto">
+                <div class="flex items-center gap-3 mb-12">
+                    <i data-lucide="layers" class="w-6 h-6 text-emerald-accent"></i>
+                    <h2 class="text-3xl font-bold">Engineering Projects</h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    
+                    <!-- Project A: NIDS -->
+                    <div class="lg:col-span-2 bg-card border border-card-border rounded-2xl p-8 card-hover glow-emerald">
+                        <div class="flex items-start justify-between mb-6">
+                            <div class="p-3 bg-emerald-accent/10 rounded-xl">
+                                <i data-lucide="shield-check" class="w-8 h-8 text-emerald-accent"></i>
+                            </div>
+                            <span class="px-3 py-1 text-xs font-mono bg-emerald-accent/10 text-emerald-accent rounded-full">Security</span>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-3">Hybrid NIDS</h3>
+                        <p class="text-gray-400 mb-6 leading-relaxed">
+                            Network Intrusion Detection System combining ELK Stack with Machine Learning 
+                            for real-time threat detection. Mapped to MITRE ATT&CK framework.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="px-3 py-1 text-xs font-mono bg-card-border rounded-full text-gray-400">ELK Stack</span>
+                            <span class="px-3 py-1 text-xs font-mono bg-card-border rounded-full text-gray-400">Machine Learning</span>
+                            <span class="px-3 py-1 text-xs font-mono bg-card-border rounded-full text-gray-400">MITRE ATT&CK</span>
+                            <span class="px-3 py-1 text-xs font-mono bg-card-border rounded-full text-gray-400">Python</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 pt-6 border-t border-card-border">
+                            <div>
+                                <p class="text-3xl font-bold text-emerald-accent">95%</p>
+                                <p class="text-sm text-gray-500">Detection Accuracy</p>
+                            </div>
+                            <div>
+                                <p class="text-3xl font-bold text-emerald-accent">< 2s</p>
+                                <p class="text-sm text-gray-500">Response Time</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Project B: Trading -->
+                    <div class="bg-card border border-card-border rounded-2xl p-8 card-hover glow-blue">
+                        <div class="flex items-start justify-between mb-6">
+                            <div class="p-3 bg-blue-accent/10 rounded-xl">
+                                <i data-lucide="trending-up" class="w-8 h-8 text-blue-accent"></i>
+                            </div>
+                            <span class="px-3 py-1 text-xs font-mono bg-blue-accent/10 text-blue-accent rounded-full">Automation</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Prospire Algo-Trading</h3>
+                        <p class="text-gray-400 mb-6 leading-relaxed text-sm">
+                            Automated trading platform with decision algorithms for market analysis.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="px-3 py-1 text-xs font-mono bg-card-border rounded-full text-gray-400">Python</span>
+                            <span class="px-3 py-1 text-xs font-mono bg-card-border rounded-full text-gray-400">APIs</span>
+                        </div>
+                        <div class="pt-6 border-t border-card-border">
+                            <p class="text-2xl font-bold text-blue-accent">$100k</p>
+                            <p class="text-sm text-gray-500">/week volume</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Project C: Automation -->
+                    <div class="lg:col-span-3 bg-card border border-card-border rounded-2xl p-8 card-hover">
+                        <div class="flex flex-col md:flex-row md:items-center gap-6">
+                            <div class="flex items-start gap-4 flex-1">
+                                <div class="p-3 bg-gradient-to-br from-emerald-accent/10 to-blue-accent/10 rounded-xl">
+                                    <i data-lucide="bot" class="w-8 h-8 text-gray-300"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold mb-2">Financial Telegram Bot & Python Scrapers</h3>
+                                    <p class="text-gray-400 text-sm">
+                                        Automated data collection with Producer-Consumer pattern for high-throughput processing.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 text-xs font-mono bg-card-border rounded-full text-gray-400">Telegram API</span>
+                                <span class="px-3 py-1 text-xs font-mono bg-card-border rounded-full text-gray-400">Producer-Consumer</span>
+                                <span class="px-3 py-1 text-xs font-mono bg-card-border rounded-full text-gray-400">Selenium</span>
+                                <span class="px-3 py-1 text-xs font-mono bg-card-border rounded-full text-gray-400">BeautifulSoup</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+        
+        <!-- CTF Write-up Archive - The Vault -->
+        <section id="vault" class="py-24 px-6 bg-card/30">
+            <div class="max-w-6xl mx-auto">
+                <div class="flex items-center gap-3 mb-8">
+                    <i data-lucide="archive" class="w-6 h-6 text-emerald-accent"></i>
+                    <h2 class="text-3xl font-bold">The Vault</h2>
+                    <span class="text-gray-500 text-sm ml-2">CTF Write-up Archive</span>
+                </div>
+                
+                <!-- Filter Buttons -->
+                <div class="flex flex-wrap gap-3 mb-8">
+                    <button class="filter-btn active px-4 py-2 text-sm font-medium rounded-lg bg-card border border-card-border text-gray-400 hover:text-white transition-colors" data-filter="all">
+                        All
+                    </button>
+                    <button class="filter-btn px-4 py-2 text-sm font-medium rounded-lg bg-card border border-card-border text-gray-400 hover:text-white transition-colors" data-filter="forensic">
+                        Forensic
+                    </button>
+                    <button class="filter-btn px-4 py-2 text-sm font-medium rounded-lg bg-card border border-card-border text-gray-400 hover:text-white transition-colors" data-filter="reverse">
+                        Reverse
+                    </button>
+                    <button class="filter-btn px-4 py-2 text-sm font-medium rounded-lg bg-card border border-card-border text-gray-400 hover:text-white transition-colors" data-filter="web">
+                        Web
+                    </button>
+                </div>
+                
+                <!-- Write-up Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="writeup-grid">
+                    
+                    <!-- CVE-2025-49704 -->
+                    <div class="writeup-card bg-card border border-card-border rounded-xl p-6 cursor-pointer card-hover" data-category="forensic" data-writeup="cve-2025">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-2 py-1 text-xs font-mono bg-red-500/10 text-red-400 rounded">Hard</span>
+                            <span class="px-2 py-1 text-xs font-mono bg-purple-500/10 text-purple-400 rounded">Forensic</span>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-2">CVE-2025-49704</h3>
+                        <p class="text-gray-500 text-sm mb-4">SharePoint Deserialization Vulnerability</p>
+                        <div class="flex items-center gap-2 text-emerald-accent text-sm">
+                            <i data-lucide="file-search" class="w-4 h-4"></i>
+                            <span>Quick Analysis</span>
+                        </div>
+                    </div>
+                    
+                    <!-- ICMP Tunneling -->
+                    <div class="writeup-card bg-card border border-card-border rounded-xl p-6 cursor-pointer card-hover" data-category="forensic" data-writeup="icmp-tunnel">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-2 py-1 text-xs font-mono bg-yellow-500/10 text-yellow-400 rounded">Medium</span>
+                            <span class="px-2 py-1 text-xs font-mono bg-purple-500/10 text-purple-400 rounded">Forensic</span>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-2">ICMP Tunneling Forensic</h3>
+                        <p class="text-gray-500 text-sm mb-4">C2 Channel Detection & Analysis</p>
+                        <div class="flex items-center gap-2 text-emerald-accent text-sm">
+                            <i data-lucide="file-search" class="w-4 h-4"></i>
+                            <span>Quick Analysis</span>
+                        </div>
+                    </div>
+                    
+                    <!-- XLM Macro -->
+                    <div class="writeup-card bg-card border border-card-border rounded-xl p-6 cursor-pointer card-hover" data-category="reverse" data-writeup="xlm-macro">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-2 py-1 text-xs font-mono bg-yellow-500/10 text-yellow-400 rounded">Medium</span>
+                            <span class="px-2 py-1 text-xs font-mono bg-orange-500/10 text-orange-400 rounded">Reverse</span>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-2">XLM Macro De-obfuscation</h3>
+                        <p class="text-gray-500 text-sm mb-4">Static Analysis with oletools</p>
+                        <div class="flex items-center gap-2 text-emerald-accent text-sm">
+                            <i data-lucide="file-search" class="w-4 h-4"></i>
+                            <span>Quick Analysis</span>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+        
+        <!-- Professional Timeline -->
+        <section id="timeline" class="py-24 px-6">
+            <div class="max-w-4xl mx-auto">
+                <div class="flex items-center gap-3 mb-12">
+                    <i data-lucide="briefcase" class="w-6 h-6 text-blue-accent"></i>
+                    <h2 class="text-3xl font-bold">Experience</h2>
+                </div>
+                
+                <div class="relative">
+                    <!-- Timeline Line -->
+                    <div class="absolute left-[19px] top-0 bottom-0 w-0.5 timeline-line"></div>
+                    
+                    <!-- Timeline Items -->
+                    <div class="space-y-12">
+                        
+                        <!-- Prospire -->
+                        <div class="relative flex gap-6">
+                            <div class="w-10 h-10 rounded-full bg-emerald-accent flex items-center justify-center flex-shrink-0 z-10">
+                                <i data-lucide="rocket" class="w-5 h-5 text-deep-space"></i>
+                            </div>
+                            <div class="flex-1 bg-card border border-card-border rounded-xl p-6">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h3 class="text-xl font-bold">Prospire</h3>
+                                    <span class="px-3 py-1 text-xs font-mono bg-emerald-accent/10 text-emerald-accent rounded-full">Current</span>
+                                </div>
+                                <p class="text-gray-400 text-sm mb-3">Co-founder & Tech Lead</p>
+                                <p class="text-gray-500 text-sm">
+                                    Building algo-trading platform and automation solutions. 
+                                    Leading technical architecture and security implementation.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- HPT -->
+                        <div class="relative flex gap-6">
+                            <div class="w-10 h-10 rounded-full bg-blue-accent flex items-center justify-center flex-shrink-0 z-10">
+                                <i data-lucide="graduation-cap" class="w-5 h-5 text-deep-space"></i>
+                            </div>
+                            <div class="flex-1 bg-card border border-card-border rounded-xl p-6">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h3 class="text-xl font-bold">HPT Vietnam</h3>
+                                    <span class="px-3 py-1 text-xs font-mono bg-blue-accent/10 text-blue-accent rounded-full">9.2/10</span>
+                                </div>
+                                <p class="text-gray-400 text-sm mb-3">Security Training Program</p>
+                                <p class="text-gray-500 text-sm">
+                                    Completed advanced security training with top performance. 
+                                    Focus on network security and threat analysis.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- Viettel IDC -->
+                        <div class="relative flex gap-6">
+                            <div class="w-10 h-10 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0 z-10">
+                                <i data-lucide="server" class="w-5 h-5 text-gray-300"></i>
+                            </div>
+                            <div class="flex-1 bg-card border border-card-border rounded-xl p-6">
+                                <h3 class="text-xl font-bold mb-2">Viettel IDC</h3>
+                                <p class="text-gray-400 text-sm mb-3">Security Intern</p>
+                                <p class="text-gray-500 text-sm">
+                                    Gained hands-on experience in enterprise security operations 
+                                    and data center infrastructure.
+                                </p>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Certifications -->
+        <section id="certifications" class="py-24 px-6 bg-card/30 overflow-hidden">
+            <div class="max-w-6xl mx-auto">
+                <div class="flex items-center gap-3 mb-12">
+                    <i data-lucide="award" class="w-6 h-6 text-emerald-accent"></i>
+                    <h2 class="text-3xl font-bold">Certifications</h2>
+                </div>
+                
+                <!-- Certification Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    
+                    <!-- CCNA -->
+                    <div class="bg-card border border-card-border rounded-xl p-6 text-center card-hover">
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-emerald-accent/20 to-blue-accent/20 flex items-center justify-center">
+                            <i data-lucide="network" class="w-8 h-8 text-emerald-accent"></i>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2">CCNA</h3>
+                        <p class="text-gray-500 text-sm">Cisco Certified Network Associate</p>
+                        <div class="mt-4 pt-4 border-t border-card-border">
+                            <span class="text-xs font-mono text-gray-600">CISCO</span>
+                        </div>
+                    </div>
+                    
+                    <!-- CyberOps -->
+                    <div class="bg-card border border-card-border rounded-xl p-6 text-center card-hover">
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-emerald-accent/20 to-blue-accent/20 flex items-center justify-center">
+                            <i data-lucide="shield" class="w-8 h-8 text-blue-accent"></i>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2">CyberOps Associate</h3>
+                        <p class="text-gray-500 text-sm">Security Operations Center</p>
+                        <div class="mt-4 pt-4 border-t border-card-border">
+                            <span class="text-xs font-mono text-gray-600">CISCO</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Cloud Security -->
+                    <div class="bg-card border border-card-border rounded-xl p-6 text-center card-hover">
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-emerald-accent/20 to-blue-accent/20 flex items-center justify-center">
+                            <i data-lucide="cloud" class="w-8 h-8 text-purple-400"></i>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2">Cloud Security</h3>
+                        <p class="text-gray-500 text-sm">Cisco Cloud Security</p>
+                        <div class="mt-4 pt-4 border-t border-card-border">
+                            <span class="text-xs font-mono text-gray-600">CISCO</span>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="py-12 px-6 border-t border-card-border">
+            <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="text-center md:text-left">
+                    <p class="text-gray-500 text-sm">
+                        © 2026 Võ Trọng Đức. Built with precision.
+                    </p>
+                </div>
+                <div class="flex items-center gap-6">
+                    <a href="mailto:votrongduc@example.com" class="text-gray-400 hover:text-white transition-colors">
+                        <i data-lucide="mail" class="w-5 h-5"></i>
+                    </a>
+                    <a href="https://github.com/Matth3wV0" target="_blank" rel="noopener" class="text-gray-400 hover:text-white transition-colors">
+                        <i data-lucide="github" class="w-5 h-5"></i>
+                    </a>
+                    <a href="https://linkedin.com/in/votrongduc" target="_blank" rel="noopener" class="text-gray-400 hover:text-white transition-colors">
+                        <i data-lucide="linkedin" class="w-5 h-5"></i>
+                    </a>
+                </div>
+            </div>
+        </footer>
+        
+    </main>
+    
+    <!-- Slide-over Drawer -->
+    <div id="drawer-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden"></div>
+    <aside id="drawer" class="drawer fixed right-0 top-0 h-full w-full max-w-2xl bg-deep-space border-l border-card-border z-50 overflow-y-auto">
+        <div class="p-8">
+            <div class="flex items-center justify-between mb-8">
+                <h2 id="drawer-title" class="text-2xl font-bold">Write-up Title</h2>
+                <button id="drawer-close" class="p-2 hover:bg-card rounded-lg transition-colors">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <div id="drawer-content" class="prose prose-invert max-w-none">
+                <!-- Dynamic content loaded here -->
+            </div>
+        </div>
+    </aside>
+    
+    <!-- Write-up Content Templates (Hidden) -->
+    <template id="writeup-cve-2025">
+        <div class="space-y-6">
+            <div class="flex items-center gap-3">
+                <span class="px-3 py-1 text-xs font-mono bg-red-500/10 text-red-400 rounded">Hard</span>
+                <span class="px-3 py-1 text-xs font-mono bg-purple-500/10 text-purple-400 rounded">Forensic</span>
+            </div>
+            
+            <div>
+                <h3 class="text-lg font-semibold text-emerald-accent mb-3">Problem</h3>
+                <p class="text-gray-400 leading-relaxed">
+                    Analyze a potentially malicious SharePoint artifact and identify the deserialization vulnerability 
+                    being exploited. The attacker has leveraged CVE-2025-49704 to execute arbitrary code.
+                </p>
+            </div>
+            
+            <div>
+                <h3 class="text-lg font-semibold text-emerald-accent mb-3">Analysis</h3>
+                <p class="text-gray-400 leading-relaxed mb-4">
+                    The vulnerability exists in SharePoint's handling of serialized objects. By crafting a malicious 
+                    payload, an attacker can achieve Remote Code Execution (RCE).
+                </p>
+                <pre class="rounded-xl overflow-hidden"><code class="language-python"># Deserialization analysis
+import pickle
+import base64
+
+def analyze_payload(b64_payload):
+    """Analyze suspicious SharePoint payload"""
+    raw_data = base64.b64decode(b64_payload)
+    
+    # Check for dangerous pickle opcodes
+    dangerous_ops = [b'cos', b'cposix', b'csystem']
+    for op in dangerous_ops:
+        if op in raw_data:
+            return f"ALERT: Dangerous opcode found: {op}"
+    
+    # Attempt safe unpickling with restrictions
+    # ... analysis continues
+    return "Payload analysis complete"</code></pre>
+            </div>
+            
+            <div>
+                <h3 class="text-lg font-semibold text-emerald-accent mb-3">Key Findings</h3>
+                <ul class="list-disc list-inside text-gray-400 space-y-2">
+                    <li>Malicious serialized object embedded in workflow</li>
+                    <li>Custom gadget chain targeting SharePoint internals</li>
+                    <li>Command execution via subprocess.Popen</li>
+                </ul>
+            </div>
+            
+            <div class="bg-card border border-emerald-accent/30 rounded-xl p-4">
+                <h3 class="text-lg font-semibold text-emerald-accent mb-2">🚩 Flag</h3>
+                <code class="font-mono text-emerald-accent">FLAG{SP_D3s3r1al1z4t10n_RCE_2025}</code>
+            </div>
+        </div>
+    </template>
+    
+    <template id="writeup-icmp-tunnel">
+        <div class="space-y-6">
+            <div class="flex items-center gap-3">
+                <span class="px-3 py-1 text-xs font-mono bg-yellow-500/10 text-yellow-400 rounded">Medium</span>
+                <span class="px-3 py-1 text-xs font-mono bg-purple-500/10 text-purple-400 rounded">Forensic</span>
+            </div>
+            
+            <div>
+                <h3 class="text-lg font-semibold text-emerald-accent mb-3">Problem</h3>
+                <p class="text-gray-400 leading-relaxed">
+                    A network capture file contains suspicious ICMP traffic. Analyze the packets to identify 
+                    a potential C2 (Command & Control) channel using ICMP tunneling.
+                </p>
+            </div>
+            
+            <div>
+                <h3 class="text-lg font-semibold text-emerald-accent mb-3">Analysis</h3>
+                <p class="text-gray-400 leading-relaxed mb-4">
+                    ICMP tunneling uses the payload section of ICMP echo requests/replies to exfiltrate data. 
+                    We extract and decode the hidden data.
+                </p>
+                <pre class="rounded-xl overflow-hidden"><code class="language-python">from scapy.all import rdpcap, ICMP
+
+def extract_icmp_payload(pcap_file):
+    """Extract hidden data from ICMP tunnel"""
+    packets = rdpcap(pcap_file)
+    extracted_data = []
+    
+    for pkt in packets:
+        if pkt.haslayer(ICMP):
+            icmp_layer = pkt[ICMP]
+            # Check for echo request with payload
+            if icmp_layer.type == 8:  # Echo request
+                if hasattr(pkt, 'load'):
+                    extracted_data.append(pkt.load)
+    
+    # Reassemble and decode
+    full_payload = b''.join(extracted_data)
+    return full_payload.decode('utf-8', errors='ignore')
+
+# Result: C2 commands extracted</code></pre>
+            </div>
+            
+            <div>
+                <h3 class="text-lg font-semibold text-emerald-accent mb-3">Detection Indicators</h3>
+                <ul class="list-disc list-inside text-gray-400 space-y-2">
+                    <li>Unusually large ICMP packet sizes</li>
+                    <li>High frequency of echo requests to single destination</li>
+                    <li>Non-standard data in ICMP payload section</li>
+                </ul>
+            </div>
+            
+            <div class="bg-card border border-emerald-accent/30 rounded-xl p-4">
+                <h3 class="text-lg font-semibold text-emerald-accent mb-2">🚩 Flag</h3>
+                <code class="font-mono text-emerald-accent">FLAG{1CMP_C2_Ch4nn3l_D3t3ct3d}</code>
+            </div>
+        </div>
+    </template>
+    
+    <template id="writeup-xlm-macro">
+        <div class="space-y-6">
+            <div class="flex items-center gap-3">
+                <span class="px-3 py-1 text-xs font-mono bg-yellow-500/10 text-yellow-400 rounded">Medium</span>
+                <span class="px-3 py-1 text-xs font-mono bg-orange-500/10 text-orange-400 rounded">Reverse</span>
+            </div>
+            
+            <div>
+                <h3 class="text-lg font-semibold text-emerald-accent mb-3">Problem</h3>
+                <p class="text-gray-400 leading-relaxed">
+                    A suspicious Excel file contains obfuscated XLM (Excel 4.0) macros. 
+                    Perform static analysis to uncover the malicious payload.
+                </p>
+            </div>
+            
+            <div>
+                <h3 class="text-lg font-semibold text-emerald-accent mb-3">Analysis</h3>
+                <p class="text-gray-400 leading-relaxed mb-4">
+                    Using oletools, we extract and analyze the XLM macro formulas to reveal the obfuscated commands.
+                </p>
+                <pre class="rounded-xl overflow-hidden"><code class="language-bash"># Extract XLM macros using olevba
+$ olevba suspicious.xlsm
+
+# Output reveals obfuscated formulas:
+# =CHAR(112)&CHAR(111)&CHAR(119)&CHAR(101)&CHAR(114)...
+
+# Decode CHAR sequence
+$ python3 decode_xlm.py
+> Decoded: powershell -enc [base64_payload]</code></pre>
+                <pre class="rounded-xl overflow-hidden mt-4"><code class="language-python"># De-obfuscation script
+def decode_char_formula(formula):
+    """Decode CHAR() based obfuscation"""
+    import re
+    chars = re.findall(r'CHAR\((\d+)\)', formula)
+    decoded = ''.join(chr(int(c)) for c in chars)
+    return decoded
+
+# Example decoded output:
+# powershell -enc JABjAD0ATgBlAHcALQ...</code></pre>
+            </div>
+            
+            <div>
+                <h3 class="text-lg font-semibold text-emerald-accent mb-3">Malware Behavior</h3>
+                <ul class="list-disc list-inside text-gray-400 space-y-2">
+                    <li>Downloads second-stage payload from C2</li>
+                    <li>Uses CHAR() function for string obfuscation</li>
+                    <li>Executes PowerShell with encoded commands</li>
+                </ul>
+            </div>
+            
+            <div class="bg-card border border-emerald-accent/30 rounded-xl p-4">
+                <h3 class="text-lg font-semibold text-emerald-accent mb-2">🚩 Flag</h3>
+                <code class="font-mono text-emerald-accent">FLAG{XLM_M4cr0_D30bfusc4t3d}</code>
+            </div>
+        </div>
+    </template>
+    
+    <!-- Prism.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+        
+        // Drawer functionality
+        const drawer = document.getElementById('drawer');
+        const drawerOverlay = document.getElementById('drawer-overlay');
+        const drawerClose = document.getElementById('drawer-close');
+        const drawerTitle = document.getElementById('drawer-title');
+        const drawerContent = document.getElementById('drawer-content');
+        const writeupCards = document.querySelectorAll('.writeup-card');
+        
+        const writeupData = {
+            'cve-2025': { title: 'CVE-2025-49704 Analysis', template: 'writeup-cve-2025' },
+            'icmp-tunnel': { title: 'ICMP Tunneling Forensic', template: 'writeup-icmp-tunnel' },
+            'xlm-macro': { title: 'XLM Macro De-obfuscation', template: 'writeup-xlm-macro' }
+        };
+        
+        function openDrawer(writeupId) {
+            const data = writeupData[writeupId];
+            if (!data) return;
+            
+            drawerTitle.textContent = data.title;
+            const template = document.getElementById(data.template);
+            drawerContent.innerHTML = template.innerHTML;
+            
+            // Re-highlight code blocks
+            Prism.highlightAllUnder(drawerContent);
+            // Re-init icons
+            lucide.createIcons();
+            
+            drawer.classList.add('open');
+            drawerOverlay.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeDrawer() {
+            drawer.classList.remove('open');
+            drawerOverlay.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+        
+        writeupCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const writeupId = card.dataset.writeup;
+                openDrawer(writeupId);
+            });
+        });
+        
+        drawerClose.addEventListener('click', closeDrawer);
+        drawerOverlay.addEventListener('click', closeDrawer);
+        
+        // Close drawer on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeDrawer();
+        });
+        
+        // Filter functionality
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active state
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                const filter = btn.dataset.filter;
+                
+                writeupCards.forEach(card => {
+                    if (filter === 'all' || card.dataset.category === filter) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+        
+        // Header scroll effect
+        const header = document.getElementById('header');
+        let lastScroll = 0;
+        
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > 100) {
+                header.classList.add('shadow-lg');
+            } else {
+                header.classList.remove('shadow-lg');
+            }
+            
+            lastScroll = currentScroll;
+        });
+    </script>
+    
+</body>
+</html>
