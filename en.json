@@ -116,5 +116,17 @@
     "alt_for2_flag": "Flag Extraction",
     "alt_re02_banner": "Excel Challenge",
     "alt_re02_macro": "Macro Analysis",
-    "alt_re02_flag": "Flag Result"
+    "alt_re02_flag": "Flag Result",
+    "ctf_difficulty_hard": "1000 pts",
+    "ctf_difficulty_medium": "Medium",
+    "ctf_difficulty_easy": "Easy",
+    "ctf_category_forensic": "Forensic",
+    "ctf_category_reverse": "Reverse",
+    "ctf_category_web": "Web",
+    "ctf_gyp_card_title": "Gimme Your Point",
+    "ctf_gyp_card_desc": "SharePoint CVE-2025-49704 & Malware Analysis",
+    "ctf_for2_card_title": "FOR2 - ICMP Backdoor",
+    "ctf_for2_card_desc": "PCAP Analysis & C2 Command Extraction",
+    "ctf_re02_card_title": "RE02 - Excel Macro Analysis",
+    "ctf_re02_card_desc": "XLM Macro De-obfuscation with oletools"
 }
