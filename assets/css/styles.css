@@ -1234,7 +1234,7 @@ code,
 
 .writeup-summary h4 {
     color: var(--color-text);
-    margin-bottom: var(--spacing-sm);
+    margin: 0 0 var(--spacing-sm) 0;
     font-size: 1rem;
 }
 
@@ -1254,7 +1254,7 @@ code,
 
 .writeup-detection h4 {
     color: #ff6b6b;
-    margin-bottom: var(--spacing-md);
+    margin: 0 0 var(--spacing-md) 0;
     font-size: 1rem;
 }
 
@@ -1286,7 +1286,7 @@ code,
 
 .writeup-mitre h4 {
     color: var(--color-text);
-    margin-bottom: var(--spacing-md);
+    margin: 0 0 var(--spacing-md) 0;
     font-size: 1rem;
 }
 

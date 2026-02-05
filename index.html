@@ -546,7 +546,7 @@
                             <div class="timeline-header">
                                 <div class="timeline-company">
                                     <img src="assets/logo/Logo_HPT.svg" alt="HPT Vietnam" class="timeline-logo">
-                                    <span class="timeline-company-name">HPT Vietnam</span>
+                                    <span class="timeline-company-name">HPT Vietnam Corporation</span>
                                 </div>
                                 <span class="timeline-date gray" data-i18n="exp_hpt_date">Dec 2023 - Apr 2024</span>
                             </div>
@@ -590,7 +590,7 @@
                         <div class="cert-icon purple"><i data-lucide="graduation-cap"></i></div>
                         <h4 class="cert-title" data-i18n="cert_hpt">On-Job Training</h4>
                         <p class="cert-issuer">Security Training</p>
-                        <p class="cert-org">HPT Vietnam</p>
+                        <p class="cert-org"> HPT Vietnam Corporation</p>
                     </div>
 
                     <div class="card cert-card"
@@ -1155,7 +1155,8 @@
                     <strong>CVE-2025-49704</strong>, a SharePoint deserialization vulnerability in the ToolShell
                     component. This challenge recreates a real-world case study where attackers embed deserialization
                     payloads into the <code>MSOTlPn_DWP</code> parameter of POST requests to achieve RCE and exfiltrate
-                    Chrome browser credentials.</p>
+                    Chrome browser credentials.
+                </p>
             </div>
 
             <div class="writeup-mitre">
@@ -1197,12 +1198,14 @@
             <h4>🔍 Phase 1: Initial PCAP Analysis</h4>
             <p data-i18n="writeup_gimme_phase1">Opening the challenge PCAP file in Wireshark, I observed HTTP GET
                 requests returning a <code>start.aspx</code> file - indicating a web-based attack. I used
-                <strong>Wireshark's Export Objects</strong> feature to extract all HTTP files.</p>
+                <strong>Wireshark's Export Objects</strong> feature to extract all HTTP files.
+            </p>
             <img src="assets/img/vcspassport2025/image1.png" alt="HTTP object export">
 
             <p data-i18n="writeup_gimme_phase1b">Using <code>strings</code> and <code>file</code> commands to analyze
                 extracted files, I discovered a suspicious encoded <code>CompressedDataTable</code> value in
-                <code>ToolPane.aspx</code>.</p>
+                <code>ToolPane.aspx</code>.
+            </p>
 
             <h4>🔍 Phase 2: CVE Research - ToolShell Vulnerability</h4>
             <p data-i18n="writeup_gimme_phase2">Searching for "CompressedDataTable SharePoint" led me to VCS's security
@@ -1226,7 +1229,8 @@ del C:\Windows\Temp\health_check.exe"</code></pre>
 
             <h4>🔍 Phase 4: Malware Analysis</h4>
             <p data-i18n="writeup_gimme_phase4">Following the PowerShell steps, I obtained
-                <code>health_check.exe</code>. Running this executable revealed credential theft behavior:</p>
+                <code>health_check.exe</code>. Running this executable revealed credential theft behavior:
+            </p>
             <ul>
                 <li><code>chrome_health_result</code> - SQLite database (Chrome Login Data with saved passwords)</li>
                 <li><code>chrome_service_result</code> - Chrome Local State (encryption key for decrypting Login Data)
@@ -1238,16 +1242,19 @@ del C:\Windows\Temp\health_check.exe"</code></pre>
             <h4>💡 Phase 5: The Breakthrough - IDA Reverse Engineering</h4>
             <p data-i18n="writeup_gimme_breakthrough">Returning to the PCAP, I found a POST request to
                 <code>/upload</code> with the exfiltrated ZIP (signature <code>50 4b 03 04</code>). The ZIP required a
-                password, so I loaded <code>health_check.exe</code> into <strong>IDA Pro</strong>.</p>
+                password, so I loaded <code>health_check.exe</code> into <strong>IDA Pro</strong>.
+            </p>
 
             <p data-i18n="writeup_gimme_ida">Searching for "pass" revealed three functions: <code>GenPass1</code>,
                 <code>GenPass2</code>, <code>GenPass3</code>. Following these in IDA View-A, I reconstructed the
-                password:</p>
+                password:
+            </p>
             <blockquote><code>sup3r_S3(ReT_p4$$wod</code></blockquote>
             <img src="assets/img/vcspassport2025/image20.png" alt="IDA GenPass analysis">
 
             <p data-i18n="writeup_gimme_flag">Using this password to extract the ZIP, I examined
-                <code>chrome_health_result</code> and found the URL containing the flag.</p>
+                <code>chrome_health_result</code> and found the URL containing the flag.
+            </p>
 
             <div class="writeup-detection">
                 <h4>🛡️ Detection Strategy (Blue Team)</h4>

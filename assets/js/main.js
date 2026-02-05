@@ -115,6 +115,17 @@ function openWriteupModal(writeupId) {
     modal.classList.add('open');
     document.body.style.overflow = 'hidden';
     currentModal = modal;
+
+    // Reset scroll position to top
+    const contentEl = document.getElementById('modal-content');
+    if (contentEl) {
+        contentEl.scrollTop = 0;
+    }
+    // Also reset the modal container scroll
+    const modalContainer = modal.querySelector('.modal-container');
+    if (modalContainer) {
+        modalContainer.scrollTop = 0;
+    }
 }
 
 function openModal(title, content) {
