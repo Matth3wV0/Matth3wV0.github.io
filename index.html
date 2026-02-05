@@ -309,6 +309,36 @@
                         </div>
                     </div>
 
+                    <!-- Keylogger Project -->
+                    <div class="card project-card card-glow-red" data-project="keylogger" style="cursor: pointer;">
+                        <div class="project-header">
+                            <div class="project-icon" style="background:rgba(239,68,68,0.15);"><i data-lucide="skull"
+                                    style="color:#ef4444;"></i></div>
+                            <span class="tag tag-red">Malware Research</span>
+                        </div>
+                        <h3 class="project-title" data-i18n="project_keylogger_title">Snake Game Keylogger</h3>
+                        <p class="project-description" data-i18n="project_keylogger_desc">Proof-of-concept malware
+                            analysis lab simulating a full attack lifecycle: phishing delivery, credential harvesting,
+                            persistence, and C2 exfiltration via Telegram.</p>
+                        <div class="project-tags">
+                            <span class="tag tag-gray">MITRE ATT&CK</span>
+                            <span class="tag tag-gray">Python</span>
+                            <span class="tag tag-gray">Credential Theft</span>
+                            <span class="tag tag-gray">C2</span>
+                        </div>
+                        <div class="project-stats">
+                            <div>
+                                <div class="project-stat-value">5</div>
+                                <div class="project-stat-label" data-i18n="project_keylogger_stat1">ATT&CK Techniques
+                                </div>
+                            </div>
+                            <div>
+                                <div class="project-stat-value">Full</div>
+                                <div class="project-stat-label" data-i18n="project_keylogger_stat2">Kill Chain</div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Bot Project -->
                     <div class="card project-card" style="grid-column: span 3;">
                         <div style="display:flex; gap:1.5rem; align-items:center; flex-wrap:wrap;">
@@ -516,9 +546,9 @@
                                 <span class="timeline-date" data-i18n="exp_prospire_date">May 2023 - Present</span>
                             </div>
                             <p class="timeline-role" data-i18n="exp_prospire_role">Co-Founder & Founding Engineer</p>
-                            <p class="timeline-description" data-i18n="exp_prospire_desc">Building automated crypto
+                            <div class="timeline-description" data-i18n="exp_prospire_desc">Building automated crypto
                                 trading systems and developing high-frequency trading algorithms with real-time market
-                                data processing.</p>
+                                data processing.</div>
                         </div>
                     </div>
 
@@ -552,9 +582,9 @@
                                 <span class="timeline-date gray" data-i18n="exp_hpt_date">Dec 2023 - Apr 2024</span>
                             </div>
                             <p class="timeline-role" data-i18n="exp_hpt_role">Security Training Program</p>
-                            <p class="timeline-description" data-i18n="exp_hpt_desc">Intensive security training
+                            <div class="timeline-description" data-i18n="exp_hpt_desc">Intensive security training
                                 covering penetration testing, incident response, and security analysis methodologies.
-                            </p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1414,10 +1444,153 @@ olevba RE02.xls
         </div>
     </template>
 
+    <!-- Project Templates (hidden) -->
+    <template id="project-keylogger">
+        <div class="writeup-content">
+            <div class="writeup-summary">
+                <h4>📋 Executive Summary</h4>
+                <p data-i18n="project_keylogger_summary">This project is a controlled malware analysis lab designed to
+                    simulate the complete lifecycle of an information-stealing trojan. By embedding a keylogger within a
+                    seemingly harmless Snake game, it demonstrates how threat actors weaponize legitimate applications
+                    to evade detection.</p>
+            </div>
+
+            <div class="writeup-techniques">
+                <h4>🎯 Attack Scenario</h4>
+                <p data-i18n="project_keylogger_scenario">A victim receives a phishing email containing an attached
+                    "Snake Game". Upon execution, the trojanized game operates normally while silently deploying
+                    credential-harvesting and persistence modules in the background.</p>
+            </div>
+
+            <div class="writeup-mitre">
+                <h4>🔴 MITRE ATT&CK Mapping</h4>
+                <table class="mitre-table">
+                    <tr>
+                        <th>Tactic</th>
+                        <th>Technique</th>
+                        <th>Implementation</th>
+                    </tr>
+                    <tr>
+                        <td>Initial Access</td>
+                        <td><code>T1566.001</code> Phishing: Spear-phishing Attachment</td>
+                        <td>Malicious game distributed via email</td>
+                    </tr>
+                    <tr>
+                        <td>Execution</td>
+                        <td><code>T1204.002</code> User Execution: Malicious File</td>
+                        <td>Victim launches trojanized Snake game</td>
+                    </tr>
+                    <tr>
+                        <td>Persistence</td>
+                        <td><code>T1547.001</code> Boot or Logon Autostart: Registry Run Keys</td>
+                        <td>Script added to Windows Startup folder</td>
+                    </tr>
+                    <tr>
+                        <td>Credential Access</td>
+                        <td><code>T1056.001</code> Input Capture: Keylogging</td>
+                        <td>pynput library captures all keystrokes</td>
+                    </tr>
+                    <tr>
+                        <td>Credential Access</td>
+                        <td><code>T1555.003</code> Credentials from Password Stores: Browsers</td>
+                        <td>Chrome SQLite database decryption via AES</td>
+                    </tr>
+                    <tr>
+                        <td>Exfiltration</td>
+                        <td><code>T1567.002</code> Exfiltration Over Web Service</td>
+                        <td>Data sent to attacker via Telegram Bot API</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h4>🔍 Technical Deep-Dive</h4>
+
+            <h5>Phase 1: Initial Access & Execution</h5>
+            <p data-i18n="project_keylogger_phase1">The attack begins with a crafted phishing email containing the
+                trojanized game as an attachment. Social engineering techniques convince the victim to download and
+                execute the application.</p>
+            <img src="https://github.com/user-attachments/assets/d5a133d7-0f86-4d15-9e09-a6dc05ae1965"
+                alt="Phishing email delivery">
+
+            <h5>Phase 2: Payload Execution</h5>
+            <p data-i18n="project_keylogger_phase2">Upon execution, the Snake game runs normally as a decoy, providing
+                no visible indication of malicious activity. Meanwhile, the embedded keylogger initializes and begins
+                capturing all keyboard input using the <code>pynput</code> library.</p>
+            <img src="https://github.com/user-attachments/assets/96e8d664-900e-415a-b737-3c175618a407"
+                alt="Snake game running as decoy">
+
+            <h5>Phase 3: Credential Harvesting</h5>
+            <p data-i18n="project_keylogger_phase3">The malware performs two types of credential theft:</p>
+            <ul>
+                <li><strong>Keylogging:</strong> All keystrokes are captured and stored locally in a hidden log file.
+                </li>
+                <li><strong>Browser Credential Extraction:</strong> The malware accesses Chrome's
+                    <code>Login Data</code> SQLite database, decrypts stored passwords using Windows DPAPI, and harvests
+                    saved credentials.</li>
+            </ul>
+            <img src="https://github.com/user-attachments/assets/1a6310fd-b6ca-4ce3-b672-f8a262e38e54"
+                alt="Keystroke log file">
+            <img src="https://github.com/user-attachments/assets/e1a4987b-d4f3-41e8-adc1-6c3cedd393b8"
+                alt="Chrome credential extraction">
+
+            <h5>Phase 4: Persistence Mechanism</h5>
+            <p data-i18n="project_keylogger_phase4">To maintain access across system reboots, the malware copies itself
+                to the Windows Startup folder (<code>%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup</code>),
+                ensuring automatic re-execution on every login.</p>
+            <img src="https://github.com/user-attachments/assets/0db6fb7b-6aa9-4c57-824b-ca3527a5ff51"
+                alt="Startup folder persistence">
+
+            <h5>Phase 5: C2 Exfiltration</h5>
+            <p data-i18n="project_keylogger_phase5">Harvested data is transmitted to the attacker via HTTPS requests to
+                the Telegram Bot API. This technique leverages legitimate cloud infrastructure, making network-based
+                detection challenging.</p>
+            <img src="https://github.com/user-attachments/assets/964bb31f-18ee-4bff-b0a1-858d33f75aca"
+                alt="Telegram C2 exfiltration">
+
+            <div class="writeup-detection">
+                <h4>🛡️ Detection & Mitigation (Blue Team Perspective)</h4>
+                <h5>Detection Strategies:</h5>
+                <ul>
+                    <li><strong>Endpoint Detection:</strong> Monitor for processes accessing Chrome's
+                        <code>Login Data</code> database or <code>Local State</code> encryption key.</li>
+                    <li><strong>Behavioral Analysis:</strong> Flag applications making HTTPS requests to
+                        <code>api.telegram.org</code> that were not explicitly whitelisted.</li>
+                    <li><strong>Persistence Monitoring:</strong> Alert on new files created in the Startup folder,
+                        especially scripts or executables.</li>
+                    <li><strong>Keylogger Detection:</strong> EDR solutions can detect <code>SetWindowsHookEx</code> API
+                        calls or unusual keyboard hook registrations.</li>
+                </ul>
+                <h5>Mitigation Recommendations:</h5>
+                <ul>
+                    <li>Implement Application Whitelisting to prevent unauthorized executables from running.</li>
+                    <li>Deploy Email Security Gateways with attachment sandboxing.</li>
+                    <li>Enable Windows Credential Guard to protect browser credential stores.</li>
+                    <li>Use Network Segmentation to restrict outbound connections to known C2 domains.</li>
+                    <li>Conduct regular Security Awareness Training for phishing recognition.</li>
+                </ul>
+            </div>
+
+            <div class="writeup-techniques" style="background: rgba(239,68,68,0.1); border-left: 3px solid #ef4444;">
+                <h4>⚠️ Educational Disclaimer</h4>
+                <p>This project was developed strictly for educational and research purposes to demonstrate malware
+                    techniques and their detection. All testing was conducted in isolated lab environments. The
+                    techniques demonstrated should never be used for illegal or unethical activities. Always obtain
+                    proper authorization before conducting security testing.</p>
+            </div>
+
+            <blockquote>
+                <strong>🎬 Video Demo:</strong>
+                <a href="https://youtu.be/7qFA9ravRq4" target="_blank" rel="noopener">Watch how the keylogger operates
+                    inside the Snake game</a>
+            </blockquote>
+        </div>
+    </template>
+
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="assets/js/data.js"></script>
     <script src="assets/js/writeups.js"></script>
+    <script src="assets/js/projects.js"></script>
     <script src="assets/js/main.js"></script>
     <script>
         // Initialize Lucide icons

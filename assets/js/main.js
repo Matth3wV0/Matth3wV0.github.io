@@ -60,6 +60,15 @@ function initModal() {
         });
     });
 
+    // Open modal from project cards
+    const projectCards = document.querySelectorAll('.project-card[data-project]');
+    projectCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const projectId = card.dataset.project;
+            openProjectModal(projectId);
+        });
+    });
+
     // Close modal handlers
     if (modalClose) {
         modalClose.addEventListener('click', closeModal);
@@ -122,6 +131,55 @@ function openWriteupModal(writeupId) {
         contentEl.scrollTop = 0;
     }
     // Also reset the modal container scroll
+    const modalContainer = modal.querySelector('.modal-container');
+    if (modalContainer) {
+        modalContainer.scrollTop = 0;
+    }
+}
+
+function openProjectModal(projectId) {
+    const modal = document.getElementById('modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalContent = document.getElementById('modal-content');
+
+    if (!modal || !projectData || !projectData[projectId]) return;
+
+    const data = projectData[projectId];
+    modalTitle.textContent = data.title;
+
+    // Load template content
+    const template = document.getElementById(data.template);
+    if (template) {
+        modalContent.innerHTML = template.innerHTML;
+
+        // Highlight code blocks if Prism is available
+        if (typeof Prism !== 'undefined') {
+            Prism.highlightAllUnder(modalContent);
+        }
+
+        // Re-init Lucide icons
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+
+        // Setup image lightbox for modal images
+        setupModalImages();
+
+        // Apply translations
+        if (typeof changeLanguage === 'function') {
+            changeLanguage(localStorage.getItem('lang') || 'en');
+        }
+    }
+
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    currentModal = modal;
+
+    // Reset scroll position to top
+    const contentEl = document.getElementById('modal-content');
+    if (contentEl) {
+        contentEl.scrollTop = 0;
+    }
     const modalContainer = modal.querySelector('.modal-container');
     if (modalContainer) {
         modalContainer.scrollTop = 0;
