@@ -1232,7 +1232,7 @@ code,
     margin-bottom: var(--spacing-xl);
 }
 
-.writeup-summary h4 {
+.writeup-content .writeup-summary h4 {
     color: var(--color-text);
     margin: 0 0 var(--spacing-sm) 0;
     font-size: 1rem;
@@ -1252,7 +1252,7 @@ code,
     margin: var(--spacing-xl) 0;
 }
 
-.writeup-detection h4 {
+.writeup-content .writeup-detection h4 {
     color: #ff6b6b;
     margin: 0 0 var(--spacing-md) 0;
     font-size: 1rem;
@@ -1284,7 +1284,7 @@ code,
     margin-bottom: var(--spacing-xl);
 }
 
-.writeup-mitre h4 {
+.writeup-content .writeup-mitre h4 {
     color: var(--color-text);
     margin: 0 0 var(--spacing-md) 0;
     font-size: 1rem;

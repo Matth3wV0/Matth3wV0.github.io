@@ -76,7 +76,7 @@ function updateContent(context) {
     context.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (langData[currentLang] && langData[currentLang][key]) {
-            el.textContent = langData[currentLang][key];
+            el.innerHTML = langData[currentLang][key];
         }
     });
 }

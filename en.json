@@ -64,7 +64,7 @@
     "exp_prospire_desc": "Building automated crypto trading systems and developing high-frequency trading algorithms with real-time market data processing.",
     "exp_viettel_date": "Jul - Oct 2025",
     "exp_viettel_role": "Security Engineer Intern (SOC)",
-    "exp_viettel_desc": "SOC operations, threat hunting, and developing automation tools for security monitoring using ELK Stack.",
+    "exp_viettel_desc": "<ul style='margin-top:0.5rem; padding-left:1.2rem; list-style-type:disc; color:#a0a0b0; font-size: 0.95rem; line-height: 1.6;'><li>Onboarded customer websites to Cloudrity WAF, fine-tuning security rules to meet specific business requirements.</li><li>Deployed and configured Cloud WAF (Radware) to mitigate OWASP Top 10 threats (DDoS, SQLi, etc.).</li><li>Engineered comprehensive security policies: Signature-based, Custom Signatures, Rate Limiting, and API Protection.</li><li>Conducted security assessments using Burp Suite, ZAP, Kali Linux and performed in-depth log analysis.</li><li>Implemented DLP (Fortra) policies to prevent unauthorized data exfiltration.</li></ul>",
     "exp_hpt_date": "Dec 2023 - Apr 2024",
     "exp_hpt_role": "Security Training Program",
     "exp_hpt_desc": "Intensive security training covering penetration testing, incident response, and security analysis methodologies.",
