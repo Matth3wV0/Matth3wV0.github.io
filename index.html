@@ -1542,32 +1542,12 @@ CELL: E178 -> "}HCIR_SI_" # reversed: "_IS_RICH)"
         // Use Intersection Observer to start preloading when user scrolls near certifications section
         const certificationsSection = document.getElementById('certifications');
 
-        if (certificationsSection && 'IntersectionObserver' in window) {
-            const preloadObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        // Start preloading when section is visible
-                        preloadAllCertificates();
-                        // Disconnect after triggering (only need to trigger once)
-                        preloadObserver.disconnect();
-                    }
-                });
-            }, {
-                rootMargin: '200px 0px', // Start loading 200px before section comes into view
-                threshold: 0
-            });
-
-            preloadObserver.observe(certificationsSection);
-        }
-
-        // Also start preloading after page is fully loaded and idle
+        // Start preloading certificates immediately after page load
         window.addEventListener('load', () => {
-            // Wait a bit after page load before starting background preload
+            // Short delay to let initial render complete, then start background preload
             setTimeout(() => {
-                if (!certificatesPreloaded && !preloadingInProgress) {
-                    preloadAllCertificates();
-                }
-            }, 3000); // 3 second delay after page load
+                preloadAllCertificates();
+            }, 1000); // 1 second delay after page load
         });
 
         function openCertificateModal(title, pdfUrl) {
@@ -1595,8 +1575,7 @@ CELL: E178 -> "}HCIR_SI_" # reversed: "_IS_RICH)"
                         ${isCached ? '' : 'onload="document.getElementById(\'cert-loading\')?.remove()"'}
                     ></iframe>
                 </div>
-                <div class="mt-4 flex items-center justify-center gap-4">
-                    ${isCached ? '<span class="text-xs text-emerald-accent/60 font-mono">⚡ Loaded from cache</span>' : ''}
+                <div class="mt-4 text-center">
                     <a href="${pdfUrl}" target="_blank" rel="noopener" class="text-emerald-accent hover:underline text-sm font-mono">
                         Download / Open in new tab
                     </a>
