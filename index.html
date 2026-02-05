@@ -259,7 +259,8 @@
 
                 <div class="grid-3">
                     <!-- NIDS Project -->
-                    <div class="card project-card card-glow-green" style="grid-column: span 2;">
+                    <div class="card project-card card-glow-green" data-project="nids"
+                        style="cursor: pointer; grid-column: span 2;">
                         <div class="project-header">
                             <div class="project-icon"><i data-lucide="shield-check"></i></div>
                             <span class="tag tag-green">Security</span>
@@ -309,8 +310,29 @@
                         </div>
                     </div>
 
+                    <!-- Bot Project -->
+                    <div class="card project-card">
+                        <div style="display:flex; gap:1.5rem; align-items:center; flex-wrap:wrap;">
+                            <div class="project-icon"><i data-lucide="bot"></i></div>
+                            <div style="flex:1;">
+                                <h3 class="project-title" data-i18n="project_bot_title">Financial Telegram Bot & Python
+                                    Scrapers</h3>
+                                <p class="project-description mb-0" data-i18n="project_bot_desc">Telegram bot delivering
+                                    real-time financial statements for 1600+ Vietnamese companies. Integrates web
+                                    scraping tools with async processing for high-throughput data delivery.</p>
+                            </div>
+                            <div class="project-tags">
+                                <span class="tag tag-gray">Telegram API</span>
+                                <span class="tag tag-gray">Producer-Consumer</span>
+                                <span class="tag tag-gray">Selenium</span>
+                                <span class="tag tag-gray">BeautifulSoup</span>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Keylogger Project -->
-                    <div class="card project-card card-glow-red" data-project="keylogger" style="cursor: pointer;">
+                    <div class="card project-card card-glow-red" data-project="keylogger"
+                        style="cursor: pointer; grid-column: span 2;">
                         <div class="project-header">
                             <div class="project-icon" style="background:rgba(239,68,68,0.15);"><i data-lucide="skull"
                                     style="color:#ef4444;"></i></div>
@@ -335,26 +357,6 @@
                             <div>
                                 <div class="project-stat-value">Full</div>
                                 <div class="project-stat-label" data-i18n="project_keylogger_stat2">Kill Chain</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Bot Project -->
-                    <div class="card project-card" style="grid-column: span 3;">
-                        <div style="display:flex; gap:1.5rem; align-items:center; flex-wrap:wrap;">
-                            <div class="project-icon"><i data-lucide="bot"></i></div>
-                            <div style="flex:1;">
-                                <h3 class="project-title" data-i18n="project_bot_title">Financial Telegram Bot & Python
-                                    Scrapers</h3>
-                                <p class="project-description mb-0" data-i18n="project_bot_desc">Telegram bot delivering
-                                    real-time financial statements for 1600+ Vietnamese companies. Integrates web
-                                    scraping tools with async processing for high-throughput data delivery.</p>
-                            </div>
-                            <div class="project-tags">
-                                <span class="tag tag-gray">Telegram API</span>
-                                <span class="tag tag-gray">Producer-Consumer</span>
-                                <span class="tag tag-gray">Selenium</span>
-                                <span class="tag tag-gray">BeautifulSoup</span>
                             </div>
                         </div>
                     </div>
@@ -1597,6 +1599,213 @@ olevba RE02.xls
                 <a href="https://youtu.be/7qFA9ravRq4" target="_blank" rel="noopener"
                     data-i18n="project_keylogger_video_link">Watch how the keylogger operates
                     inside the Snake game</a>
+            </blockquote>
+        </div>
+    </template>
+
+    <template id="project-nids">
+        <div class="writeup-content">
+            <div class="writeup-summary">
+                <h4 data-i18n="project_nids_h_summary">📋 Executive Summary</h4>
+                <p data-i18n="project_nids_summary">A state-of-the-art hybrid Network Intrusion Detection System
+                    combining Suricata signature-based detection with Machine Learning anomaly detection (Decision Tree,
+                    Random Forest, XGBoost). Trained on the CICIDS2017 dataset with 99.46% accuracy, featuring real-time
+                    alerting via Telegram API and comprehensive behavioral analysis.</p>
+            </div>
+
+            <div class="writeup-techniques">
+                <h4 data-i18n="project_nids_h_overview">🔄 System Workflow</h4>
+                <p data-i18n="project_nids_overview">The system operates through an 8-step closed-loop process to ensure
+                    no threats are missed:</p>
+                <ol style="margin: 1rem 0; padding-left: 1.5rem; line-height: 1.8;">
+                    <li data-i18n="project_nids_step1"><strong>Baseline Establishment:</strong> Normal network traffic
+                        data trains the ML model, creating behavioral thresholds.</li>
+                    <li data-i18n="project_nids_step2"><strong>Sniffing:</strong> High-speed packet capture connects to
+                        SPAN port without network latency.</li>
+                    <li data-i18n="project_nids_step3"><strong>Signature Analysis (SNIDS):</strong> Suricata inspects
+                        packets against known signature rules.</li>
+                    <li data-i18n="project_nids_step4"><strong>Immediate Alerting:</strong> Known attacks trigger
+                        instant alerts upon signature match.</li>
+                    <li data-i18n="project_nids_step5"><strong>Forward to ADNIDS:</strong> Unmatched packets are
+                        forwarded to the ML-based anomaly detection component.</li>
+                    <li data-i18n="project_nids_step6"><strong>ML Analysis:</strong> ADNIDS compares packet
+                        characteristics against the established baseline.</li>
+                    <li data-i18n="project_nids_step7"><strong>Anomaly Alerting:</strong> Significant deviations trigger
+                        zero-day attack alerts.</li>
+                    <li data-i18n="project_nids_step8"><strong>System Update:</strong> Newly discovered attack patterns
+                        are fed back to enhance signature database.</li>
+                </ol>
+            </div>
+
+            <div class="writeup-mitre">
+                <h4 data-i18n="project_nids_h_role">🤖 AI Engineer Responsibilities</h4>
+                <table class="mitre-table">
+                    <tr>
+                        <th data-i18n="project_nids_th_area">Area</th>
+                        <th data-i18n="project_nids_th_task">Task</th>
+                        <th data-i18n="project_nids_th_detail">Technical Detail</th>
+                    </tr>
+                    <tr>
+                        <td data-i18n="project_nids_area1">Data Preprocessing</td>
+                        <td data-i18n="project_nids_task1">CICIDS2017 Dataset</td>
+                        <td data-i18n="project_nids_detail1">2.2M benign + 557k attack samples, balanced & cleaned</td>
+                    </tr>
+                    <tr>
+                        <td data-i18n="project_nids_area2">Feature Engineering</td>
+                        <td data-i18n="project_nids_task2">78 → 9 Features</td>
+                        <td data-i18n="project_nids_detail2">Removed constant/correlated features, mapped to Suricata
+                            logs</td>
+                    </tr>
+                    <tr>
+                        <td data-i18n="project_nids_area3">Model Training</td>
+                        <td data-i18n="project_nids_task3">Ensemble ML</td>
+                        <td data-i18n="project_nids_detail3">DT (20%) + RF (30%) + XGBoost (50%) weighted voting</td>
+                    </tr>
+                    <tr>
+                        <td data-i18n="project_nids_area4">Integration</td>
+                        <td data-i18n="project_nids_task4">Real-time Pipeline</td>
+                        <td data-i18n="project_nids_detail4">Suricata eve.json → Feature Extraction → ML Inference</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h4 data-i18n="project_nids_h_architecture">🏗️ System Architecture</h4>
+            <p data-i18n="project_nids_arch_intro">The system consists of multiple layers working in harmony:</p>
+
+            <pre><code class="language-plaintext">┌─────────────────────────────────────────────────────────────────────┐
+│                    DATA INGESTION LAYER                             │
+│  Suricata eve.json → JSON Parser → Session Manager                  │
+└──────────────────────────────┬──────────────────────────────────────┘
+                               ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                    FEATURE EXTRACTION LAYER                         │
+│  • dest_port, duration, total_fwd/bwd_packets, total_fwd/bwd_bytes  │
+│  • flow_bytes_per_sec, flow_packets_per_sec, down_up_ratio          │
+│  • HTTP, DNS, TLS, SSH application layer features                   │
+└──────────────────────────────┬──────────────────────────────────────┘
+                               ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                    DETECTION LAYER                                  │
+│  ┌────────────────────────┐  ┌────────────────────────────────────┐ │
+│  │   ML ANOMALY DETECTOR  │  │   STATISTICAL ANOMALY DETECTOR     │ │
+│  │  DT(20%)+RF(30%)+XGB(50%)│  │  Z-Score (>4.0) + IQR Outliers    │ │
+│  │   Voting: ≥2/3 models  │  │  Feature-weighted Scoring          │ │
+│  └────────────────────────┘  └────────────────────────────────────┘ │
+└──────────────────────────────┬──────────────────────────────────────┘
+                               ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                    BEHAVIORAL ANALYSIS LAYER                        │
+│  Port Scan | Host Scan | Brute Force | Volume Anomaly Detection     │
+└──────────────────────────────┬──────────────────────────────────────┘
+                               ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                         ALERT SYSTEM                                │
+│  Console Logging | File Logging | Telegram Notifications | CSV     │
+└─────────────────────────────────────────────────────────────────────┘</code></pre>
+
+            <h4 data-i18n="project_nids_h_ml">📊 Machine Learning Models</h4>
+            <p data-i18n="project_nids_ml_intro">Three complementary ML algorithms form an ensemble for robust
+                detection:</p>
+
+            <table class="mitre-table">
+                <tr>
+                    <th data-i18n="project_nids_th_model">Model</th>
+                    <th data-i18n="project_nids_th_accuracy">Accuracy</th>
+                    <th data-i18n="project_nids_th_weight">Weight</th>
+                    <th data-i18n="project_nids_th_role">Role</th>
+                </tr>
+                <tr>
+                    <td>Decision Tree</td>
+                    <td>99.19%</td>
+                    <td>20%</td>
+                    <td data-i18n="project_nids_dt_role">Fast baseline detection</td>
+                </tr>
+                <tr>
+                    <td>Random Forest</td>
+                    <td>99.38%</td>
+                    <td>30%</td>
+                    <td data-i18n="project_nids_rf_role">Balanced precision/recall</td>
+                </tr>
+                <tr>
+                    <td>XGBoost</td>
+                    <td>99.46%</td>
+                    <td>50%</td>
+                    <td data-i18n="project_nids_xgb_role">Primary detector, tuned via GridSearchCV</td>
+                </tr>
+            </table>
+
+            <h4 data-i18n="project_nids_h_features">🔧 Core Features (9 Selected)</h4>
+            <pre><code class="language-python">ALIGNED_FEATURES = [
+    "dest_port",           # Destination Port
+    "duration",            # Flow Duration
+    "total_fwd_packets",   # Total Forward Packets
+    "total_bwd_packets",   # Total Backward Packets
+    "total_fwd_bytes",     # Total Forward Bytes
+    "total_bwd_bytes",     # Total Backward Bytes
+    "flow_bytes_per_sec",  # Derived: bytes/duration
+    "flow_packets_per_sec",# Derived: packets/duration
+    "down_up_ratio"        # Derived: bwd_bytes/fwd_bytes
+]</code></pre>
+
+            <h4 data-i18n="project_nids_h_behavioral">🎯 Behavioral Attack Detection</h4>
+            <table class="mitre-table">
+                <tr>
+                    <th data-i18n="project_nids_th_attack">Attack Type</th>
+                    <th data-i18n="project_nids_th_detection">Detection Logic</th>
+                    <th data-i18n="project_nids_th_threshold">Threshold</th>
+                </tr>
+                <tr>
+                    <td data-i18n="project_nids_attack1">Port Scan</td>
+                    <td><code>ports_in_window / ips_in_window > 10</code></td>
+                    <td>score > 0.7</td>
+                </tr>
+                <tr>
+                    <td data-i18n="project_nids_attack2">Host Scan</td>
+                    <td><code>ips_in_window / ports_in_window > 5</code></td>
+                    <td>score > 0.7</td>
+                </tr>
+                <tr>
+                    <td data-i18n="project_nids_attack3">Brute Force</td>
+                    <td><code>auth_failures to same service > 3</code></td>
+                    <td>score > 0.7</td>
+                </tr>
+                <tr>
+                    <td data-i18n="project_nids_attack4">Volume Anomaly</td>
+                    <td><code>bytes/sec > 1MB OR packets/sec > 1000</code></td>
+                    <td>score > 0.7</td>
+                </tr>
+            </table>
+
+            <h4 data-i18n="project_nids_h_alert">🚨 Intelligent Alert System</h4>
+            <p data-i18n="project_nids_alert_intro">Beyond simple anomaly detection, the system provides comprehensive
+                analysis:</p>
+            <ul>
+                <li data-i18n="project_nids_alert1"><strong>Combined Anomaly Score:</strong> Weighted aggregation from
+                    all 3 ML models for confidence scoring.</li>
+                <li data-i18n="project_nids_alert2"><strong>Statistical Anomalies:</strong> Z-score analysis pinpoints
+                    exact features (e.g., <code>total_bwd_packets</code>) deviating from baseline.</li>
+                <li data-i18n="project_nids_alert3"><strong>Severity Classification:</strong> Auto-categorizes alerts
+                    (Low/Medium/High) based on model confidence and protocol context (SSH, HTTPS).</li>
+                <li data-i18n="project_nids_alert4"><strong>Real-time Telegram Notifications:</strong> Instant alerts
+                    with full attack context for SOC operators.</li>
+            </ul>
+
+            <div class="writeup-detection">
+                <h4 data-i18n="project_nids_h_tech">🛠️ Technology Stack</h4>
+                <ul>
+                    <li><strong>Language:</strong> Python 3 (AI/ML optimized)</li>
+                    <li><strong>ML Libraries:</strong> Scikit-learn, XGBoost, Pandas, Numpy</li>
+                    <li><strong>IDS Engine:</strong> Suricata (eve.json log parser)</li>
+                    <li><strong>Alerting:</strong> Telegram Bot API, File Logging, CSV Export</li>
+                    <li><strong>Dataset:</strong> CICIDS2017 (DoS, DDoS, Brute Force, Web Attacks, Infiltration)</li>
+                </ul>
+            </div>
+
+            <blockquote>
+                <strong data-i18n="project_nids_h_github">🔗 GitHub:</strong>
+                <a href="https://github.com/Matth3wV0/A-Suricata-and-Machine-Learning-Based-Hybrid-Network-Intrusion-Detection-System"
+                    target="_blank" rel="noopener" data-i18n="project_nids_github_link">View the complete source code
+                    and documentation</a>
             </blockquote>
         </div>
     </template>
