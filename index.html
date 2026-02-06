@@ -1183,7 +1183,7 @@
     <template id="writeup-gimme-your-point">
         <div class="writeup-content">
             <div class="writeup-summary">
-                <h4>📋 Executive Summary</h4>
+                <h4 data-i18n="writeup_gimme_h_summary">📋 Executive Summary</h4>
                 <p data-i18n="writeup_gimme_summary">A sophisticated attack simulation exploiting
                     <strong>CVE-2025-49704</strong>, a SharePoint deserialization vulnerability in the ToolShell
                     component. This challenge recreates a real-world case study where attackers embed deserialization
@@ -1193,12 +1193,12 @@
             </div>
 
             <div class="writeup-mitre">
-                <h4>🎯 MITRE ATT&CK Mapping</h4>
+                <h4 data-i18n="writeup_gimme_h_mitre">🎯 MITRE ATT&CK Mapping</h4>
                 <table class="mitre-table">
                     <tr>
-                        <th>Technique ID</th>
-                        <th>Name</th>
-                        <th>Description</th>
+                        <th data-i18n="writeup_th_technique_id">Technique ID</th>
+                        <th data-i18n="writeup_th_name">Name</th>
+                        <th data-i18n="writeup_th_description">Description</th>
                     </tr>
                     <tr>
                         <td><code>T1190</code></td>
@@ -1228,7 +1228,7 @@
                 </table>
             </div>
 
-            <h4>🔍 Phase 1: Initial PCAP Analysis</h4>
+            <h4 data-i18n="writeup_gimme_h_phase1">🔍 Phase 1: Initial PCAP Analysis</h4>
             <p data-i18n="writeup_gimme_phase1">Opening the challenge PCAP file in Wireshark, I observed HTTP GET
                 requests returning a <code>start.aspx</code> file - indicating a web-based attack. I used
                 <strong>Wireshark's Export Objects</strong> feature to extract all HTTP files.
@@ -1240,14 +1240,14 @@
                 <code>ToolPane.aspx</code>.
             </p>
 
-            <h4>🔍 Phase 2: CVE Research - ToolShell Vulnerability</h4>
+            <h4 data-i18n="writeup_gimme_h_phase2">🔍 Phase 2: CVE Research - ToolShell Vulnerability</h4>
             <p data-i18n="writeup_gimme_phase2">Searching for "CompressedDataTable SharePoint" led me to VCS's security
                 article about <strong>ToolShell</strong> - a critical SharePoint vulnerability chain being actively
                 exploited in the wild.</p>
             <blockquote><strong>Key Discovery:</strong> This challenge simulates CVE-2025-49704, where attackers embed
                 deserialization payloads into the <code>MSOTlPn_DWP</code> parameter of POST requests.</blockquote>
 
-            <h4>🔍 Phase 3: Payload Decoding</h4>
+            <h4 data-i18n="writeup_gimme_h_phase3">🔍 Phase 3: Payload Decoding</h4>
             <p data-i18n="writeup_gimme_phase3">I extracted the <code>CompressedDataTable</code> value and performed
                 Base64 decode → GZIP decompress, revealing a shell payload with a PowerShell command:</p>
             <img src="assets/img/vcspassport2025/image13.png" alt="PowerShell payload">
@@ -1260,7 +1260,7 @@ del C:\Windows\Temp\raw_package; del C:\Windows\Temp\d1;
 C:\Windows\Temp\health_check.exe; sleep 10;
 del C:\Windows\Temp\health_check.exe"</code></pre>
 
-            <h4>🔍 Phase 4: Malware Analysis</h4>
+            <h4 data-i18n="writeup_gimme_h_phase4">🔍 Phase 4: Malware Analysis</h4>
             <p data-i18n="writeup_gimme_phase4">Following the PowerShell steps, I obtained
                 <code>health_check.exe</code>. Running this executable revealed credential theft behavior:
             </p>
@@ -1272,7 +1272,7 @@ del C:\Windows\Temp\health_check.exe"</code></pre>
             </ul>
             <img src="assets/img/vcspassport2025/image17.png" alt="Malware execution analysis">
 
-            <h4>💡 Phase 5: The Breakthrough - IDA Reverse Engineering</h4>
+            <h4 data-i18n="writeup_gimme_h_phase5">💡 Phase 5: The Breakthrough - IDA Reverse Engineering</h4>
             <p data-i18n="writeup_gimme_breakthrough">Returning to the PCAP, I found a POST request to
                 <code>/upload</code> with the exfiltrated ZIP (signature <code>50 4b 03 04</code>). The ZIP required a
                 password, so I loaded <code>health_check.exe</code> into <strong>IDA Pro</strong>.
@@ -1290,14 +1290,21 @@ del C:\Windows\Temp\health_check.exe"</code></pre>
             </p>
 
             <div class="writeup-detection">
-                <h4>🛡️ Detection Strategy (Blue Team)</h4>
+                <h4 data-i18n="writeup_gimme_h_detection">🛡️ Detection Strategy (Blue Team)</h4>
                 <ul>
-                    <li><strong>Network:</strong> Monitor SharePoint for anomalous <code>CompressedDataTable</code>
-                        parameters</li>
-                    <li><strong>Endpoint:</strong> Alert on <code>certutil -decode</code> execution chains</li>
-                    <li><strong>Behavioral:</strong> Detect Chrome database access by non-browser processes</li>
-                    <li><strong>Exfiltration:</strong> Monitor ZIP creation in <code>C:\Windows\Temp</code> with
-                        immediate uploads</li>
+                    <li data-i18n="writeup_gimme_detect1"><strong>Network:</strong> Monitor SharePoint for anomalous
+                        <code>CompressedDataTable</code>
+                        parameters
+                    </li>
+                    <li data-i18n="writeup_gimme_detect2"><strong>Endpoint:</strong> Alert on
+                        <code>certutil -decode</code> execution chains
+                    </li>
+                    <li data-i18n="writeup_gimme_detect3"><strong>Behavioral:</strong> Detect Chrome database access by
+                        non-browser processes</li>
+                    <li data-i18n="writeup_gimme_detect4"><strong>Exfiltration:</strong> Monitor ZIP creation in
+                        <code>C:\Windows\Temp</code> with
+                        immediate uploads
+                    </li>
                 </ul>
             </div>
 
@@ -1672,8 +1679,7 @@ olevba RE02.xls
             <h4 data-i18n="project_nids_h_architecture">🏗️ System Architecture</h4>
             <p data-i18n="project_nids_arch_intro">The system consists of multiple layers working in harmony:</p>
 
-            <pre><code class="language-plaintext">
-┌─────────────────────────────────────────────────────────────────────┐
+            <pre><code class="language-plaintext">┌─────────────────────────────────────────────────────────────────────┐
 │                    DATA INGESTION LAYER                             │
 │  Suricata eve.json → JSON Parser → Session Manager                  │
 └──────────────────────────────┬──────────────────────────────────────┘
@@ -1794,11 +1800,14 @@ olevba RE02.xls
             <div class="writeup-detection">
                 <h4 data-i18n="project_nids_h_tech">🛠️ Technology Stack</h4>
                 <ul>
-                    <li><strong>Language:</strong> Python 3 (AI/ML optimized)</li>
-                    <li><strong>ML Libraries:</strong> Scikit-learn, XGBoost, Pandas, Numpy</li>
-                    <li><strong>IDS Engine:</strong> Suricata (eve.json log parser)</li>
-                    <li><strong>Alerting:</strong> Telegram Bot API, File Logging, CSV Export</li>
-                    <li><strong>Dataset:</strong> CICIDS2017 (DoS, DDoS, Brute Force, Web Attacks, Infiltration)</li>
+                    <li data-i18n="project_nids_tech1"><strong>Language:</strong> Python 3 (AI/ML optimized)</li>
+                    <li data-i18n="project_nids_tech2"><strong>ML Libraries:</strong> Scikit-learn, XGBoost, Pandas,
+                        Numpy</li>
+                    <li data-i18n="project_nids_tech3"><strong>IDS Engine:</strong> Suricata (eve.json log parser)</li>
+                    <li data-i18n="project_nids_tech4"><strong>Alerting:</strong> Telegram Bot API, File Logging, CSV
+                        Export</li>
+                    <li data-i18n="project_nids_tech5"><strong>Dataset:</strong> CICIDS2017 (DoS, DDoS, Brute Force, Web
+                        Attacks, Infiltration)</li>
                 </ul>
             </div>
 
