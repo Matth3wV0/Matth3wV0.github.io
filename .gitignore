@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+env/
+
+# Editor
+.vscode/
+.idea/
+
+# Agent
+.agent/
+
+# System
+.DS_Store
+
+# Logs
+*.log
+
+# Backups
+index_backup.html

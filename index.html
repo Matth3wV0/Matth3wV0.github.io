@@ -257,7 +257,7 @@
                     <h2 class="section-title" data-i18n="section_projects">Engineering Projects</h2>
                 </div>
 
-                <div class="grid-3">
+                <div class="grid-3" id="projects-grid">
                     <!-- NIDS Project -->
                     <div class="card project-card card-glow-green" data-project="nids"
                         style="cursor: pointer; grid-column: span 2;">
@@ -380,7 +380,7 @@
                     <button class="filter-btn" data-filter="misc" data-i18n="filter_misc">Misc</button>
                 </div>
 
-                <div class="grid-3">
+                <div class="grid-3" id="writeups-grid">
                     <!-- EzLogic -->
                     <div class="card writeup-card" data-writeup="ezlogic" data-category="reverse">
                         <div class="writeup-header">
@@ -1826,6 +1826,7 @@ olevba RE02.xls
     <script src="assets/js/writeups.js"></script>
     <script src="assets/js/projects.js"></script>
     <script src="assets/js/main.js"></script>
+    <script src="assets/js/content-loader.js"></script>
     <script>
         // Initialize Lucide icons
         lucide.createIcons();

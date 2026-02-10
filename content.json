@@ -1,0 +1,261 @@
+{
+  "projects": [
+    {
+      "id": "nids",
+      "title": {
+        "en": "Hybrid NIDS",
+        "vi": "Hệ thống NIDS Hybrid"
+      },
+      "description": {
+        "en": "An advanced hybrid NIDS combining Suricata signature-based detection with Machine Learning anomaly detection. Trained on CICIDS2017 with XGBoost achieving 99.46% accuracy. Features 8-step closed-loop detection, behavioral analysis, and real-time Telegram alerting.",
+        "vi": "Hệ thống phát hiện xâm nhập mạng tiên tiến kết hợp phát hiện dựa trên chữ ký Suricata với phát hiện bất thường Machine Learning. Đào tạo trên CICIDS2017 với XGBoost đạt độ chính xác 99.46%. Tính năng phát hiện vòng lặp 8 bước, phân tích hành vi và cảnh báo Telegram thời gian thực."
+      },
+      "category": "security",
+      "icon": "shield-check",
+      "color": "green",
+      "tags": [
+        "ELK Stack",
+        "Machine Learning",
+        "MITRE ATT&CK",
+        "Python"
+      ],
+      "stats": [
+        {
+          "value": "99.46%",
+          "label": {
+            "en": "Detection Accuracy",
+            "vi": "Độ chính xác"
+          }
+        },
+        {
+          "value": "< 2s",
+          "label": {
+            "en": "Response Time",
+            "vi": "Thời gian phản hồi"
+          }
+        }
+      ],
+      "hasModal": true,
+      "span": 2,
+      "github": "https://github.com/Matth3wV0/A-Suricata-and-Machine-Learning-Based-Hybrid-Network-Intrusion-Detection-System",
+      "video": "",
+      "order": 1,
+      "content": {
+        "en": "<p><h2>📋 Executive Summary</h2></p><p>A state-of-the-art hybrid Network Intrusion Detection System combining Suricata signature-based detection with Machine Learning anomaly detection (Decision Tree, Random Forest, XGBoost). Trained on the CICIDS2017 dataset with 99.46% accuracy, featuring real-time alerting via Telegram API and comprehensive behavioral analysis.</p><p><h2>🔄 System Workflow</h2></p><p>The system operates through an 8-step closed-loop process to ensure no threats are missed:</p><p>1. <strong>Baseline Establishment:</strong> Normal network traffic data trains the ML model, creating behavioral thresholds.\n2. <strong>Sniffing:</strong> High-speed packet capture connects to SPAN port without network latency.\n3. <strong>Signature Analysis (SNIDS):</strong> Suricata inspects packets against known signature rules.\n4. <strong>Immediate Alerting:</strong> Known attacks trigger instant alerts upon signature match.\n5. <strong>Forward to ADNIDS:</strong> Unmatched packets are forwarded to the ML-based anomaly detection component.\n6. <strong>ML Analysis:</strong> ADNIDS compares packet characteristics against the established baseline.\n7. <strong>Anomaly Alerting:</strong> Significant deviations trigger zero-day attack alerts.\n8. <strong>System Update:</strong> Newly discovered attack patterns are fed back to enhance signature database.</p><p><h2>🤖 AI Engineer Responsibilities</h2></p><p>| Area | Task | Technical Detail |\n|------|------|------------------|\n| Data Preprocessing | CICIDS2017 Dataset | 2.2M benign + 557k attack samples, balanced & cleaned |\n| Feature Engineering | 78 → 9 Features | Removed constant/correlated features, mapped to Suricata logs |\n| Model Training | Ensemble ML | DT (20%) + RF (30%) + XGBoost (50%) weighted voting |\n| Integration | Real-time Pipeline | Suricata eve.json → Feature Extraction → ML Inference |</p><p><h2>🏗️ System Architecture</h2></p><p>The system consists of multiple layers working in harmony:</p><p>``<code>plaintext\n┌─────────────────────────────────────────────────────────────────────┐\n│                    DATA INGESTION LAYER                             │\n│  Suricata eve.json → JSON Parser → Session Manager                  │\n└──────────────────────────────┬──────────────────────────────────────┘\n                               ▼\n┌─────────────────────────────────────────────────────────────────────┐\n│                    FEATURE EXTRACTION LAYER                         │\n│  • dest_port, duration, total_fwd/bwd_packets, total_fwd/bwd_bytes  │\n│  • flow_bytes_per_sec, flow_packets_per_sec, down_up_ratio          │\n│  • HTTP, DNS, TLS, SSH application layer features                   │\n└──────────────────────────────┬──────────────────────────────────────┘\n                               ▼\n┌─────────────────────────────────────────────────────────────────────┐\n│                    DETECTION LAYER                                  │\n│  ┌────────────────────────┐  ┌────────────────────────────────────┐ │\n│  │   ML ANOMALY DETECTOR  │  │   STATISTICAL ANOMALY DETECTOR     │ │\n│  │DT(20%)+RF(30%)+XGB(50%)│  │  Z-Score (>4.0) + IQR Outliers     │ │\n│  │   Voting: ≥2/3 models  │  │  Feature-weighted Scoring          │ │\n│  └────────────────────────┘  └────────────────────────────────────┘ │\n└──────────────────────────────┬──────────────────────────────────────┘\n                               ▼\n┌─────────────────────────────────────────────────────────────────────┐\n│                    BEHAVIORAL ANALYSIS LAYER                        │\n│  Port Scan | Host Scan | Brute Force | Volume Anomaly Detection     │\n└──────────────────────────────┬──────────────────────────────────────┘\n                               ▼\n┌─────────────────────────────────────────────────────────────────────┐\n│                         ALERT SYSTEM                                │\n│  Console Logging | File Logging | Telegram Notifications | CSV      │\n└─────────────────────────────────────────────────────────────────────┘\n</code>`<code></p><p><h2>📊 Machine Learning Models</h2></p><p>Three complementary ML algorithms form an ensemble for robust detection:</p><p>| Model | Accuracy | Weight | Role |\n|-------|----------|--------|------|\n| Decision Tree | 99.19% | 20% | Fast baseline detection |\n| Random Forest | 99.38% | 30% | Balanced precision/recall |\n| XGBoost | 99.46% | 50% | Primary detector, tuned via GridSearchCV |</p><p><h2>🔧 Core Features (9 Selected)</h2></p><p></code>`<code>python\nALIGNED_FEATURES = [\n    \"dest_port\",           # Destination Port\n    \"duration\",            # Flow Duration\n    \"total_fwd_packets\",   # Total Forward Packets\n    \"total_bwd_packets\",   # Total Backward Packets\n    \"total_fwd_bytes\",     # Total Forward Bytes\n    \"total_bwd_bytes\",     # Total Backward Bytes\n    \"flow_bytes_per_sec\",  # Derived: bytes/duration\n    \"flow_packets_per_sec\",# Derived: packets/duration\n    \"down_up_ratio\"        # Derived: bwd_bytes/fwd_bytes\n]\n</code>`<code></p><p><h2>🎯 Behavioral Attack Detection</h2></p><p>| Attack Type | Detection Logic | Threshold |\n|-------------|-----------------|-----------|\n| Port Scan | </code>ports_in_window / ips_in_window > 10<code> | score > 0.7 |\n| Host Scan | </code>ips_in_window / ports_in_window > 5<code> | score > 0.7 |\n| Brute Force | </code>auth_failures to same service > 3<code> | score > 0.7 |\n| Volume Anomaly | </code>bytes/sec > 1MB OR packets/sec > 1000<code> | score > 0.7 |</p><p><h2>🚨 Intelligent Alert System</h2></p><p>Beyond simple anomaly detection, the system provides comprehensive analysis:</p><p>- <strong>Combined Anomaly Score:</strong> Weighted aggregation from all 3 ML models for confidence scoring.\n- <strong>Statistical Anomalies:</strong> Z-score analysis pinpoints exact features (e.g., </code>total_bwd_packets`) deviating from baseline.\n- <strong>Severity Classification:</strong> Auto-categorizes alerts (Low/Medium/High) based on model confidence and protocol context (SSH, HTTPS).\n- <strong>Real-time Telegram Notifications:</strong> Instant alerts with full attack context for SOC operators.</p><p><h2>🛠️ Technology Stack</h2></p><p>- <strong>Language:</strong> Python 3 (AI/ML optimized)\n- <strong>ML Libraries:</strong> Scikit-learn, XGBoost, Pandas, Numpy\n- <strong>IDS Engine:</strong> Suricata (eve.json log parser)\n- <strong>Alerting:</strong> Telegram Bot API, File Logging, CSV Export\n- <strong>Dataset:</strong> CICIDS2017 (DoS, DDoS, Brute Force, Web Attacks, Infiltration)\n</p>",
+        "vi": "<p><h2>📋 Tóm tắt</h2></p><p>Hệ thống phát hiện xâm nhập mạng hybrid tiên tiến kết hợp phát hiện dựa trên chữ ký Suricata với phát hiện bất thường Machine Learning (Decision Tree, Random Forest, XGBoost). Được đào tạo trên tập dữ liệu CICIDS2017 với độ chính xác 99.46%, tính năng cảnh báo thời gian thực qua Telegram API và phân tích hành vi toàn diện.</p><p><h2>🔄 Quy trình hoạt động</h2></p><p>Hệ thống hoạt động thông qua quy trình vòng lặp 8 bước để đảm bảo không bỏ sót mối đe dọa nào:</p><p>1. <strong>Thiết lập Baseline:</strong> Dữ liệu lưu lượng mạng bình thường đào tạo mô hình ML, tạo ngưỡng hành vi.\n2. <strong>Sniffing:</strong> Bắt gói tin tốc độ cao kết nối với cổng SPAN không gây độ trễ mạng.\n3. <strong>Phân tích chữ ký (SNIDS):</strong> Suricata kiểm tra gói tin với các quy tắc chữ ký đã biết.\n4. <strong>Cảnh báo ngay lập tức:</strong> Các cuộc tấn công đã biết kích hoạt cảnh báo tức thì khi khớp chữ ký.\n5. <strong>Chuyển tiếp đến ADNIDS:</strong> Các gói tin không khớp được chuyển đến thành phần phát hiện bất thường ML.\n6. <strong>Phân tích ML:</strong> ADNIDS so sánh đặc điểm gói tin với baseline đã thiết lập.\n7. <strong>Cảnh báo bất thường:</strong> Các sai lệch đáng kể kích hoạt cảnh báo tấn công zero-day.\n8. <strong>Cập nhật hệ thống:</strong> Các mẫu tấn công mới phát hiện được phản hồi để nâng cao cơ sở dữ liệu chữ ký.</p><p><h2>🤖 Trách nhiệm AI Engineer</h2></p><p>| Lĩnh vực | Nhiệm vụ | Chi tiết kỹ thuật |\n|----------|----------|-------------------|\n| Tiền xử lý dữ liệu | Tập dữ liệu CICIDS2017 | 2.2M mẫu bình thường + 557k mẫu tấn công, cân bằng & làm sạch |\n| Feature Engineering | 78 → 9 Features | Loại bỏ features hằng số/tương quan, ánh xạ vào logs Suricata |\n| Đào tạo mô hình | Ensemble ML | DT (20%) + RF (30%) + XGBoost (50%) bình chọn có trọng số |\n| Tích hợp | Pipeline thời gian thực | Suricata eve.json → Trích xuất Features → ML Inference |</p><p><h2>📊 Mô hình Machine Learning</h2></p><p>Ba thuật toán ML bổ sung tạo thành ensemble để phát hiện mạnh mẽ:</p><p>| Mô hình | Độ chính xác | Trọng số | Vai trò |\n|---------|--------------|----------|---------|\n| Decision Tree | 99.19% | 20% | Phát hiện baseline nhanh |\n| Random Forest | 99.38% | 30% | Cân bằng precision/recall |\n| XGBoost | 99.46% | 50% | Bộ phát hiện chính, tinh chỉnh qua GridSearchCV |</p><p><h2>🎯 Phát hiện tấn công hành vi</h2></p><p>| Loại tấn công | Logic phát hiện | Ngưỡng |\n|---------------|-----------------|--------|\n| Port Scan | <code>ports_in_window / ips_in_window > 10</code> | score > 0.7 |\n| Host Scan | <code>ips_in_window / ports_in_window > 5</code> | score > 0.7 |\n| Brute Force | <code>auth_failures to same service > 3</code> | score > 0.7 |\n| Volume Anomaly | <code>bytes/sec > 1MB OR packets/sec > 1000</code> | score > 0.7 |</p><p><h2>🚨 Hệ thống cảnh báo thông minh</h2></p><p>Ngoài phát hiện bất thường đơn giản, hệ thống cung cấp phân tích toàn diện:</p><p>- <strong>Điểm bất thường tổng hợp:</strong> Tổng hợp có trọng số từ tất cả 3 mô hình ML để tính điểm tin cậy.\n- <strong>Bất thường thống kê:</strong> Phân tích Z-score xác định chính xác các features sai lệch khỏi baseline.\n- <strong>Phân loại mức độ nghiêm trọng:</strong> Tự động phân loại cảnh báo (Thấp/Trung bình/Cao) dựa trên độ tin cậy mô hình và ngữ cảnh giao thức.\n- <strong>Thông báo Telegram thời gian thực:</strong> Cảnh báo tức thì với ngữ cảnh tấn công đầy đủ cho vận hành viên SOC.</p><p><h2>🛠️ Công nghệ sử dụng</h2></p><p>- <strong>Ngôn ngữ:</strong> Python 3 (tối ưu AI/ML)\n- <strong>Thư viện ML:</strong> Scikit-learn, XGBoost, Pandas, Numpy\n- <strong>IDS Engine:</strong> Suricata (eve.json log parser)\n- <strong>Cảnh báo:</strong> Telegram Bot API, File Logging, CSV Export\n- <strong>Dataset:</strong> CICIDS2017 (DoS, DDoS, Brute Force, Web Attacks, Infiltration)\n</p>"
+      }
+    },
+    {
+      "id": "trading",
+      "title": {
+        "en": "Prospire Algo-Trading",
+        "vi": "Prospire Algo-Trading"
+      },
+      "description": {
+        "en": "Algorithm-driven cryptocurrency trading bot with real-time market tracking and automated trade execution.",
+        "vi": "Bot giao dịch tiền điện tử dựa trên thuật toán với theo dõi thị trường thời gian thực và thực hiện giao dịch tự động."
+      },
+      "category": "automation",
+      "icon": "trending-up",
+      "color": "blue",
+      "tags": [
+        "Python",
+        "APIs"
+      ],
+      "stats": [
+        {
+          "value": "$100k",
+          "label": {
+            "en": "/week volume",
+            "vi": "/tuần khối lượng"
+          }
+        }
+      ],
+      "hasModal": false,
+      "span": 1,
+      "github": "",
+      "video": "",
+      "order": 2,
+      "content": {
+        "en": "<p></p>",
+        "vi": "<p></p>"
+      }
+    },
+    {
+      "id": "bot",
+      "title": {
+        "en": "Financial Telegram Bot & Python Scrapers",
+        "vi": "Bot Telegram Tài chính & Python Scrapers"
+      },
+      "description": {
+        "en": "Telegram bot delivering real-time financial statements for 1600+ Vietnamese companies. Integrates web scraping tools with async processing for high-throughput data delivery.",
+        "vi": "Bot Telegram cung cấp báo cáo tài chính thời gian thực cho hơn 1600 doanh nghiệp Việt Nam. Tích hợp công cụ web scraping với xử lý async cho cung cấp dữ liệu throughput cao."
+      },
+      "category": "automation",
+      "icon": "bot",
+      "color": "gray",
+      "tags": [
+        "Telegram API",
+        "Producer-Consumer",
+        "Selenium",
+        "BeautifulSoup"
+      ],
+      "stats": [],
+      "hasModal": false,
+      "span": 1,
+      "github": "",
+      "video": "",
+      "order": 3,
+      "content": {
+        "en": "<p></p>",
+        "vi": "<p></p>"
+      }
+    },
+    {
+      "id": "keylogger",
+      "title": {
+        "en": "Snake Game Keylogger",
+        "vi": "Keylogger Snake Game"
+      },
+      "description": {
+        "en": "Proof-of-concept malware analysis lab simulating a full attack lifecycle: phishing delivery, credential harvesting, persistence, and C2 exfiltration via Telegram.",
+        "vi": "Phòng thí nghiệm phân tích malware proof-of-concept mô phỏng vòng đời tấn công hoàn chỉnh: phishing, thu thập thông tin đăng nhập, persistence và exfiltration C2 qua Telegram."
+      },
+      "category": "malware",
+      "icon": "skull",
+      "color": "red",
+      "tags": [
+        "MITRE ATT&CK",
+        "Python",
+        "Credential Theft",
+        "C2"
+      ],
+      "stats": [
+        {
+          "value": "5",
+          "label": {
+            "en": "ATT&CK Techniques",
+            "vi": "Kỹ thuật ATT&CK"
+          }
+        },
+        {
+          "value": "Full",
+          "label": {
+            "en": "Kill Chain",
+            "vi": "Kill Chain"
+          }
+        }
+      ],
+      "hasModal": true,
+      "span": 2,
+      "github": "",
+      "video": "https://youtu.be/7qFA9ravRq4",
+      "order": 4,
+      "content": {
+        "en": "<p><h2>📋 Executive Summary</h2></p><p>This project is a controlled malware analysis lab designed to simulate the complete lifecycle of an information-stealing trojan. By embedding a keylogger within a seemingly harmless Snake game, it demonstrates how threat actors weaponize legitimate applications to evade detection.</p><p><h2>🎯 Attack Scenario</h2></p><p>A victim receives a phishing email containing an attached 'Snake Game'. Upon execution, the trojanized game operates normally while silently deploying credential-harvesting and persistence modules in the background.</p><p><h2>🔴 MITRE ATT&CK Mapping</h2></p><p>| Tactic | Technique | Implementation |\n|--------|-----------|----------------|\n| Initial Access | T1566.001 Phishing: Spear-phishing Attachment | Malicious game distributed via email |\n| Execution | T1204.002 User Execution: Malicious File | Victim launches trojanized Snake game |\n| Persistence | T1547.001 Boot or Logon Autostart: Registry Run Keys | Script added to Windows Startup folder |\n| Credential Access | T1056.001 Input Capture: Keylogging | pynput library captures all keystrokes |\n| Credential Access | T1555.003 Credentials from Password Stores: Browsers | Chrome SQLite database decryption via AES |\n| Exfiltration | T1567 Exfiltration Over Web Service | Data sent to attacker via Telegram Bot API |</p><p><h2>🔍 Technical Deep-Dive</h2></p><p><h3>Phase 1: Initial Access & Execution</h3></p><p>The attack begins with a crafted phishing email containing the trojanized game as an attachment. Social engineering techniques convince the victim to download and execute the application.</p><p><h3>Phase 2: Payload Execution</h3></p><p>Upon execution, the Snake game runs normally as a decoy, providing no visible indication of malicious activity. Meanwhile, the embedded keylogger initializes and begins capturing all keyboard input using the pynput library.</p><p><h3>Phase 3: Credential Harvesting</h3></p><p>The malware performs two types of credential theft:</p><p>- <strong>Keylogging:</strong> All keystrokes are captured and stored locally in a hidden log file.\n- <strong>Browser Credential Extraction:</strong> The malware accesses Chrome's <code>Login Data</code> SQLite database, decrypts stored passwords using Windows DPAPI, and harvests saved credentials.</p><p><h3>Phase 4: Persistence Mechanism</h3></p><p>To maintain access across system reboots, the malware copies itself to the Windows Startup folder, ensuring automatic re-execution on every login.</p><p><h3>Phase 5: C2 Exfiltration</h3></p><p>Harvested data is transmitted to the attacker via HTTPS requests to the Telegram Bot API. This technique leverages legitimate cloud infrastructure, making network-based detection challenging.</p><p><h2>🛡️ Detection & Mitigation (Blue Team Perspective)</h2></p><p><h3>Detection Strategies</h3></p><p>- <strong>Endpoint Detection:</strong> Monitor for processes accessing Chrome's <code>Login Data</code> database or <code>Local State</code> encryption key.\n- <strong>Behavioral Analysis:</strong> Flag applications making HTTPS requests to <code>api.telegram.org</code> that were not explicitly whitelisted.\n- <strong>Persistence Monitoring:</strong> Alert on new files created in the Startup folder, especially scripts or executables.\n- <strong>Keylogger Detection:</strong> EDR solutions can detect <code>SetWindowsHookEx</code> API calls or unusual keyboard hook registrations.</p><p><h3>Mitigation Recommendations</h3></p><p>1. Implement Application Whitelisting to prevent unauthorized executables from running.\n2. Deploy Email Security Gateways with attachment sandboxing.\n3. Enable Windows Credential Guard to protect browser credential stores.\n4. Use Network Segmentation to restrict outbound connections to known C2 domains.\n5. Conduct regular Security Awareness Training for phishing recognition.</p><p><h2>⚠️ Educational Disclaimer</h2></p><p>This project was developed strictly for educational and research purposes to demonstrate malware techniques and their detection. All testing was conducted in isolated lab environments. The techniques demonstrated should never be used for illegal or unethical activities. Always obtain proper authorization before conducting security testing.\n</p>",
+        "vi": "<p><h2>📋 Tóm tắt</h2></p><p>Dự án này là phòng thí nghiệm phân tích malware được kiểm soát, thiết kế để mô phỏng vòng đời hoàn chỉnh của trojan đánh cắp thông tin. Bằng cách nhúng keylogger vào game Snake có vẻ vô hại, nó minh họa cách kẻ tấn công vũ khí hóa ứng dụng hợp pháp để tránh phát hiện.</p><p><h2>🎯 Kịch bản tấn công</h2></p><p>Nạn nhân nhận email phishing chứa file đính kèm 'Snake Game'. Khi thực thi, game bị trojan hóa hoạt động bình thường trong khi âm thầm triển khai các module thu thập thông tin đăng nhập và persistence ở nền.</p><p><h2>🔴 MITRE ATT&CK Mapping</h2></p><p>| Chiến thuật | Kỹ thuật | Triển khai |\n|-------------|----------|------------|\n| Initial Access | T1566.001 Phishing: Spear-phishing Attachment | Game độc hại phân phối qua email |\n| Execution | T1204.002 User Execution: Malicious File | Nạn nhân khởi chạy game Snake bị trojan hóa |\n| Persistence | T1547.001 Boot or Logon Autostart: Registry Run Keys | Script thêm vào thư mục Startup Windows |\n| Credential Access | T1056.001 Input Capture: Keylogging | Thư viện pynput bắt tất cả phím bấm |\n| Credential Access | T1555.003 Credentials from Password Stores: Browsers | Giải mã cơ sở dữ liệu SQLite Chrome qua AES |\n| Exfiltration | T1567 Exfiltration Over Web Service | Dữ liệu gửi đến kẻ tấn công qua Telegram Bot API |</p><p><h2>🔍 Phân tích kỹ thuật chi tiết</h2></p><p><h3>Giai đoạn 1: Initial Access & Execution</h3></p><p>Cuộc tấn công bắt đầu với email phishing được chế tạo chứa game bị trojan hóa làm tệp đính kèm. Kỹ thuật social engineering thuyết phục nạn nhân tải xuống và thực thi ứng dụng.</p><p><h3>Giai đoạn 2: Thực thi Payload</h3></p><p>Khi thực thi, game Snake chạy bình thường như mồi nhử, không có dấu hiệu hoạt động độc hại nào. Trong khi đó, keylogger nhúng khởi tạo và bắt đầu bắt tất cả đầu vào bàn phím sử dụng thư viện pynput.</p><p><h3>Giai đoạn 3: Thu thập thông tin đăng nhập</h3></p><p>Malware thực hiện hai loại đánh cắp thông tin đăng nhập:</p><p>- <strong>Keylogging:</strong> Tất cả phím bấm được bắt và lưu trữ cục bộ trong file log ẩn.\n- <strong>Trích xuất thông tin đăng nhập trình duyệt:</strong> Malware truy cập cơ sở dữ liệu SQLite <code>Login Data</code> của Chrome, giải mã mật khẩu đã lưu sử dụng Windows DPAPI, và thu thập thông tin đăng nhập đã lưu.</p><p><h3>Giai đoạn 4: Cơ chế Persistence</h3></p><p>Để duy trì truy cập qua các lần khởi động lại hệ thống, malware sao chép chính nó vào thư mục Startup Windows, đảm bảo tự động thực thi lại mỗi lần đăng nhập.</p><p><h3>Giai đoạn 5: C2 Exfiltration</h3></p><p>Dữ liệu thu thập được truyền đến kẻ tấn công qua yêu cầu HTTPS đến Telegram Bot API. Kỹ thuật này tận dụng cơ sở hạ tầng đám mây hợp pháp, làm cho phát hiện dựa trên mạng trở nên khó khăn.</p><p><h2>🛡️ Phát hiện & Giảm thiểu (Góc nhìn Blue Team)</h2></p><p><h3>Chiến lược phát hiện</h3></p><p>- <strong>Phát hiện Endpoint:</strong> Giám sát các quy trình truy cập cơ sở dữ liệu <code>Login Data</code> của Chrome hoặc khóa mã hóa <code>Local State</code>.\n- <strong>Phân tích hành vi:</strong> Đánh dấu các ứng dụng thực hiện yêu cầu HTTPS đến <code>api.telegram.org</code> không được whitelist rõ ràng.\n- <strong>Giám sát Persistence:</strong> Cảnh báo về các file mới được tạo trong thư mục Startup, đặc biệt là scripts hoặc executables.\n- <strong>Phát hiện Keylogger:</strong> Giải pháp EDR có thể phát hiện các cuộc gọi API <code>SetWindowsHookEx</code> hoặc đăng ký keyboard hook bất thường.</p><p><h3>Khuyến nghị giảm thiểu</h3></p><p>1. Triển khai Application Whitelisting để ngăn các executables không được phép chạy.\n2. Triển khai Email Security Gateways với sandboxing tệp đính kèm.\n3. Bật Windows Credential Guard để bảo vệ kho thông tin đăng nhập trình duyệt.\n4. Sử dụng Network Segmentation để hạn chế kết nối outbound đến các domain C2 đã biết.\n5. Tiến hành Security Awareness Training thường xuyên để nhận biết phishing.</p><p><h2>⚠️ Tuyên bố giáo dục</h2></p><p>Dự án này được phát triển hoàn toàn cho mục đích giáo dục và nghiên cứu để minh họa các kỹ thuật malware và cách phát hiện của chúng. Tất cả thử nghiệm được tiến hành trong môi trường lab cô lập. Các kỹ thuật được minh họa không bao giờ nên được sử dụng cho các hoạt động bất hợp pháp hoặc phi đạo đức.\n</p>"
+      }
+    }
+  ],
+  "writeups": [
+    {
+      "id": "ezlogic",
+      "title": {
+        "en": "EzLogic"
+      },
+      "description": {
+        "en": "Hardware logic reverse engineering with Verilog signal analysis"
+      },
+      "category": "reverse",
+      "event": "0CTF 2024",
+      "flag": "0ops{aadc337c-b5a0-4ff0-ad94-9d1cf41956f4}",
+      "mitre": [
+        {
+          "id": "T1027",
+          "name": "Obfuscated Files or Information",
+          "desc": "Custom logic encoding"
+        },
+        {
+          "id": "T1140",
+          "name": "Deobfuscate/Decode",
+          "desc": "Position-based decryption"
+        }
+      ],
+      "order": 1,
+      "content": {
+        "en": "<p><h2>📋 Executive Summary</h2></p><p>Hardware security challenge involving analysis of a custom logic gate circuit described in Verilog. The challenge required understanding digital logic, position-based encoding, and character-by-character brute-forcing to recover the flag.</p><p><h2>🔍 Technical Analysis</h2></p><p>Analyzing and decoding a hardware logic system described in <code>schematic.pdf</code>.</p><p><img src=\"assets/img/ctf_dl/ezlogic/5c0d4364-f1d4-492c-8947-cd672b0a5f88.png\" alt=\"EzLogic schematic analysis\"></p><p>Based on the information from <code>EzLogic_tb.vcd</code>, we can observe that <code>data_out_all</code> changes over time, and the variable <code>success=0</code>. If the <code>success</code> variable becomes <code>1</code>, we might be able to find the flag.</p><p><img src=\"assets/img/ctf_dl/ezlogic/f328be2e-3197-4863-bfd3-02f67e1090dc.png\" alt=\"VCD analysis 1\">\n<img src=\"assets/img/ctf_dl/ezlogic/6552cef5-ee8f-4a64-8e0a-b6fad5c3ea52.png\" alt=\"VCD analysis 2\"></p><p><h2>💡 The Breakthrough</h2></p><p>After replacing the value of <code>FLAG_TO_TEST</code> with <code>\"0ops{.....\"</code>, I noticed that the first 10 bytes of <code>data_out_all</code> matched with <code>data_std</code>. This indicates that the program encodes each character individually, and the encoding varies depending on the position.</p><p><img src=\"assets/img/ctf_dl/ezlogic/a1e3f630-821c-47de-84c5-f29d0a054352.png\" alt=\"Flag prefix discovery\"></p><p>I came up with the idea of using brute force to find the flag by replacing each character of the flag sequentially and comparing the corresponding byte at that position in <code>data_std</code>.</p><p>``<code>python\ndef brute_force_flag():\n    current_flag = flag_prefix  # Start with the known prefix\n    data_std = [\"30\", \"78\", \"9d\", \"56\", ...]  # Expected hex values\n    \n    for i in range(len(flag_prefix), flag_length):\n        for char in characters:\n            test_flag = current_flag + char + \"0\" * (flag_length - len(current_flag) - 1)\n            update_testbench(test_flag)\n            data_out = get_data_out()\n            \n            if data_out[i] == data_std[i]:\n                current_flag += char\n                break\n    \n    print(f\"Final flag: {current_flag}\")\n</code>``</p><p>After running the brute-force program, we were able to find the flag.</p><p><img src=\"assets/img/ctf_dl/ezlogic/48547161-02b8-4d81-b9b5-27b62425cb3c.png\" alt=\"Flag found\"></p><p><h2>🛡️ Detection Strategy (Blue Team)</h2></p><p>- Monitor for automated Verilog testbench modifications\n- Detect brute-force patterns in simulation outputs\n- Log VCD file access patterns for anomaly detection\n</p>"
+      }
+    },
+    {
+      "id": "easy-forensics",
+      "title": {
+        "en": "Easy Forensics"
+      },
+      "description": {
+        "en": "Memory forensics with Volatility and registry persistence analysis"
+      },
+      "category": "forensic",
+      "event": "ASCIS 2024",
+      "flag": "ASCIS{Gh4st1n_Th3_R2M}",
+      "mitre": [
+        {
+          "id": "T1547.001",
+          "name": "Registry Run Keys",
+          "desc": "Persistence via startup registry"
+        },
+        {
+          "id": "T1027",
+          "name": "Obfuscated Files",
+          "desc": "Base64 encoded payload"
+        },
+        {
+          "id": "T1059.001",
+          "name": "PowerShell",
+          "desc": "Fileless execution"
+        }
+      ],
+      "order": 2,
+      "content": {
+        "en": "<p><h2>📋 Executive Summary</h2></p><p>Memory forensics challenge involving analysis of a Windows memory dump to identify fileless malware persistence mechanism. The attacker used registry Run keys to maintain persistence with Base64-encoded payload.</p><p><h2>🔍 Technical Analysis</h2></p><p>The problem starts with the Memory.rar file, after extracting it we get 2 files Memory.raw and Gift.raw.</p><p><img src=\"assets/img/ctf_dl/easy-forensics/4ba819f4-8b1e-4b7d-9ebb-8b8150f22bd2.png\" alt=\"Challenge description\">\n<img src=\"assets/img/ctf_dl/easy-forensics/1170f784-f61f-4d0c-a5a0-159eb265e297.png\" alt=\"Extracted files\"></p><p>Because this is a raw memory file, I used Volatility to analyze it.</p><p><img src=\"assets/img/ctf_dl/easy-forensics/38235985-43ab-44e6-a446-c58edc2b7528.png\" alt=\"Volatility analysis\">\n<img src=\"assets/img/ctf_dl/easy-forensics/8ec04db8-1e5a-4ab0-88e1-d5b94b3d7d18.png\" alt=\"File profile info\"></p><p>Based on the given data, I researched that persistence technique will use some ways for malware to turn on and start automatically when the system restarts. Malware often adds to the \"Run\" folder of the Windows Registry.</p><p><img src=\"assets/img/ctf_dl/easy-forensics/d6530efb-e40e-42e3-9828-e79255d95355.png\" alt=\"Registry analysis\"></p><p><h2>💡 The Breakthrough</h2></p><p>And luckily I found a base64 encrypted code:</p><p>> UGFzc3dvcmQgaXMge0ZpbGVsZXNzLU1hbHdhcmUtUGVyc2lzdGVuY2V9</p><p><img src=\"assets/img/ctf_dl/easy-forensics/00799e47-5d28-4cac-b45d-8a208a9a45f8.png\" alt=\"Base64 code found\"></p><p>Decrypted it and I got the password of the Gift.rar file. Extract Gift.rar file, I got the flag in Gift.txt file:</p><p><img src=\"assets/img/ctf_dl/easy-forensics/11c658df-eeab-4faa-ac65-1b82a365de9d.png\" alt=\"Decrypted password\"></p><p><h2>🛡️ Detection Strategy (Blue Team)</h2></p><p>- Monitor Registry Run keys for suspicious entries\n- Alert on Base64-encoded strings in registry values\n- Use Volatility printkey plugin for memory analysis\n- Detect fileless malware through PowerShell logging\n</p>"
+      }
+    },
+    {
+      "id": "gimme-your-point",
+      "title": {
+        "en": "Gimme Your Point"
+      },
+      "description": {
+        "en": "SharePoint CVE-2025-49704 exploitation with credential theft analysis"
+      },
+      "category": "web",
+      "event": "VCSPassport2025",
+      "flag": "VCSPassport{SH4R3_y0R_P$$wD}",
+      "mitre": [
+        {
+          "id": "T1190",
+          "name": "Exploit Public-Facing Application",
+          "desc": "SharePoint deserialization"
+        },
+        {
+          "id": "T1059.001",
+          "name": "PowerShell",
+          "desc": "Payload execution"
+        },
+        {
+          "id": "T1555.003",
+          "name": "Credentials from Password Stores",
+          "desc": "Chrome credential theft"
+        },
+        {
+          "id": "T1560.001",
+          "name": "Archive Collected Data",
+          "desc": "Password-protected ZIP"
+        }
+      ],
+      "order": 3,
+      "content": {
+        "en": "<p><h2>📋 Executive Summary</h2></p><p>A sophisticated attack simulation exploiting <strong>CVE-2025-49704</strong>, a SharePoint deserialization vulnerability in the ToolShell component. This challenge recreates a real-world case study where attackers embed deserialization payloads into the <code>MSOTlPn_DWP</code> parameter of POST requests to achieve RCE and exfiltrate Chrome browser credentials.</p><p><h2>🔍 Phase 1: Initial PCAP Analysis</h2></p><p>Opening the challenge PCAP file in Wireshark, I observed HTTP GET requests returning a <code>start.aspx</code> file - indicating a web-based attack. I used <strong>Wireshark's Export Objects</strong> feature to extract all HTTP files.</p><p>Using <code>strings</code> and <code>file</code> commands to analyze extracted files, I discovered a suspicious encoded <code>CompressedDataTable</code> value in <code>ToolPane.aspx</code>.</p><p><h2>🔍 Phase 2: CVE Research - ToolShell Vulnerability</h2></p><p>Searching for \"CompressedDataTable SharePoint\" led me to VCS's security article about <strong>ToolShell</strong> - a critical SharePoint vulnerability chain being actively exploited in the wild.</p><p><h2>🔍 Phase 3: Payload Decoding</h2></p><p>I extracted the <code>CompressedDataTable</code> value and performed Base64 decode → GZIP decompress, revealing a shell payload with a PowerShell command.</p><p><h2>🔍 Phase 4: Malware Analysis</h2></p><p>Following the PowerShell steps, I obtained <code>health_check.exe</code>. Running this executable revealed credential theft behavior.</p><p><h2>💡 Phase 5: The Breakthrough - IDA Reverse Engineering</h2></p><p>Returning to the PCAP, I found a POST request to <code>/upload</code> with the exfiltrated ZIP (signature <code>50 4b 03 04</code>). The ZIP required a password, so I loaded <code>health_check.exe</code> into <strong>IDA Pro</strong>.</p><p>Searching for \"pass\" revealed three functions: <code>GenPass1</code>, <code>GenPass2</code>, <code>GenPass3</code>. Following these in IDA View-A, I reconstructed the password.</p><p>Using this password to extract the ZIP, I examined <code>chrome_health_result</code> and found the URL containing the flag.</p><p><h2>🛡️ Detection Strategy (Blue Team)</h2></p><p>- <strong>Network:</strong> Monitor SharePoint for anomalous <code>CompressedDataTable</code> parameters\n- <strong>Endpoint:</strong> Alert on <code>certutil -decode</code> execution chains\n- <strong>Behavioral:</strong> Detect Chrome database access by non-browser processes\n- <strong>Exfiltration:</strong> Monitor ZIP creation in <code>C:\\Windows\\Temp</code> with immediate uploads\n</p>"
+      }
+    }
+  ]
+}

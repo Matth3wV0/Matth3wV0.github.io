@@ -1,0 +1,38 @@
+name: Build Content
+
+on:
+  push:
+    paths:
+      - 'content/**'
+      - 'build_content.py'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: pip install pyyaml markdown pygments
+      
+      - name: Build content.json
+        run: python build_content.py
+      
+      - name: Check for changes
+        id: check
+        run: |
+          git diff --quiet content.json && echo "changed=false" >> $GITHUB_OUTPUT || echo "changed=true" >> $GITHUB_OUTPUT
+      
+      - name: Commit and push
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add content.json
+          git commit -m "🤖 Auto-build content.json"
+          git push
