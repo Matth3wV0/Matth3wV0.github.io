@@ -11,6 +11,7 @@
     "hero_description": "Building secure systems and automating complex workflows. Passionate about threat detection, algo-trading, and CTF challenges.",
     "hero_btn_projects": "View Projects",
     "hero_btn_ctf": "CTF Write-ups",
+    "hero_btn_cv": "View CV",
     "section_about": "About Me",
     "about_intro": "Security-focused engineer with a passion for building automated solutions and tackling complex cybersecurity challenges. Currently pursuing Information Assurance at FPT University while working on real-world security projects.",
     "about_detail": "Experienced in SOC operations, network intrusion detection, and developing automation tools. Active CTF competitor with expertise in forensics, reverse engineering, and web exploitation.",

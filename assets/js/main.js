@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initLightbox();
     initFilters();
     initCertificates();
+    initCV();
     initTerminalTyping();
     initScrollAnimations();
 });
@@ -292,6 +293,21 @@ function initFilters() {
                 }
             });
         });
+    });
+}
+
+// ===============================================
+// CV Viewer
+// ===============================================
+function initCV() {
+    const cvBtn = document.getElementById('view-cv-btn');
+    if (!cvBtn) return;
+
+    cvBtn.addEventListener('click', () => {
+        const cvPath = 'assets/CV/VoTrongDuc_CV.pdf';
+        const baseUrl = window.location.origin + window.location.pathname.replace(/\/[^/]*$/, '/');
+        const cvUrl = baseUrl + cvPath;
+        openCertificateModal('Curriculum Vitae', cvUrl);
     });
 }
 
