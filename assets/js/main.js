@@ -447,21 +447,21 @@ function initTerminalTyping() {
 function initScrollAnimations() {
     const observerOptions = {
         root: null,
-        rootMargin: '0px',
+        rootMargin: '0px 0px -60px 0px',
         threshold: 0.1
     };
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('animate-in');
+                entry.target.classList.add('visible');
                 observer.unobserve(entry.target);
             }
         });
     }, observerOptions);
 
-    // Observe elements with fade-in class
-    document.querySelectorAll('.fade-in').forEach(el => {
+    // Observe all sections for scroll reveal
+    document.querySelectorAll('.section').forEach(el => {
         observer.observe(el);
     });
 }

@@ -19,7 +19,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
         rel="stylesheet">
 
     <!-- Styles -->
@@ -40,7 +40,9 @@
     <!-- Header -->
     <header class="header" id="header">
         <div class="header-inner">
-            <a href="#" class="logo">VTĐ</a>
+            <a href="index.html" class="logo">
+                <img src="assets/logo/logo_vtd.svg" alt="VTĐ Logo" class="logo-img">
+            </a>
 
             <nav class="nav">
                 <a href="#about" class="nav-link" data-i18n="nav_about">About</a>
@@ -173,82 +175,6 @@
             </div>
         </section>
 
-        <!-- Skills Section -->
-        <section class="section" id="skills">
-            <div class="container">
-                <div class="section-header">
-                    <i data-lucide="code-2" class="section-icon"></i>
-                    <h2 class="section-title" data-i18n="section_skills">Skills</h2>
-                </div>
-
-                <div class="skills-grid">
-                    <div class="card skill-category">
-                        <h4 data-i18n="skills_security">Security</h4>
-                        <div class="skill-item">
-                            <div class="skill-header"><span class="skill-name">SOC Operations</span><span
-                                    class="skill-level">90%</span></div>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width:90%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-header"><span class="skill-name">Network Intrusion Detection</span><span
-                                    class="skill-level">85%</span></div>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width:85%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-header"><span class="skill-name">Penetration Testing</span><span
-                                    class="skill-level">75%</span></div>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width:75%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-header"><span class="skill-name">MITRE ATT&CK</span><span
-                                    class="skill-level">80%</span></div>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width:80%"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card skill-category">
-                        <h4 data-i18n="skills_development">Development & Tools</h4>
-                        <div class="skill-item">
-                            <div class="skill-header"><span class="skill-name">Python</span><span
-                                    class="skill-level">90%</span></div>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width:90%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-header"><span class="skill-name">ELK Stack</span><span
-                                    class="skill-level">85%</span></div>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width:85%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-header"><span class="skill-name">Wireshark / IDA Pro</span><span
-                                    class="skill-level">80%</span></div>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width:80%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-header"><span class="skill-name">Selenium / Web Scraping</span><span
-                                    class="skill-level">85%</span></div>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width:85%"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <!-- Projects Section -->
         <section class="section" id="projects">
             <div class="container">
@@ -256,6 +182,9 @@
                     <i data-lucide="layers" class="section-icon"></i>
                     <h2 class="section-title" data-i18n="section_projects">Engineering Projects</h2>
                 </div>
+                <p class="section-hint" data-i18n="hint_click_card"><i data-lucide="mouse-pointer-click"
+                        style="width:14px;height:14px;display:inline;vertical-align:middle;margin-right:4px;"></i>Click
+                    on a card to view detailed information</p>
 
                 <div class="grid-3">
                     <!-- NIDS Project -->
@@ -371,6 +300,9 @@
                     <i data-lucide="flag" class="section-icon"></i>
                     <h2 class="section-title" data-i18n="section_vault">CTF Vault</h2>
                 </div>
+                <p class="section-hint" data-i18n="hint_click_card"><i data-lucide="mouse-pointer-click"
+                        style="width:14px;height:14px;display:inline;vertical-align:middle;margin-right:4px;"></i>Click
+                    on a card to view detailed information</p>
 
                 <div class="filter-buttons">
                     <button class="filter-btn active" data-filter="all" data-i18n="filter_all">All</button>

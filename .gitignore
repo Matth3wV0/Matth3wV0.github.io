@@ -1,0 +1,35 @@
+
+# Agent logs and artifacts
+.agent/
+.gemini/
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Build output
+dist/
+build/
+
+# OS specific files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Editor specific
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Project specific
+tmp/
+__pycache__/
+*.pyc
+
+# Sensitive or large files
+*.env
+*.zip
+*.tar.gz

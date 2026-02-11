@@ -21,6 +21,7 @@
     "section_skills": "Skills",
     "skills_security": "Security",
     "skills_development": "Development & Tools",
+    "hint_click_card": "Click on a card to view detailed information",
     "section_projects": "Engineering Projects",
     "project_nids_title": "Hybrid NIDS",
     "project_nids_desc": "An advanced hybrid NIDS combining Suricata signature-based detection with Machine Learning anomaly detection. Trained on CICIDS2017 with XGBoost achieving 99.46% accuracy. Features 8-step closed-loop detection, behavioral analysis, and real-time Telegram alerting.",

@@ -21,6 +21,7 @@
     "section_skills": "Kỹ năng",
     "skills_security": "Bảo mật",
     "skills_development": "Phát triển & Công cụ",
+    "hint_click_card": "Nhấn vào card để xem thông tin chi tiết",
     "section_projects": "Dự án Kỹ thuật",
     "project_nids_title": "Hybrid NIDS",
     "project_nids_desc": "Hệ thống NIDS hybrid tiên tiến kết hợp phát hiện dựa trên chữ ký Suricata với phát hiện bất thường Machine Learning. Huấn luyện trên CICIDS2017 với XGBoost đạt độ chính xác 99.46%. Tính năng: quy trình phát hiện 8 bước khép kín, phân tích hành vi, và cảnh báo Telegram thời gian thực.",
