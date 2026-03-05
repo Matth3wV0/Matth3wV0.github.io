@@ -33,3 +33,5 @@ __pycache__/
 *.env
 *.zip
 *.tar.gz
+
+.claude/settings.local.json

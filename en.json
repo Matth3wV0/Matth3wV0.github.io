@@ -192,7 +192,7 @@
     "ctf_for2_title": "FOR2 - ICMP Backdoor",
     "ctf_re02_title": "RE02 - Excel Macro",
     "section_experience": "Experience",
-    "exp_prospire_date": "May 2023 - Present",
+    "exp_prospire_date": "May 2025 - Present",
     "exp_prospire_role": "Co-Founder & Founding Engineer",
     "exp_prospire_desc": "<ul style='margin-top:0.5rem; padding-left:1.2rem; list-style-type:disc; color:#a0a0b0; font-size: 0.95rem; line-height: 1.6;'><li>Architected and deployed <strong>Prospire Finance Bot</strong>, delivering real-time financial statements for over 1,600 Vietnamese enterprises.</li><li>Engineered high-performance scraping tools to efficiently analyze Vietnamese stock market data.</li><li>Developed <strong>Prospire Algo-Trading AI V1</strong>, an automated cryptocurrency trading system with proprietary strategies achieving $100k volume in the first week.</li><li>Created automation pipelines to sync crypto price feeds to Google Sheets for real-time performance tracking.</li></ul>",
     "exp_viettel_date": "Jul - Oct 2025",
