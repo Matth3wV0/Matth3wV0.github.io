@@ -1,19 +1,20 @@
-// Language data storage - will be populated from JSON files
-const langData = {
-    en: {},
-    vi: {}
-};
+// ===============================================
+// Language / i18n System
+// ===============================================
 
-// Current language state
+const langData = { en: {}, vi: {} };
 let currentLang = localStorage.getItem('lang') || 'en';
-
-// Track if language data is loaded
 let langDataLoaded = false;
 
-// Function to load language data from JSON files
+// Load language JSON files
 async function loadLanguageData() {
+    // Disable lang buttons while loading
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.disabled = true;
+        btn.style.opacity = '0.5';
+    });
+
     try {
-        // Load both language files in parallel
         const [enResponse, viResponse] = await Promise.all([
             fetch('en.json'),
             fetch('vi.json')
@@ -23,79 +24,78 @@ async function loadLanguageData() {
             throw new Error('Failed to load language files');
         }
 
-        const enData = await enResponse.json();
-        const viData = await viResponse.json();
-
-        // Populate langData
-        langData.en = enData;
-        langData.vi = viData;
-
+        langData.en = await enResponse.json();
+        langData.vi = await viResponse.json();
         langDataLoaded = true;
-        console.log('✅ Language data loaded successfully');
 
-        // Apply the current language after loading
+        // Apply saved language
         changeLanguage(currentLang);
-
     } catch (error) {
-        console.error('❌ Error loading language data:', error);
-        // Fallback: keep empty langData and show original content
+        console.error('Language load error:', error);
+    } finally {
+        // Re-enable lang buttons
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.disabled = false;
+            btn.style.opacity = '';
+        });
     }
 }
 
-// Function to change language
+// Change language with smooth transition
 function changeLanguage(lang) {
     currentLang = lang;
     localStorage.setItem('lang', lang);
 
-    // Only update content if data is loaded
-    if (langDataLoaded) {
-        // Update all elements with data-i18n attribute in the main document
-        updateContent(document);
-
-        // Update HTML lang attribute
-        document.documentElement.lang = lang;
-    }
-
-    // Update toggle button states (this works even before data is loaded)
+    // Update button states
     document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.getAttribute('data-lang') === lang) {
-            btn.classList.add('active');
-        }
+        btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
     });
 
-    // If modal is open, ensure we update its content too (dynamic content)
+    if (!langDataLoaded) return;
+
+    // Update HTML lang attribute
+    document.documentElement.lang = lang;
+
+    // Update all translatable elements in the document
+    updateContent(document);
+
+    // Also update page title
+    const titleKey = document.querySelector('title')?.getAttribute('data-i18n');
+    if (titleKey && langData[lang]?.[titleKey]) {
+        document.title = langData[lang][titleKey];
+    }
+
+    // If modal is open, update its content too
     const modalContent = document.getElementById('modal-content');
-    if (modalContent && langDataLoaded) {
+    if (modalContent) {
         updateContent(modalContent);
     }
+
+    // Update template content that might be in shadow DOM or hidden
+    document.querySelectorAll('template').forEach(tmpl => {
+        updateContent(tmpl.content);
+    });
 }
 
-// Update content helper
+// Update content helper - applies translations to all data-i18n elements
 function updateContent(context) {
+    const translations = langData[currentLang];
+    if (!translations) return;
+
     context.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
-        if (langData[currentLang] && langData[currentLang][key]) {
-            el.innerHTML = langData[currentLang][key];
+        if (translations[key]) {
+            el.innerHTML = translations[key];
         }
     });
 }
 
-// Get translation helper (for dynamic content)
+// Get translation by key (for dynamic content)
 function t(key) {
-    if (langData[currentLang] && langData[currentLang][key]) {
-        return langData[currentLang][key];
-    }
-    // Fallback to English
-    if (langData['en'] && langData['en'][key]) {
-        return langData['en'][key];
-    }
-    // Return key itself if not found
-    return key;
+    return langData[currentLang]?.[key] || langData['en']?.[key] || key;
 }
 
-// Initialize language on page load
-document.addEventListener('DOMContentLoaded', async () => {
-    // Load language data first
-    await loadLanguageData();
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', () => {
+    loadLanguageData();
 });

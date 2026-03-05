@@ -29,7 +29,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
 
     <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/lucide@0.460.0"></script>
 </head>
 
 <body>
@@ -46,10 +46,11 @@
 
             <nav class="nav">
                 <a href="#about" class="nav-link" data-i18n="nav_about">About</a>
+                <a href="#skills" class="nav-link" data-i18n="nav_skills">Skills</a>
                 <a href="#projects" class="nav-link" data-i18n="nav_projects">Projects</a>
                 <a href="#vault" class="nav-link" data-i18n="nav_vault">CTF Vault</a>
                 <a href="#experience" class="nav-link" data-i18n="nav_experience">Experience</a>
-                <a href="#certifications" class="nav-link" data-i18n="nav_certifications">Certifications</a>
+                <a href="#contact" class="nav-link" data-i18n="nav_contact">Contact</a>
             </nav>
 
             <div class="nav-right">
@@ -109,7 +110,8 @@
                     <span class="font-mono" data-i18n="hero_status">Open to Work</span>
                 </div>
 
-                <h1 class="hero-title">Võ Trọng <span class="highlight">Đức</span></h1>
+                <p class="hero-tagline">Security · Automation · CTF</p>
+                <h1 class="hero-title">Võ Trọng <span class="highlight glitch" data-text="Đức">Đức</span></h1>
                 <p class="hero-subtitle" data-i18n="hero_role">Security Engineer | Automation Specialist</p>
                 <p class="hero-description" data-i18n="hero_description">Building secure systems and automating complex
                     workflows. Passionate about threat detection, algo-trading, and CTF challenges.</p>
@@ -179,6 +181,67 @@
             </div>
         </section>
 
+        <!-- Skills Section -->
+        <section class="section" id="skills">
+            <div class="container">
+                <div class="section-header">
+                    <i data-lucide="cpu" class="section-icon"></i>
+                    <h2 class="section-title" data-i18n="section_skills">Technical Arsenal</h2>
+                </div>
+
+                <div class="skills-categories">
+                    <div class="card skill-category-card">
+                        <h4><i data-lucide="shield" style="width:18px;height:18px;"></i> <span data-i18n="skills_security">Security & Defense</span></h4>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Suricata</span>
+                            <span class="skill-tag">ELK Stack</span>
+                            <span class="skill-tag">Wireshark</span>
+                            <span class="skill-tag">Volatility</span>
+                            <span class="skill-tag">IDA Pro</span>
+                            <span class="skill-tag">MITRE ATT&CK</span>
+                            <span class="skill-tag">YARA Rules</span>
+                            <span class="skill-tag">SOC Operations</span>
+                        </div>
+                    </div>
+
+                    <div class="card skill-category-card">
+                        <h4><i data-lucide="code-2" style="width:18px;height:18px;"></i> <span data-i18n="skills_development">Development</span></h4>
+                        <div class="skill-tags">
+                            <span class="skill-tag blue">Python</span>
+                            <span class="skill-tag blue">JavaScript</span>
+                            <span class="skill-tag blue">Bash</span>
+                            <span class="skill-tag blue">SQL</span>
+                            <span class="skill-tag blue">HTML/CSS</span>
+                            <span class="skill-tag blue">C/C++</span>
+                        </div>
+                    </div>
+
+                    <div class="card skill-category-card">
+                        <h4><i data-lucide="brain" style="width:18px;height:18px;"></i> <span data-i18n="skills_ml">AI / Machine Learning</span></h4>
+                        <div class="skill-tags">
+                            <span class="skill-tag purple">Scikit-learn</span>
+                            <span class="skill-tag purple">XGBoost</span>
+                            <span class="skill-tag purple">Pandas</span>
+                            <span class="skill-tag purple">NumPy</span>
+                            <span class="skill-tag purple">Feature Engineering</span>
+                        </div>
+                    </div>
+
+                    <div class="card skill-category-card">
+                        <h4><i data-lucide="server" style="width:18px;height:18px;"></i> <span data-i18n="skills_infra">Infrastructure & Tools</span></h4>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Docker</span>
+                            <span class="skill-tag">Linux</span>
+                            <span class="skill-tag">Git</span>
+                            <span class="skill-tag">Telegram API</span>
+                            <span class="skill-tag">Selenium</span>
+                            <span class="skill-tag">BeautifulSoup</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Projects Section -->
         <section class="section" id="projects">
             <div class="container">
@@ -192,17 +255,14 @@
 
                 <div class="grid-3">
                     <!-- NIDS Project -->
-                    <div class="card project-card card-glow-green" data-project="nids"
+                    <div class="card project-card card-glow-green spotlight-card" data-project="nids"
                         style="cursor: pointer; grid-column: span 2;">
                         <div class="project-header">
                             <div class="project-icon"><i data-lucide="shield-check"></i></div>
                             <span class="tag tag-green">Security</span>
                         </div>
                         <h3 class="project-title" data-i18n="project_nids_title">Hybrid NIDS</h3>
-                        <p class="project-description" data-i18n="project_nids_desc">Developed a hybrid NIDS integrating
-                            Suricata signature-based detection with ML models (Random Forest, XGBoost) trained on
-                            CICIDS2017 dataset. Features real-time alerting via Telegram API with 95% detection
-                            accuracy.</p>
+                        <p class="project-description" data-i18n="project_nids_desc">An advanced hybrid NIDS combining Suricata signature-based detection with Machine Learning anomaly detection. Trained on CICIDS2017 with XGBoost achieving 99.46% accuracy. Features 8-step closed-loop detection, behavioral analysis, and real-time Telegram alerting.</p>
                         <div class="project-tags">
                             <span class="tag tag-gray">ELK Stack</span>
                             <span class="tag tag-gray">Machine Learning</span>
@@ -222,18 +282,19 @@
                     </div>
 
                     <!-- Trading Project -->
-                    <div class="card project-card card-glow-blue">
+                    <div class="card project-card card-glow-blue spotlight-card">
                         <div class="project-header">
                             <div class="project-icon" style="background:rgba(0,136,255,0.15);"><i
                                     data-lucide="trending-up" style="color:#0088ff;"></i></div>
                             <span class="tag tag-blue">Automation</span>
                         </div>
                         <h3 class="project-title" data-i18n="project_trading_title">Prospire Algo-Trading</h3>
-                        <p class="project-description" data-i18n="project_trading_desc">Algorithm-driven cryptocurrency
-                            trading bot with real-time market tracking and automated trade execution.</p>
+                        <p class="project-description" data-i18n="project_trading_desc">High-frequency cryptocurrency trading engine with custom signal algorithms, real-time market data pipelines, and automated trade execution across multiple exchanges.</p>
                         <div class="project-tags">
                             <span class="tag tag-gray">Python</span>
-                            <span class="tag tag-gray">APIs</span>
+                            <span class="tag tag-gray">REST APIs</span>
+                            <span class="tag tag-gray">WebSocket</span>
+                            <span class="tag tag-gray">Async I/O</span>
                         </div>
                         <div class="project-stats">
                             <div>
@@ -244,15 +305,12 @@
                     </div>
 
                     <!-- Bot Project -->
-                    <div class="card project-card">
+                    <div class="card project-card spotlight-card">
                         <div style="display:flex; gap:1.5rem; align-items:center; flex-wrap:wrap;">
                             <div class="project-icon"><i data-lucide="bot"></i></div>
                             <div style="flex:1;">
-                                <h3 class="project-title" data-i18n="project_bot_title">Financial Telegram Bot & Python
-                                    Scrapers</h3>
-                                <p class="project-description mb-0" data-i18n="project_bot_desc">Telegram bot delivering
-                                    real-time financial statements for 1600+ Vietnamese companies. Integrates web
-                                    scraping tools with async processing for high-throughput data delivery.</p>
+                                <h3 class="project-title" data-i18n="project_bot_title">Financial Telegram Bot & Data Pipeline</h3>
+                                <p class="project-description mb-0" data-i18n="project_bot_desc">Production Telegram bot serving real-time financial statements for 1,600+ Vietnamese listed companies. Built with producer-consumer architecture and async web scraping for high-throughput data delivery to investors.</p>
                             </div>
                             <div class="project-tags">
                                 <span class="tag tag-gray">Telegram API</span>
@@ -264,7 +322,7 @@
                     </div>
 
                     <!-- Keylogger Project -->
-                    <div class="card project-card card-glow-red" data-project="keylogger"
+                    <div class="card project-card card-glow-red spotlight-card" data-project="keylogger"
                         style="cursor: pointer; grid-column: span 2;">
                         <div class="project-header">
                             <div class="project-icon" style="background:rgba(239,68,68,0.15);"><i data-lucide="skull"
@@ -321,9 +379,10 @@
                     <div class="card writeup-card" data-writeup="gimme-your-point" data-category="forensic">
                         <div class="writeup-header">
                             <span class="tag tag-green">Forensic</span>
+                            <span class="difficulty-badge difficulty-hard" data-i18n="difficulty_hard">Hard</span>
                         </div>
                         <h4 class="writeup-title" data-i18n="ctf_gimme_title">Gimme Your Point</h4>
-                        <p class="writeup-description" data-i18n="ctf_gimme_desc">Race condition exploitation</p>
+                        <p class="writeup-description" data-i18n="ctf_gimme_desc">SharePoint CVE-2025-49704 exploitation chain: deserialization RCE to Chrome credential theft via IDA reverse engineering</p>
                         <div class="writeup-footer">
                             <span class="writeup-cta"><span data-i18n="ctf_read_more">Read More</span> <i
                                     data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
@@ -335,10 +394,10 @@
                     <div class="card writeup-card" data-writeup="for2-icmp" data-category="forensic">
                         <div class="writeup-header">
                             <span class="tag tag-green">Forensic</span>
+                            <span class="difficulty-badge difficulty-medium" data-i18n="difficulty_medium">Medium</span>
                         </div>
                         <h4 class="writeup-title" data-i18n="ctf_for2_title">FOR2 - ICMP Backdoor</h4>
-                        <p class="writeup-description" data-i18n="ctf_for2_desc">ICMP packet analysis & backdoor
-                            detection</p>
+                        <p class="writeup-description" data-i18n="ctf_for2_desc">Covert C2 communication via ICMP protocol with command execution and data exfiltration through ping packets</p>
                         <div class="writeup-footer">
                             <span class="writeup-cta"><span data-i18n="ctf_read_more">Read More</span> <i
                                     data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
@@ -347,12 +406,13 @@
                     </div>
 
                     <!-- RE02 Macro -->
-                    <div class="card writeup-card" data-writeup="re02-macro" data-category="forensic">
+                    <div class="card writeup-card" data-writeup="re02-macro" data-category="reverse">
                         <div class="writeup-header">
-                            <span class="tag tag-green">Forensic</span>
+                            <span class="tag tag-orange">Reverse</span>
+                            <span class="difficulty-badge difficulty-medium" data-i18n="difficulty_medium">Medium</span>
                         </div>
                         <h4 class="writeup-title" data-i18n="ctf_re02_title">RE02 - Excel Macro</h4>
-                        <p class="writeup-description" data-i18n="ctf_re02_desc">VBA macro analysis and decryption</p>
+                        <p class="writeup-description" data-i18n="ctf_re02_desc">Obfuscated XLM 4.0 macro reverse engineering with olevba deobfuscation and cross-cell string reconstruction</p>
                         <div class="writeup-footer">
                             <span class="writeup-cta"><span data-i18n="ctf_read_more">Read More</span> <i
                                     data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
@@ -364,10 +424,10 @@
                     <div class="card writeup-card" data-writeup="ezlogic" data-category="reverse">
                         <div class="writeup-header">
                             <span class="tag tag-orange">Reverse</span>
+                            <span class="difficulty-badge difficulty-hard" data-i18n="difficulty_hard">Hard</span>
                         </div>
                         <h4 class="writeup-title" data-i18n="ctf_ezlogic_title">EzLogic</h4>
-                        <p class="writeup-description" data-i18n="ctf_ezlogic_desc">Logic gate reversing challenge from
-                            0CTF 2024</p>
+                        <p class="writeup-description" data-i18n="ctf_ezlogic_desc">Hardware logic gate analysis with Verilog testbench modification and position-based brute-force decryption</p>
                         <div class="writeup-footer">
                             <span class="writeup-cta"><span data-i18n="ctf_read_more">Read More</span> <i
                                     data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
@@ -379,10 +439,10 @@
                     <div class="card writeup-card" data-writeup="easy-forensics" data-category="forensic">
                         <div class="writeup-header">
                             <span class="tag tag-green">Forensic</span>
+                            <span class="difficulty-badge difficulty-medium" data-i18n="difficulty_medium">Medium</span>
                         </div>
                         <h4 class="writeup-title" data-i18n="ctf_forensics_title">Easy Forensics</h4>
-                        <p class="writeup-description" data-i18n="ctf_forensics_desc">Registry extraction and password
-                            cracking</p>
+                        <p class="writeup-description" data-i18n="ctf_forensics_desc">Windows memory dump analysis with Volatility to identify fileless malware persistence via Registry Run keys</p>
                         <div class="writeup-footer">
                             <span class="writeup-cta"><span data-i18n="ctf_read_more">Read More</span> <i
                                     data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
@@ -394,9 +454,10 @@
                     <div class="card writeup-card" data-writeup="known-unknowns" data-category="forensic">
                         <div class="writeup-header">
                             <span class="tag tag-green">Forensic</span>
+                            <span class="difficulty-badge difficulty-easy" data-i18n="difficulty_easy">Easy</span>
                         </div>
                         <h4 class="writeup-title" data-i18n="ctf_unknowns_title">Known Unknowns</h4>
-                        <p class="writeup-description" data-i18n="ctf_unknowns_desc">Wireshark DNS traffic analysis</p>
+                        <p class="writeup-description" data-i18n="ctf_unknowns_desc">Audio steganography via spectrogram analysis using Sonic Visualiser to reveal frequency-hidden text</p>
                         <div class="writeup-footer">
                             <span class="writeup-cta"><span data-i18n="ctf_read_more">Read More</span> <i
                                     data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
@@ -408,9 +469,10 @@
                     <div class="card writeup-card" data-writeup="tet-riffic" data-category="forensic">
                         <div class="writeup-header">
                             <span class="tag tag-green">Forensic</span>
+                            <span class="difficulty-badge difficulty-hard" data-i18n="difficulty_hard">Hard</span>
                         </div>
                         <h4 class="writeup-title" data-i18n="ctf_tetriffic_title">tet-riffic!</h4>
-                        <p class="writeup-description" data-i18n="ctf_tetriffic_desc">Audio steganography challenge</p>
+                        <p class="writeup-description" data-i18n="ctf_tetriffic_desc">USB HID keystroke extraction from PCAP driving a Tetris game that renders a QR code containing the flag</p>
                         <div class="writeup-footer">
                             <span class="writeup-cta"><span data-i18n="ctf_read_more">Read More</span> <i
                                     data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
@@ -422,9 +484,10 @@
                     <div class="card writeup-card" data-writeup="st3g0" data-category="forensic">
                         <div class="writeup-header">
                             <span class="tag tag-green">Forensic</span>
+                            <span class="difficulty-badge difficulty-easy" data-i18n="difficulty_easy">Easy</span>
                         </div>
                         <h4 class="writeup-title" data-i18n="ctf_st3g0_title">St3g0</h4>
-                        <p class="writeup-description" data-i18n="ctf_st3g0_desc">PNG LSB steganography</p>
+                        <p class="writeup-description" data-i18n="ctf_st3g0_desc">Least Significant Bit steganography extraction from PNG using zsteg bit-plane analysis</p>
                         <div class="writeup-footer">
                             <span class="writeup-cta"><span data-i18n="ctf_read_more">Read More</span> <i
                                     data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
@@ -436,9 +499,10 @@
                     <div class="card writeup-card" data-writeup="verify" data-category="forensic">
                         <div class="writeup-header">
                             <span class="tag tag-green">Forensic</span>
+                            <span class="difficulty-badge difficulty-easy" data-i18n="difficulty_easy">Easy</span>
                         </div>
                         <h4 class="writeup-title" data-i18n="ctf_verify_title">Verify</h4>
-                        <p class="writeup-description" data-i18n="ctf_verify_desc">File hash verification challenge</p>
+                        <p class="writeup-description" data-i18n="ctf_verify_desc">SHA-256 file integrity verification to identify the correct file among thousands of decoys</p>
                         <div class="writeup-footer">
                             <span class="writeup-cta"><span data-i18n="ctf_read_more">Read More</span> <i
                                     data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
@@ -450,9 +514,10 @@
                     <div class="card writeup-card" data-writeup="m00nwalk" data-category="forensic">
                         <div class="writeup-header">
                             <span class="tag tag-green">Forensic</span>
+                            <span class="difficulty-badge difficulty-medium" data-i18n="difficulty_medium">Medium</span>
                         </div>
                         <h4 class="writeup-title" data-i18n="ctf_moonwalk_title">m00nwalk</h4>
-                        <p class="writeup-description" data-i18n="ctf_moonwalk_desc">SSTV audio decoding</p>
+                        <p class="writeup-description" data-i18n="ctf_moonwalk_desc">Slow Scan Television (SSTV) signal decoding from audio to reconstruct Apollo-era transmitted images</p>
                         <div class="writeup-footer">
                             <span class="writeup-cta"><span data-i18n="ctf_read_more">Read More</span> <i
                                     data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
@@ -606,7 +671,59 @@
                 </div>
             </div>
         </section>
+        <!-- Contact Section -->
+        <section class="section" id="contact">
+            <div class="container">
+                <div class="section-header">
+                    <i data-lucide="send" class="section-icon"></i>
+                    <h2 class="section-title" data-i18n="section_contact">Get in Touch</h2>
+                </div>
+
+                <div class="contact-grid">
+                    <div class="card contact-info">
+                        <h3 data-i18n="contact_heading">Let's Connect</h3>
+                        <p data-i18n="contact_description">Open to security engineering roles, research collaborations, and CTF team invitations. Feel free to reach out.</p>
+
+                        <div class="contact-links">
+                            <a href="mailto:votrongduc0811@gmail.com" class="contact-link">
+                                <i data-lucide="mail"></i>
+                                <div class="contact-link-text">
+                                    <span class="contact-link-label">Email</span>
+                                    <span class="contact-link-value">votrongduc0811@gmail.com</span>
+                                </div>
+                            </a>
+                            <a href="https://github.com/Matth3wV0" target="_blank" rel="noopener" class="contact-link">
+                                <i data-lucide="github"></i>
+                                <div class="contact-link-text">
+                                    <span class="contact-link-label">GitHub</span>
+                                    <span class="contact-link-value">Matth3wV0</span>
+                                </div>
+                            </a>
+                            <a href="https://linkedin.com/in/votrongduc" target="_blank" rel="noopener" class="contact-link">
+                                <i data-lucide="linkedin"></i>
+                                <div class="contact-link-text">
+                                    <span class="contact-link-label">LinkedIn</span>
+                                    <span class="contact-link-value">votrongduc</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="card contact-cta">
+                        <i data-lucide="terminal" style="width:48px;height:48px;color:var(--color-accent);margin-bottom:1rem;"></i>
+                        <h3 data-i18n="contact_cta_heading">Ready to Collaborate?</h3>
+                        <p data-i18n="contact_cta_text">Whether it's securing infrastructure, building automation pipelines, or competing in CTFs - I'm always up for a challenge.</p>
+                        <a href="mailto:votrongduc0811@gmail.com" class="btn btn-primary" data-i18n="contact_cta_btn">Send a Message</a>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="back-to-top" aria-label="Back to top">
+        <i data-lucide="chevron-up"></i>
+    </button>
 
     <!-- Footer -->
     <footer class="footer">

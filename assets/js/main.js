@@ -12,6 +12,10 @@ document.addEventListener('DOMContentLoaded', () => {
     initCV();
     initTerminalTyping();
     initScrollAnimations();
+    initSpotlightCards();
+    initActiveNavHighlight();
+    initStatCounters();
+    initBackToTop();
 });
 
 // ===============================================
@@ -461,9 +465,30 @@ function initTerminalTyping() {
 // Scroll Animations (Intersection Observer)
 // ===============================================
 function initScrollAnimations() {
+    // Dynamically add reveal class to key elements for staggered scroll animations
+    const revealSelectors = [
+        '.section-header',
+        '.about-content',
+        '.about-stats',
+        '.skill-category-card',
+        '.project-card',
+        '.filter-buttons',
+        '.writeup-card',
+        '.timeline-item',
+        '.cert-card',
+        '.contact-info',
+        '.contact-cta'
+    ];
+
+    revealSelectors.forEach(selector => {
+        document.querySelectorAll(selector).forEach(el => {
+            el.classList.add('reveal');
+        });
+    });
+
     const observerOptions = {
         root: null,
-        rootMargin: '0px 0px -60px 0px',
+        rootMargin: '0px 0px -40px 0px',
         threshold: 0.1
     };
 
@@ -476,8 +501,8 @@ function initScrollAnimations() {
         });
     }, observerOptions);
 
-    // Observe all sections for scroll reveal
-    document.querySelectorAll('.section').forEach(el => {
+    // Observe all reveal elements
+    document.querySelectorAll('.reveal').forEach(el => {
         observer.observe(el);
     });
 }
@@ -500,3 +525,120 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         }
     });
 });
+
+// ===============================================
+// Spotlight Card Effect (mouse-tracking glow)
+// ===============================================
+function initSpotlightCards() {
+    const cards = document.querySelectorAll('.spotlight-card');
+
+    cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+        });
+    });
+}
+
+// ===============================================
+// Active Nav Link Highlighting on Scroll
+// ===============================================
+function initActiveNavHighlight() {
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
+
+    if (!sections.length || !navLinks.length) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.id;
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${id}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, {
+        rootMargin: '-20% 0px -60% 0px',
+        threshold: 0
+    });
+
+    sections.forEach(section => observer.observe(section));
+}
+
+// ===============================================
+// Animated Stat Counters
+// ===============================================
+function initStatCounters() {
+    const statValues = document.querySelectorAll('.stat-value');
+    if (!statValues.length) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateCounter(entry.target);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    statValues.forEach(el => observer.observe(el));
+}
+
+function animateCounter(el) {
+    const text = el.textContent.trim();
+    // Extract number and suffix (e.g., "3+" -> 3, "+")
+    const match = text.match(/^([\d.]+)(.*)$/);
+    if (!match) return;
+
+    const target = parseFloat(match[1]);
+    const suffix = match[2];
+    const isFloat = text.includes('.');
+    const duration = 1200;
+    const start = performance.now();
+
+    function update(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        // Ease out cubic
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const current = target * eased;
+
+        el.textContent = (isFloat ? current.toFixed(1) : Math.floor(current)) + suffix;
+
+        if (progress < 1) {
+            requestAnimationFrame(update);
+        } else {
+            el.textContent = text; // Ensure exact final value
+        }
+    }
+
+    el.textContent = (isFloat ? '0.0' : '0') + suffix;
+    requestAnimationFrame(update);
+}
+
+// ===============================================
+// Back to Top Button
+// ===============================================
+function initBackToTop() {
+    const btn = document.getElementById('back-to-top');
+    if (!btn) return;
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 500) {
+            btn.classList.add('visible');
+        } else {
+            btn.classList.remove('visible');
+        }
+    });
+
+    btn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+}
