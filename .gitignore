@@ -2,7 +2,7 @@
 # Agent logs and artifacts
 .agent/
 .gemini/
-
+.claude/
 # Node
 node_modules/
 npm-debug.log
