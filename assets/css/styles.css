@@ -659,6 +659,11 @@ code,
     box-shadow: 0 0 40px rgba(244, 63, 94, 0.1), 0 12px 40px rgba(0, 0, 0, 0.3);
 }
 
+.card-glow-orange:hover {
+    border-color: rgba(255, 107, 53, 0.2);
+    box-shadow: 0 0 40px rgba(255, 107, 53, 0.1), 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
 /* === Grid === */
 .grid-2 {
     display: grid;
