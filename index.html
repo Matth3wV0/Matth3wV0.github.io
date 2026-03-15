@@ -19,7 +19,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
         rel="stylesheet">
 
     <!-- Styles -->
@@ -33,10 +33,6 @@
 </head>
 
 <body>
-    <!-- Background -->
-    <div class="matrix-bg"></div>
-    <div class="grid-overlay"></div>
-
     <!-- Header -->
     <header class="header" id="header">
         <div class="header-inner">
@@ -76,63 +72,57 @@
     <main>
         <!-- Hero Section -->
         <section class="hero" id="hero">
-            <div class="hero-content">
-                <div class="terminal-window">
-                    <div class="terminal-header">
-                        <span class="terminal-dot red"></span>
-                        <span class="terminal-dot yellow"></span>
-                        <span class="terminal-dot green"></span>
-                        <span class="terminal-title">terminal</span>
-                    </div>
-                    <div class="terminal-body">
-                        <div class="terminal-line">
-                            <span class="terminal-prompt">$</span>
-                            <span class="terminal-command">whoami</span>
-                        </div>
-                        <div class="terminal-output">Võ Trọng Đức</div>
-                        <div class="terminal-line">
-                            <span class="terminal-prompt">$</span>
-                            <span class="terminal-command">cat role.txt</span>
-                        </div>
-                        <div class="terminal-output" data-i18n="hero_role">Security Engineer | Automation Specialist
-                        </div>
-                        <div class="terminal-line">
-                            <span class="terminal-prompt">$</span>
-                            <span class="terminal-command">echo $STATUS</span>
-                        </div>
-                        <div class="terminal-output"><span class="text-accent" data-i18n="hero_status_value">Available
-                                for opportunities</span><span class="typing-cursor"></span></div>
-                    </div>
+            <div class="hero-bg">
+                <div class="hero-orb hero-orb-1"></div>
+                <div class="hero-orb hero-orb-2"></div>
+                <div class="hero-orb hero-orb-3"></div>
+                <svg class="hex hex-1" width="80" height="90" viewBox="0 0 80 90"><polygon points="40,2 78,23 78,67 40,88 2,67 2,23" fill="none" stroke="white" stroke-width="1"/></svg>
+                <svg class="hex hex-2" width="60" height="68" viewBox="0 0 60 68"><polygon points="30,2 58,17 58,51 30,66 2,51 2,17" fill="none" stroke="white" stroke-width="1"/></svg>
+                <svg class="hex hex-3" width="100" height="112" viewBox="0 0 100 112"><polygon points="50,2 98,28 98,84 50,110 2,84 2,28" fill="none" stroke="white" stroke-width="1"/></svg>
+            </div>
+            <div class="hero-content reveal">
+                <div class="hero-badge">
+                    <i data-lucide="shield-check" style="width:16px;height:16px;"></i>
+                    <span data-i18n="hero_role">Security Engineer | Automation Specialist</span>
                 </div>
-
-                <div class="status-badge">
-                    <span class="status-dot"></span>
-                    <span class="font-mono" data-i18n="hero_status">Open to Work</span>
-                </div>
-
-                <p class="hero-tagline">Security · Automation · CTF</p>
-                <h1 class="hero-title">Võ Trọng <span class="highlight glitch" data-text="Đức">Đức</span></h1>
-                <p class="hero-subtitle" data-i18n="hero_role">Security Engineer | Automation Specialist</p>
-                <p class="hero-description" data-i18n="hero_description">Building secure systems and automating complex
-                    workflows. Passionate about threat detection, algo-trading, and CTF challenges.</p>
-
+                <h1 class="hero-heading">
+                    <span data-i18n="hero_name_line">Vo Trong</span><br>
+                    <span class="gradient-text">Duc</span>
+                </h1>
+                <p class="hero-sub" data-i18n="hero_description">Building secure systems and automating complex workflows. Passionate about threat detection, algo-trading, and CTF challenges.</p>
                 <div class="hero-buttons">
-                    <a href="#projects" class="btn btn-primary" data-i18n="hero_btn_projects">View Projects</a>
-                    <a href="#vault" class="btn btn-secondary" data-i18n="hero_btn_ctf">CTF Write-ups</a>
-                    <button class="btn btn-secondary" id="view-cv-btn" data-i18n="hero_btn_cv"><i
-                            data-lucide="file-text"
-                            style="width:16px;height:16px;display:inline;vertical-align:middle;margin-right:6px;"></i>View
-                        CV</button>
+                    <a href="#projects" class="btn-primary" data-i18n="hero_btn_projects">View Projects</a>
+                    <a href="#vault" class="btn-secondary" data-i18n="hero_btn_ctf">CTF Write-ups</a>
+                    <a href="assets/CV/Vo_Trong_Duc_CV.pdf" target="_blank" class="btn-secondary" data-i18n="hero_btn_cv">View CV</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="hero-stat-value gradient-text">5+</div>
+                        <div class="hero-stat-label" data-i18n="stat_projects">Projects</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-value gradient-text">10</div>
+                        <div class="hero-stat-label" data-i18n="stat_ctfs">CTF Write-ups</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-value gradient-text-secondary">7+</div>
+                        <div class="hero-stat-label" data-i18n="stat_certs">Certifications</div>
+                    </div>
                 </div>
             </div>
+            <div class="scroll-indicator">
+                <span>SCROLL</span>
+                <div class="scroll-arrow"></div>
+            </div>
+            <div class="hero-divider"></div>
         </section>
 
         <!-- About Section -->
         <section class="section" id="about">
             <div class="container">
-                <div class="section-header">
-                    <i data-lucide="user" class="section-icon"></i>
-                    <h2 class="section-title" data-i18n="section_about">About Me</h2>
+                <div class="section-header reveal">
+                    <div class="section-label" data-i18n="section_label_about">ABOUT ME</div>
+                    <h2 class="section-heading"><span class="gradient-text" data-i18n="section_about">About Me</span></h2>
                 </div>
 
                 <div class="about-grid">
@@ -184,9 +174,9 @@
         <!-- Skills Section -->
         <section class="section" id="skills">
             <div class="container">
-                <div class="section-header">
-                    <i data-lucide="cpu" class="section-icon"></i>
-                    <h2 class="section-title" data-i18n="section_skills">Technical Arsenal</h2>
+                <div class="section-header reveal">
+                    <div class="section-label" data-i18n="section_label_skills">TECHNICAL ARSENAL</div>
+                    <h2 class="section-heading"><span class="gradient-text" data-i18n="section_skills">Technical Arsenal</span></h2>
                 </div>
 
                 <div class="skills-categories">
@@ -245,9 +235,9 @@
         <!-- Projects Section -->
         <section class="section" id="projects">
             <div class="container">
-                <div class="section-header">
-                    <i data-lucide="layers" class="section-icon"></i>
-                    <h2 class="section-title" data-i18n="section_projects">Engineering Projects</h2>
+                <div class="section-header reveal">
+                    <div class="section-label" data-i18n="section_label_projects">ENGINEERING PROJECTS</div>
+                    <h2 class="section-heading"><span class="gradient-text" data-i18n="section_projects">Engineering Projects</span></h2>
                 </div>
                 <p class="section-hint" data-i18n="hint_click_card"><i data-lucide="mouse-pointer-click"
                         style="width:14px;height:14px;display:inline;vertical-align:middle;margin-right:4px;"></i>Click
@@ -255,7 +245,7 @@
 
                 <div class="grid-3">
                     <!-- NIDS Project -->
-                    <div class="card project-card card-glow-green spotlight-card" data-project="nids"
+                    <div class="card project-card card-glow-green spotlight-card reveal" data-project="nids"
                         style="cursor: pointer; grid-column: span 2;">
                         <div class="project-header">
                             <div class="project-icon"><i data-lucide="shield-check"></i></div>
@@ -282,7 +272,7 @@
                     </div>
 
                     <!-- Trading Project -->
-                    <div class="card project-card card-glow-blue spotlight-card">
+                    <div class="card project-card card-glow-blue spotlight-card reveal">
                         <div class="project-header">
                             <div class="project-icon" style="background:rgba(0,136,255,0.15);"><i
                                     data-lucide="trending-up" style="color:#0088ff;"></i></div>
@@ -305,7 +295,7 @@
                     </div>
 
                     <!-- Bot Project -->
-                    <div class="card project-card spotlight-card">
+                    <div class="card project-card spotlight-card reveal">
                         <div style="display:flex; gap:1.5rem; align-items:center; flex-wrap:wrap;">
                             <div class="project-icon"><i data-lucide="bot"></i></div>
                             <div style="flex:1;">
@@ -322,7 +312,7 @@
                     </div>
 
                     <!-- InsightHive Project -->
-                    <div class="card project-card card-glow-orange spotlight-card"
+                    <div class="card project-card card-glow-orange spotlight-card reveal"
                         onclick="window.open('assets/landing project/index.html', '_blank')"
                         style="cursor: pointer; grid-column: span 2;">
                         <div class="project-header">
@@ -353,7 +343,7 @@
                     </div>
 
                     <!-- Keylogger Project -->
-                    <div class="card project-card card-glow-red spotlight-card" data-project="keylogger"
+                    <div class="card project-card card-glow-red spotlight-card reveal" data-project="keylogger"
                         style="cursor: pointer; grid-column: span 2;">
                         <div class="project-header">
                             <div class="project-icon" style="background:rgba(239,68,68,0.15);"><i data-lucide="skull"
@@ -389,9 +379,9 @@
         <!-- CTF Vault Section -->
         <section class="section" id="vault">
             <div class="container">
-                <div class="section-header">
-                    <i data-lucide="flag" class="section-icon"></i>
-                    <h2 class="section-title" data-i18n="section_vault">CTF Vault</h2>
+                <div class="section-header reveal">
+                    <div class="section-label" data-i18n="section_label_vault">CAPTURE THE FLAG</div>
+                    <h2 class="section-heading"><span class="gradient-text" data-i18n="section_vault">CTF Vault</span></h2>
                 </div>
                 <p class="section-hint" data-i18n="hint_click_card"><i data-lucide="mouse-pointer-click"
                         style="width:14px;height:14px;display:inline;vertical-align:middle;margin-right:4px;"></i>Click
@@ -407,7 +397,7 @@
 
                 <div class="grid-3">
                     <!-- Gimme Your Point -->
-                    <div class="card writeup-card" data-writeup="gimme-your-point" data-category="forensic">
+                    <div class="card writeup-card reveal" data-writeup="gimme-your-point" data-category="forensic">
                         <div class="writeup-header">
                             <span class="tag tag-green">Forensic</span>
                             <span class="difficulty-badge difficulty-hard" data-i18n="difficulty_hard">Hard</span>
@@ -422,7 +412,7 @@
                     </div>
 
                     <!-- FOR2 ICMP -->
-                    <div class="card writeup-card" data-writeup="for2-icmp" data-category="forensic">
+                    <div class="card writeup-card reveal" data-writeup="for2-icmp" data-category="forensic">
                         <div class="writeup-header">
                             <span class="tag tag-green">Forensic</span>
                             <span class="difficulty-badge difficulty-medium" data-i18n="difficulty_medium">Medium</span>
@@ -437,7 +427,7 @@
                     </div>
 
                     <!-- RE02 Macro -->
-                    <div class="card writeup-card" data-writeup="re02-macro" data-category="reverse">
+                    <div class="card writeup-card reveal" data-writeup="re02-macro" data-category="reverse">
                         <div class="writeup-header">
                             <span class="tag tag-orange">Reverse</span>
                             <span class="difficulty-badge difficulty-medium" data-i18n="difficulty_medium">Medium</span>
@@ -452,7 +442,7 @@
                     </div>
 
                     <!-- EzLogic -->
-                    <div class="card writeup-card" data-writeup="ezlogic" data-category="reverse">
+                    <div class="card writeup-card reveal" data-writeup="ezlogic" data-category="reverse">
                         <div class="writeup-header">
                             <span class="tag tag-orange">Reverse</span>
                             <span class="difficulty-badge difficulty-hard" data-i18n="difficulty_hard">Hard</span>
@@ -467,7 +457,7 @@
                     </div>
 
                     <!-- Easy Forensics -->
-                    <div class="card writeup-card" data-writeup="easy-forensics" data-category="forensic">
+                    <div class="card writeup-card reveal" data-writeup="easy-forensics" data-category="forensic">
                         <div class="writeup-header">
                             <span class="tag tag-green">Forensic</span>
                             <span class="difficulty-badge difficulty-medium" data-i18n="difficulty_medium">Medium</span>
@@ -482,7 +472,7 @@
                     </div>
 
                     <!-- Known Unknowns -->
-                    <div class="card writeup-card" data-writeup="known-unknowns" data-category="forensic">
+                    <div class="card writeup-card reveal" data-writeup="known-unknowns" data-category="forensic">
                         <div class="writeup-header">
                             <span class="tag tag-green">Forensic</span>
                             <span class="difficulty-badge difficulty-easy" data-i18n="difficulty_easy">Easy</span>
@@ -497,7 +487,7 @@
                     </div>
 
                     <!-- tet-riffic -->
-                    <div class="card writeup-card" data-writeup="tet-riffic" data-category="forensic">
+                    <div class="card writeup-card reveal" data-writeup="tet-riffic" data-category="forensic">
                         <div class="writeup-header">
                             <span class="tag tag-green">Forensic</span>
                             <span class="difficulty-badge difficulty-hard" data-i18n="difficulty_hard">Hard</span>
@@ -512,7 +502,7 @@
                     </div>
 
                     <!-- St3g0 -->
-                    <div class="card writeup-card" data-writeup="st3g0" data-category="forensic">
+                    <div class="card writeup-card reveal" data-writeup="st3g0" data-category="forensic">
                         <div class="writeup-header">
                             <span class="tag tag-green">Forensic</span>
                             <span class="difficulty-badge difficulty-easy" data-i18n="difficulty_easy">Easy</span>
@@ -527,7 +517,7 @@
                     </div>
 
                     <!-- Verify -->
-                    <div class="card writeup-card" data-writeup="verify" data-category="forensic">
+                    <div class="card writeup-card reveal" data-writeup="verify" data-category="forensic">
                         <div class="writeup-header">
                             <span class="tag tag-green">Forensic</span>
                             <span class="difficulty-badge difficulty-easy" data-i18n="difficulty_easy">Easy</span>
@@ -542,7 +532,7 @@
                     </div>
 
                     <!-- m00nwalk -->
-                    <div class="card writeup-card" data-writeup="m00nwalk" data-category="forensic">
+                    <div class="card writeup-card reveal" data-writeup="m00nwalk" data-category="forensic">
                         <div class="writeup-header">
                             <span class="tag tag-green">Forensic</span>
                             <span class="difficulty-badge difficulty-medium" data-i18n="difficulty_medium">Medium</span>
@@ -564,9 +554,9 @@
         <!-- Experience Section -->
         <section class="section" id="experience">
             <div class="container">
-                <div class="section-header">
-                    <i data-lucide="briefcase" class="section-icon"></i>
-                    <h2 class="section-title" data-i18n="section_experience">Experience</h2>
+                <div class="section-header reveal">
+                    <div class="section-label" data-i18n="section_label_experience">WORK EXPERIENCE</div>
+                    <h2 class="section-heading"><span class="gradient-text" data-i18n="section_experience">Experience</span></h2>
                 </div>
 
                 <div class="timeline">
@@ -630,9 +620,9 @@
         <!-- Certifications Section -->
         <section class="section" id="certifications">
             <div class="container">
-                <div class="section-header">
-                    <i data-lucide="award" class="section-icon"></i>
-                    <h2 class="section-title" data-i18n="section_certifications">Certifications</h2>
+                <div class="section-header reveal">
+                    <div class="section-label" data-i18n="section_label_certs">PROFESSIONAL CERTIFICATIONS</div>
+                    <h2 class="section-heading"><span class="gradient-text" data-i18n="section_certifications">Certifications</span></h2>
                 </div>
 
                 <div class="grid-3">
@@ -705,9 +695,9 @@
         <!-- Contact Section -->
         <section class="section" id="contact">
             <div class="container">
-                <div class="section-header">
-                    <i data-lucide="send" class="section-icon"></i>
-                    <h2 class="section-title" data-i18n="section_contact">Get in Touch</h2>
+                <div class="section-header reveal">
+                    <div class="section-label" data-i18n="section_label_contact">GET IN TOUCH</div>
+                    <h2 class="section-heading"><span class="gradient-text" data-i18n="section_contact">Get in Touch</span></h2>
                 </div>
 
                 <div class="contact-grid">

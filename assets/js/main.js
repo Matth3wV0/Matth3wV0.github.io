@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initFilters();
     initCertificates();
     initCV();
-    initTerminalTyping();
     initScrollAnimations();
     initSpotlightCards();
     initActiveNavHighlight();
@@ -27,9 +26,9 @@ function initHeader() {
 
     window.addEventListener('scroll', () => {
         if (window.scrollY > 50) {
-            header.classList.add('header-scrolled');
+            header.classList.add('scrolled');
         } else {
-            header.classList.remove('header-scrolled');
+            header.classList.remove('scrolled');
         }
     });
 
@@ -440,28 +439,6 @@ function openCertificateModal(title, pdfUrl) {
 }
 
 // ===============================================
-// Terminal Typing Effect
-// ===============================================
-function initTerminalTyping() {
-    const typingElements = document.querySelectorAll('[data-typing]');
-
-    typingElements.forEach(el => {
-        const text = el.dataset.typing;
-        el.textContent = '';
-
-        let index = 0;
-        const typeInterval = setInterval(() => {
-            if (index < text.length) {
-                el.textContent += text[index];
-                index++;
-            } else {
-                clearInterval(typeInterval);
-            }
-        }, 50);
-    });
-}
-
-// ===============================================
 // Scroll Animations (Intersection Observer)
 // ===============================================
 function initScrollAnimations() {
@@ -502,7 +479,7 @@ function initScrollAnimations() {
     }, observerOptions);
 
     // Observe all reveal elements
-    document.querySelectorAll('.reveal').forEach(el => {
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
         observer.observe(el);
     });
 }
