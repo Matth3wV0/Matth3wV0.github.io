@@ -281,42 +281,54 @@
                         </div>
                     </div>
 
-                    <!-- Trading Project -->
-                    <div class="card project-card card-glow-blue spotlight-card">
+                    <!-- XFEED Project -->
+                    <div class="card project-card card-glow-green spotlight-card"
+                        onclick="window.open('assets/landing project/XFEED.html', '_blank')"
+                        style="cursor: pointer;">
                         <div class="project-header">
-                            <div class="project-icon" style="background:rgba(0,136,255,0.15);"><i
-                                    data-lucide="trending-up" style="color:#0088ff;"></i></div>
-                            <span class="tag tag-blue">Automation</span>
+                            <div class="project-icon" style="background:rgba(0,255,136,0.1);"><i data-lucide="rss"
+                                    style="color:#00ff88;"></i></div>
+                            <span class="tag tag-green" data-i18n="project_xfeed_tag">Intelligence</span>
                         </div>
-                        <h3 class="project-title" data-i18n="project_trading_title">Prospire Algo-Trading</h3>
-                        <p class="project-description" data-i18n="project_trading_desc">High-frequency cryptocurrency trading engine with custom signal algorithms, real-time market data pipelines, and automated trade execution across multiple exchanges.</p>
+                        <h3 class="project-title" data-i18n="project_xfeed_title">XFEED</h3>
+                        <p class="project-description mb-0" data-i18n="project_xfeed_desc">Real-time X/Twitter
+                            intelligence platform monitoring financial influencers, market news, and economic events.
+                            Production-grade anti-detection engine with zero-auth public REST API.</p>
                         <div class="project-tags">
                             <span class="tag tag-gray">Python</span>
-                            <span class="tag tag-gray">REST APIs</span>
-                            <span class="tag tag-gray">WebSocket</span>
-                            <span class="tag tag-gray">Async I/O</span>
-                        </div>
-                        <div class="project-stats">
-                            <div>
-                                <div class="project-stat-value">$100k</div>
-                                <div class="project-stat-label" data-i18n="project_trading_stat">/week volume</div>
-                            </div>
+                            <span class="tag tag-gray">curl_cffi</span>
+                            <span class="tag tag-gray">GraphQL</span>
+                            <span class="tag tag-gray">REST API</span>
                         </div>
                     </div>
 
-                    <!-- Bot Project -->
-                    <div class="card project-card spotlight-card">
-                        <div style="display:flex; gap:1.5rem; align-items:center; flex-wrap:wrap;">
-                            <div class="project-icon"><i data-lucide="bot"></i></div>
-                            <div style="flex:1;">
-                                <h3 class="project-title" data-i18n="project_bot_title">Financial Telegram Bot & Data Pipeline</h3>
-                                <p class="project-description mb-0" data-i18n="project_bot_desc">Production Telegram bot serving real-time financial statements for 1,600+ Vietnamese listed companies. Built with producer-consumer architecture and async web scraping for high-throughput data delivery to investors.</p>
+                    <!-- Keylogger Project -->
+                    <div class="card project-card card-glow-red spotlight-card" data-project="keylogger"
+                        style="cursor: pointer;">
+                        <div class="project-header">
+                            <div class="project-icon" style="background:rgba(239,68,68,0.15);"><i data-lucide="skull"
+                                    style="color:#ef4444;"></i></div>
+                            <span class="tag tag-red">Malware Research</span>
+                        </div>
+                        <h3 class="project-title" data-i18n="project_keylogger_title">Snake Game Keylogger</h3>
+                        <p class="project-description" data-i18n="project_keylogger_desc">Proof-of-concept malware
+                            analysis lab simulating a full attack lifecycle: phishing delivery, credential harvesting,
+                            persistence, and C2 exfiltration via Telegram.</p>
+                        <div class="project-tags">
+                            <span class="tag tag-gray">MITRE ATT&CK</span>
+                            <span class="tag tag-gray">Python</span>
+                            <span class="tag tag-gray">Credential Theft</span>
+                            <span class="tag tag-gray">C2</span>
+                        </div>
+                        <div class="project-stats">
+                            <div>
+                                <div class="project-stat-value">5</div>
+                                <div class="project-stat-label" data-i18n="project_keylogger_stat1">ATT&CK Techniques
+                                </div>
                             </div>
-                            <div class="project-tags">
-                                <span class="tag tag-gray">Telegram API</span>
-                                <span class="tag tag-gray">Producer-Consumer</span>
-                                <span class="tag tag-gray">Selenium</span>
-                                <span class="tag tag-gray">BeautifulSoup</span>
+                            <div>
+                                <div class="project-stat-value">Full</div>
+                                <div class="project-stat-label" data-i18n="project_keylogger_stat2">Kill Chain</div>
                             </div>
                         </div>
                     </div>
@@ -352,54 +364,43 @@
                         </div>
                     </div>
 
-                    <!-- XFEED Project -->
-                    <div class="card project-card card-glow-green spotlight-card"
-                        onclick="window.open('assets/landing project/XFEED.html', '_blank')"
-                        style="cursor: pointer;">
+                    <!-- Trading Project -->
+                    <div class="card project-card card-glow-blue spotlight-card"
+                        style="grid-column: span 2;">
                         <div class="project-header">
-                            <div class="project-icon" style="background:rgba(0,255,136,0.1);"><i data-lucide="rss"
-                                    style="color:#00ff88;"></i></div>
-                            <span class="tag tag-green" data-i18n="project_xfeed_tag">Intelligence</span>
+                            <div class="project-icon" style="background:rgba(0,136,255,0.15);"><i
+                                    data-lucide="trending-up" style="color:#0088ff;"></i></div>
+                            <span class="tag tag-blue">Automation</span>
                         </div>
-                        <h3 class="project-title" data-i18n="project_xfeed_title">XFEED</h3>
-                        <p class="project-description mb-0" data-i18n="project_xfeed_desc">Real-time X/Twitter
-                            intelligence platform monitoring financial influencers, market news, and economic events.
-                            Production-grade anti-detection engine with zero-auth public REST API.</p>
+                        <h3 class="project-title" data-i18n="project_trading_title">Prospire Algo-Trading</h3>
+                        <p class="project-description" data-i18n="project_trading_desc">High-frequency cryptocurrency trading engine with custom signal algorithms, real-time market data pipelines, and automated trade execution across multiple exchanges.</p>
                         <div class="project-tags">
                             <span class="tag tag-gray">Python</span>
-                            <span class="tag tag-gray">curl_cffi</span>
-                            <span class="tag tag-gray">GraphQL</span>
-                            <span class="tag tag-gray">REST API</span>
-                        </div>
-                    </div>
-
-                    <!-- Keylogger Project -->
-                    <div class="card project-card card-glow-red spotlight-card" data-project="keylogger"
-                        style="cursor: pointer; grid-column: span 2;">
-                        <div class="project-header">
-                            <div class="project-icon" style="background:rgba(239,68,68,0.15);"><i data-lucide="skull"
-                                    style="color:#ef4444;"></i></div>
-                            <span class="tag tag-red">Malware Research</span>
-                        </div>
-                        <h3 class="project-title" data-i18n="project_keylogger_title">Snake Game Keylogger</h3>
-                        <p class="project-description" data-i18n="project_keylogger_desc">Proof-of-concept malware
-                            analysis lab simulating a full attack lifecycle: phishing delivery, credential harvesting,
-                            persistence, and C2 exfiltration via Telegram.</p>
-                        <div class="project-tags">
-                            <span class="tag tag-gray">MITRE ATT&CK</span>
-                            <span class="tag tag-gray">Python</span>
-                            <span class="tag tag-gray">Credential Theft</span>
-                            <span class="tag tag-gray">C2</span>
+                            <span class="tag tag-gray">REST APIs</span>
+                            <span class="tag tag-gray">WebSocket</span>
+                            <span class="tag tag-gray">Async I/O</span>
                         </div>
                         <div class="project-stats">
                             <div>
-                                <div class="project-stat-value">5</div>
-                                <div class="project-stat-label" data-i18n="project_keylogger_stat1">ATT&CK Techniques
-                                </div>
+                                <div class="project-stat-value">$100k</div>
+                                <div class="project-stat-label" data-i18n="project_trading_stat">/week volume</div>
                             </div>
-                            <div>
-                                <div class="project-stat-value">Full</div>
-                                <div class="project-stat-label" data-i18n="project_keylogger_stat2">Kill Chain</div>
+                        </div>
+                    </div>
+
+                    <!-- Bot Project -->
+                    <div class="card project-card spotlight-card">
+                        <div style="display:flex; gap:1.5rem; align-items:center; flex-wrap:wrap;">
+                            <div class="project-icon"><i data-lucide="bot"></i></div>
+                            <div style="flex:1;">
+                                <h3 class="project-title" data-i18n="project_bot_title">Financial Telegram Bot & Data Pipeline</h3>
+                                <p class="project-description mb-0" data-i18n="project_bot_desc">Production Telegram bot serving real-time financial statements for 1,600+ Vietnamese listed companies. Built with producer-consumer architecture and async web scraping for high-throughput data delivery to investors.</p>
+                            </div>
+                            <div class="project-tags">
+                                <span class="tag tag-gray">Telegram API</span>
+                                <span class="tag tag-gray">Producer-Consumer</span>
+                                <span class="tag tag-gray">Selenium</span>
+                                <span class="tag tag-gray">BeautifulSoup</span>
                             </div>
                         </div>
                     </div>
