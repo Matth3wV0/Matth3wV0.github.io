@@ -1,0 +1,1960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>XFEED — Real-Time X/Twitter Intelligence Platform</title>
+  <meta name="description" content="Monitor breaking market news, economic events, and financial influencers from X/Twitter in real-time. Production-grade anti-detection. Zero-auth public API." />
+  <meta name="theme-color" content="#09090b" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="XFEED — Real-Time X/Twitter Intelligence Platform" />
+  <meta property="og:description" content="Monitor breaking market news, economic events, and financial influencers from X/Twitter in real-time." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://raw.githubusercontent.com/kittran1307/XFEED/main/docs/og-image.png" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ═══════════════════════════════════════════════════════════════════
+       CSS RESET & VARIABLES
+       ═══════════════════════════════════════════════════════════════════ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:         #09090b;
+      --bg2:        #111113;
+      --bg3:        #18181b;
+      --border:     #27272a;
+      --border2:    #3f3f46;
+      --text:       #fafafa;
+      --text2:      #a1a1aa;
+      --text3:      #71717a;
+      --accent:     #00ff88;
+      --accent2:    #00cc6a;
+      --accent-dim: rgba(0,255,136,0.08);
+      --red:        #ff4444;
+      --yellow:     #ffd60a;
+      --blue:       #3b82f6;
+      --purple:     #c084fc;
+      --pink:       #f472b6;
+      --orange:     #fb923c;
+      --mono:       'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      --sans:       'Syne', system-ui, -apple-system, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; }
+    img { max-width: 100%; }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       SCROLLBAR
+       ═══════════════════════════════════════════════════════════════════ */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent2); }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       ANIMATIONS
+       ═══════════════════════════════════════════════════════════════════ */
+    @keyframes pulse-glow {
+      0%, 100% { opacity: 1; box-shadow: 0 0 8px rgba(0,255,136,0.4); }
+      50% { opacity: 0.6; box-shadow: 0 0 4px rgba(0,255,136,0.2); }
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+    @keyframes float-up {
+      from { opacity: 0; transform: translateY(40px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slide-in-left {
+      from { opacity: 0; transform: translateX(-30px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes gradient-shift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    @keyframes scan {
+      0%   { transform: translateY(-100%); }
+      100% { transform: translateY(100vh); }
+    }
+    @keyframes count-pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    @keyframes dash-flow {
+      to { stroke-dashoffset: -20; }
+    }
+
+    .fade-section {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       GRID BACKGROUND (CSS-only)
+       ═══════════════════════════════════════════════════════════════════ */
+    .grid-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(0,255,136,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,136,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .grid-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(0,255,136,0.04) 0%, transparent 60%);
+    }
+
+    /* Scanlines overlay */
+    .scanlines {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.03) 2px,
+        rgba(0,0,0,0.03) 4px
+      );
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       NAVIGATION
+       ═══════════════════════════════════════════════════════════════════ */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(39,39,42,0.5);
+      background: rgba(9,9,11,0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .nav-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: -0.5px;
+    }
+    .nav-version {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text3);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2px 6px;
+      margin-left: 4px;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+    .nav-link {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text2);
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+    .nav-link:hover { color: var(--accent); }
+    .nav-cta {
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 8px 16px;
+      border-radius: 6px;
+      border: 1px solid rgba(0,255,136,0.4);
+      color: var(--accent);
+      background: none;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .nav-cta:hover { background: rgba(0,255,136,0.1); }
+    .nav-mobile-toggle {
+      display: none;
+      font-size: 22px;
+      color: var(--text2);
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    .nav-mobile {
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+      padding: 16px 24px;
+      border-top: 1px solid rgba(39,39,42,0.5);
+      background: rgba(9,9,11,0.95);
+    }
+    .nav-mobile.open { display: flex; }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-mobile-toggle { display: block; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       HERO
+       ═══════════════════════════════════════════════════════════════════ */
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 24px 40px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 100px;
+      border: 1px solid rgba(0,255,136,0.2);
+      background: rgba(0,255,136,0.05);
+      margin-bottom: 32px;
+      animation: float-up 0.8s ease both;
+    }
+    .hero-badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+    .hero-badge-text {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--accent);
+    }
+    .hero-title {
+      animation: float-up 0.8s ease 0.1s both;
+    }
+    .hero-title-main {
+      display: block;
+      font-family: var(--mono);
+      font-size: clamp(48px, 10vw, 96px);
+      font-weight: 700;
+      letter-spacing: -3px;
+      background: linear-gradient(135deg, var(--accent) 0%, #4ade80 40%, var(--accent) 80%);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradient-shift 4s ease infinite;
+      line-height: 1.05;
+    }
+    .hero-title-sub {
+      display: block;
+      margin-top: 12px;
+      font-family: var(--sans);
+      font-size: clamp(22px, 4vw, 40px);
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+    }
+    .hero-desc {
+      margin-top: 24px;
+      font-family: var(--mono);
+      font-size: clamp(14px, 2vw, 18px);
+      color: var(--text2);
+      max-width: 600px;
+      animation: float-up 0.8s ease 0.2s both;
+    }
+    .typewriter-cursor {
+      animation: blink 1s step-end infinite;
+      color: var(--accent);
+    }
+    .hero-cta {
+      margin-top: 40px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      animation: float-up 0.8s ease 0.3s both;
+    }
+    .btn-primary {
+      position: relative;
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-family: var(--mono);
+      font-size: 14px;
+      font-weight: 600;
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
+      overflow: hidden;
+    }
+    .btn-primary:hover {
+      box-shadow: 0 0 40px rgba(0,255,136,0.3);
+      transform: translateY(-1px);
+    }
+    .btn-secondary {
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-family: var(--mono);
+      font-size: 14px;
+      font-weight: 600;
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border2);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-secondary:hover {
+      border-color: rgba(0,255,136,0.4);
+      color: var(--accent);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       TERMINAL MOCKUP
+       ═══════════════════════════════════════════════════════════════════ */
+    .terminal {
+      margin-top: 64px;
+      width: 100%;
+      max-width: 860px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: #0c0c0e;
+      box-shadow: 0 0 80px rgba(0,255,136,0.04), 0 20px 60px rgba(0,0,0,0.5);
+      overflow: hidden;
+      animation: float-up 0.8s ease 0.4s both;
+    }
+    .terminal-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg2);
+    }
+    .terminal-dots {
+      display: flex;
+      gap: 6px;
+    }
+    .terminal-dot { width: 12px; height: 12px; border-radius: 50%; }
+    .terminal-dot.r { background: #ff5f57; }
+    .terminal-dot.y { background: #febc2e; }
+    .terminal-dot.g { background: #28c840; }
+    .terminal-title {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text3);
+      margin-left: 8px;
+    }
+    .terminal-body {
+      padding: 20px;
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+    .terminal-body .cmd { color: var(--text3); }
+    .terminal-body .out { color: var(--accent); }
+    .terminal-body .info { color: var(--text2); }
+    .terminal-body .label-green { color: var(--accent); }
+    .terminal-body .label-blue { color: var(--blue); }
+    .terminal-body .label-yellow { color: var(--yellow); }
+    .terminal-body .label-purple { color: var(--purple); }
+
+    .scroll-hint {
+      margin-top: 48px;
+      animation: float-up 0.8s ease 0.5s both;
+      color: var(--text3);
+    }
+    .scroll-hint svg {
+      animation: float-up 1.5s ease-in-out infinite alternate;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       METRICS BAR
+       ═══════════════════════════════════════════════════════════════════ */
+    .metrics {
+      position: relative;
+      z-index: 1;
+      padding: 64px 24px;
+      border-top: 1px solid rgba(39,39,42,0.3);
+      border-bottom: 1px solid rgba(39,39,42,0.3);
+    }
+    .metrics-grid {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      text-align: center;
+    }
+    .metric-value {
+      font-family: var(--mono);
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 700;
+      color: var(--text);
+    }
+    .metric-value.highlight { color: var(--accent); }
+    .metric-label {
+      margin-top: 4px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 768px) {
+      .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       SECTION HEADINGS
+       ═══════════════════════════════════════════════════════════════════ */
+    .section {
+      position: relative;
+      z-index: 1;
+      padding: 96px 24px;
+    }
+    .section.bordered {
+      border-top: 1px solid rgba(39,39,42,0.3);
+      border-bottom: 1px solid rgba(39,39,42,0.3);
+    }
+    .section-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+    .section-tag {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    .section-title {
+      margin-top: 12px;
+      font-family: var(--sans);
+      font-size: clamp(26px, 4vw, 40px);
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+    }
+    .section-desc {
+      margin-top: 16px;
+      font-family: var(--mono);
+      font-size: 14px;
+      color: var(--text2);
+      max-width: 560px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       FEATURE CARDS
+       ═══════════════════════════════════════════════════════════════════ */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .feature-card {
+      position: relative;
+      padding: 28px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg2);
+      transition: all 0.4s;
+      overflow: hidden;
+    }
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(0,255,136,0.05) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .feature-card:hover {
+      border-color: rgba(0,255,136,0.3);
+      box-shadow: 0 0 30px rgba(0,255,136,0.05);
+      transform: translateY(-2px);
+    }
+    .feature-card:hover::before { opacity: 1; }
+    .feature-icon {
+      font-size: 28px;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
+    }
+    .feature-title {
+      font-family: var(--mono);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 8px;
+      position: relative;
+      z-index: 1;
+    }
+    .feature-desc {
+      font-size: 13px;
+      color: var(--text2);
+      line-height: 1.6;
+      position: relative;
+      z-index: 1;
+    }
+
+    @media (max-width: 1024px) {
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 640px) {
+      .features-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       PIPELINE
+       ═══════════════════════════════════════════════════════════════════ */
+    .pipeline {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 64px;
+    }
+    .pipeline-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.5s;
+    }
+    .pipeline-step.active { opacity: 1; }
+    .pipeline-step.dim { opacity: 0.3; }
+    .pipeline-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      border: 1px solid var(--border);
+      background: var(--bg2);
+      transition: all 0.5s;
+    }
+    .pipeline-step.active .pipeline-icon {
+      border-color: rgba(0,255,136,0.5);
+      background: rgba(0,255,136,0.08);
+      box-shadow: 0 0 20px rgba(0,255,136,0.15);
+    }
+    .pipeline-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .pipeline-sub {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text3);
+    }
+    .pipeline-arrow {
+      font-family: var(--mono);
+      font-size: 18px;
+      color: var(--border2);
+      transition: color 0.5s;
+    }
+    .pipeline-arrow.lit { color: var(--accent); }
+
+    @media (max-width: 768px) {
+      .pipeline-arrow { display: none; }
+      .pipeline { gap: 12px; }
+      .pipeline-icon { width: 48px; height: 48px; font-size: 18px; }
+    }
+
+    /* Tech stack grid */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .tech-card {
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg2);
+    }
+    .tech-category {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+    .tech-items {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text2);
+      line-height: 1.5;
+    }
+
+    @media (max-width: 768px) {
+      .tech-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       DASHBOARD PREVIEW
+       ═══════════════════════════════════════════════════════════════════ */
+    .dashboard-mock {
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: #0c0c0e;
+      box-shadow: 0 0 80px rgba(0,255,136,0.04);
+      overflow: hidden;
+    }
+    .dashboard-titlebar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg2);
+    }
+    .dashboard-meta {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--mono);
+      font-size: 10px;
+    }
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 200px 1fr 260px;
+      min-height: 420px;
+    }
+    .dashboard-grid > div {
+      border-right: 1px solid var(--border);
+      padding: 12px;
+    }
+    .dashboard-grid > div:last-child { border-right: none; }
+    .panel-title {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+    .status-row {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--mono);
+      font-size: 11px;
+      margin-bottom: 4px;
+    }
+    .status-label { color: var(--text3); }
+    .status-value { color: var(--text2); }
+    .status-value.green { color: var(--accent); }
+    .list-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text2);
+      margin-bottom: 4px;
+    }
+    .list-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .search-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .search-input {
+      flex: 1;
+      height: 28px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      background: var(--bg3);
+      padding: 0 8px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text3);
+      display: flex;
+      align-items: center;
+    }
+    .search-dropdown {
+      height: 28px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      background: var(--bg3);
+      padding: 0 12px;
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text3);
+      display: flex;
+      align-items: center;
+    }
+    .tweet-mock {
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--bg3);
+      margin-bottom: 8px;
+      transition: border-color 0.3s;
+    }
+    .tweet-mock:first-child {
+      border-left: 2px solid var(--accent);
+    }
+    .tweet-mock:hover { border-color: rgba(0,255,136,0.3); }
+    .tweet-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .tweet-avatar {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      font-weight: 700;
+    }
+    .tweet-user {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .tweet-time {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text3);
+      margin-left: auto;
+    }
+    .tweet-text {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text2);
+      line-height: 1.5;
+      margin-bottom: 4px;
+    }
+    .tweet-metrics {
+      font-family: var(--mono);
+      font-size: 9px;
+      color: var(--text3);
+    }
+    .cal-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .cal-tab {
+      font-family: var(--mono);
+      font-size: 10px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      color: var(--text3);
+      background: var(--bg3);
+    }
+    .cal-tab.active {
+      color: var(--accent);
+      background: rgba(0,255,136,0.1);
+      border: 1px solid rgba(0,255,136,0.3);
+    }
+    .cal-grid {
+      font-family: var(--mono);
+      font-size: 9px;
+      display: grid;
+      grid-template-columns: 38px 32px 24px 1fr 36px;
+      gap: 2px 0;
+      color: var(--text3);
+    }
+    .cal-grid .header { font-weight: 600; padding-bottom: 4px; }
+    .cal-grid .past { opacity: 0.4; }
+    .cal-actual { text-align: right; }
+    .cal-actual.filled { color: var(--accent); }
+    .stars-high { color: var(--red); }
+    .stars-med { color: var(--yellow); }
+    .now-line {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 0;
+    }
+    .now-line-bar {
+      flex: 1;
+      border-top: 1px dashed var(--accent);
+    }
+    .now-label {
+      font-family: var(--mono);
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    @media (max-width: 1024px) {
+      .dashboard-grid { display: none; }
+      .dashboard-mobile { display: block; padding: 24px; text-align: center; }
+    }
+    @media (min-width: 1025px) {
+      .dashboard-mobile { display: none; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       API SECTION
+       ═══════════════════════════════════════════════════════════════════ */
+    .api-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+    .code-block {
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #0c0c0e;
+      overflow: hidden;
+    }
+    .code-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 16px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg2);
+    }
+    .code-bar-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .code-lang {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text3);
+      margin-left: 8px;
+    }
+    .code-copy {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text3);
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+    .code-copy:hover { color: var(--accent); }
+    .code-body {
+      padding: 16px;
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--text2);
+      overflow-x: auto;
+      white-space: pre;
+    }
+    .code-body .comment { color: var(--text3); }
+    .code-body .string { color: var(--accent); }
+    .code-body .key { color: var(--blue); }
+    .code-body .number { color: var(--orange); }
+    .endpoint-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .endpoint-card {
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--bg2);
+    }
+    .endpoint-method {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .endpoint-path {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text);
+      margin-left: 6px;
+    }
+    .endpoint-desc {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text3);
+      margin-top: 2px;
+    }
+
+    @media (max-width: 1024px) {
+      .api-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       USE CASES
+       ═══════════════════════════════════════════════════════════════════ */
+    .usecase-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .usecase-card {
+      padding: 28px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg2);
+    }
+    .usecase-icon { font-size: 28px; margin-bottom: 12px; }
+    .usecase-title {
+      font-family: var(--mono);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+    .usecase-list { list-style: none; }
+    .usecase-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text2);
+      margin-bottom: 8px;
+    }
+    .usecase-bullet {
+      color: var(--accent);
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 768px) {
+      .usecase-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       PRICING
+       ═══════════════════════════════════════════════════════════════════ */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .pricing-card {
+      position: relative;
+      padding: 28px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg2);
+      display: flex;
+      flex-direction: column;
+    }
+    .pricing-card.highlighted {
+      border-color: rgba(0,255,136,0.5);
+      box-shadow: 0 0 40px rgba(0,255,136,0.08);
+    }
+    .pricing-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 4px 12px;
+      border-radius: 100px;
+      background: var(--accent);
+      color: var(--bg);
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    .pricing-tier {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    .pricing-price {
+      margin-top: 8px;
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+    .pricing-amount {
+      font-family: var(--mono);
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .pricing-period {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--text3);
+    }
+    .pricing-desc {
+      margin-top: 8px;
+      font-size: 13px;
+      color: var(--text2);
+    }
+    .pricing-features {
+      flex: 1;
+      list-style: none;
+      margin: 20px 0;
+    }
+    .pricing-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text2);
+      margin-bottom: 8px;
+    }
+    .pricing-check {
+      color: var(--accent);
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+    .pricing-btn {
+      width: 100%;
+      padding: 12px;
+      border-radius: 6px;
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .pricing-btn.primary {
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+    }
+    .pricing-btn.primary:hover {
+      box-shadow: 0 0 20px rgba(0,255,136,0.3);
+    }
+    .pricing-btn.outline {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid rgba(0,255,136,0.4);
+    }
+    .pricing-btn.outline:hover {
+      background: rgba(0,255,136,0.1);
+    }
+
+    @media (max-width: 768px) {
+      .pricing-grid { grid-template-columns: 1fr; max-width: 400px; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       WAITLIST CTA
+       ═══════════════════════════════════════════════════════════════════ */
+    .waitlist {
+      position: relative;
+      z-index: 1;
+      padding: 96px 24px;
+      text-align: center;
+    }
+    .waitlist-form {
+      margin-top: 32px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      max-width: 440px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .waitlist-input {
+      flex: 1;
+      min-width: 200px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg2);
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    .waitlist-input::placeholder { color: var(--text3); }
+    .waitlist-input:focus { border-color: rgba(0,255,136,0.5); }
+    .waitlist-success {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 8px;
+      border: 1px solid rgba(0,255,136,0.4);
+      background: rgba(0,255,136,0.05);
+      margin-top: 24px;
+    }
+    .waitlist-success-icon { color: var(--accent); font-size: 20px; }
+    .waitlist-success-text {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--text2);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════════════════════════════════ */
+    .footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid rgba(39,39,42,0.3);
+      padding: 48px 24px;
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .footer-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    .footer-link {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text3);
+      transition: color 0.3s;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+    .footer-link:hover { color: var(--accent); }
+    .footer-bottom {
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(39,39,42,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .footer-copy {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text3);
+    }
+    .footer-tech {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text3);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Grid background -->
+  <div class="grid-bg"></div>
+  <!-- Scanlines -->
+  <div class="scanlines"></div>
+
+  <!-- ═══ NAVIGATION ═══════════════════════════════════════════════════════ -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-brand">
+        <div class="nav-dot"></div>
+        <span class="nav-logo">XFEED</span>
+        <span class="nav-version">v1.0</span>
+      </div>
+      <div class="nav-links">
+        <button class="nav-link" onclick="scrollTo('features')">Features</button>
+        <button class="nav-link" onclick="scrollTo('architecture')">Architecture</button>
+        <button class="nav-link" onclick="scrollTo('api')">API</button>
+        <button class="nav-link" onclick="scrollTo('pricing')">Pricing</button>
+      </div>
+      <button class="nav-mobile-toggle" onclick="toggleMobile()" id="mobileToggle">&#9776;</button>
+    </div>
+    <div class="nav-mobile" id="mobileMenu">
+      <button class="nav-link" onclick="scrollTo('features')">Features</button>
+      <button class="nav-link" onclick="scrollTo('architecture')">Architecture</button>
+      <button class="nav-link" onclick="scrollTo('api')">API</button>
+      <button class="nav-link" onclick="scrollTo('pricing')">Pricing</button>
+    </div>
+  </nav>
+
+  <!-- ═══ HERO ═════════════════════════════════════════════════════════════ -->
+  <section class="hero">
+    <div class="hero-badge">
+      <div class="hero-badge-dot"></div>
+      <span class="hero-badge-text">Real-time Intelligence Platform</span>
+    </div>
+
+    <h1 class="hero-title">
+      <span class="hero-title-main">XFEED</span>
+      <span class="hero-title-sub">X/Twitter News Intelligence</span>
+    </h1>
+
+    <p class="hero-desc">
+      Monitor <span id="typewriter"></span><span class="typewriter-cursor">|</span>
+    </p>
+
+    <div class="hero-cta">
+      <button class="btn-primary" onclick="scrollTo('waitlist')">Join Waitlist</button>
+      <a href="/" class="btn-secondary">View Live Demo &rarr;</a>
+    </div>
+
+    <!-- Terminal mockup -->
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="terminal-dots">
+          <div class="terminal-dot r"></div>
+          <div class="terminal-dot y"></div>
+          <div class="terminal-dot g"></div>
+        </div>
+        <span class="terminal-title">XFEED Terminal &mdash; News Intelligence Dashboard</span>
+      </div>
+      <div class="terminal-body">
+<span class="cmd">$ xfeed --status</span>
+<span class="out">&#9656; XFEED v1.0 &mdash; Intelligence Engine Active</span>
+<span class="info">  <span class="label-green">SCRAPER</span>   &#9679; IDLE &mdash; next run: market-open (09:00 ET)</span>
+<span class="info">  <span class="label-blue">DATABASE</span>   &#10003; Supabase connected &mdash; 12,847 tweets stored</span>
+<span class="info">  <span class="label-yellow">CALENDAR</span>  &#10003; 23 events today &mdash; 3 high-impact (USD)</span>
+<span class="info">  <span class="label-purple">REALTIME</span>  WS:&#9679;LIVE &mdash; Supabase channel subscribed</span>
+<span class="info">  <span class="label-green">ACCOUNTS</span>  4 active &mdash; 0 rate-limited &mdash; 0 suspended</span>
+
+<span class="cmd">$ xfeed --scrape --list 1835415954091925914</span>
+<span class="out">&#9656; Scraping list "FinTwit Breaking"...</span>
+<span class="info">  [1/4] Pre-flight: session health &#10003;</span>
+<span class="info">  [2/4] Rate limit check: 14/15 remaining &#10003;</span>
+<span class="info">  [3/4] GraphQL fetch: 47 new posts &#10003;</span>
+<span class="info">  [4/4] Pipeline: normalize &rarr; dedup &rarr; store &#10003;</span>
+<span class="out">&#10003; Complete: 47 new, 3 duplicates skipped, 0 errors</span>
+      </div>
+    </div>
+
+    <div class="scroll-hint">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+    </div>
+  </section>
+
+  <!-- ═══ METRICS ══════════════════════════════════════════════════════════ -->
+  <section class="metrics fade-section">
+    <div class="metrics-grid">
+      <div>
+        <div class="metric-value" data-target="12847" data-suffix="+">0</div>
+        <div class="metric-label">Tweets Monitored</div>
+      </div>
+      <div>
+        <div class="metric-value" data-target="156" data-suffix="+">0</div>
+        <div class="metric-label">Lists Tracked</div>
+      </div>
+      <div>
+        <div class="metric-value" data-target="99" data-suffix=".9%">0</div>
+        <div class="metric-label">Uptime</div>
+      </div>
+      <div>
+        <div class="metric-value highlight">0</div>
+        <div class="metric-label">Accounts Suspended</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FEATURES ═════════════════════════════════════════════════════════ -->
+  <section class="section fade-section" id="features">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-tag">Capabilities</div>
+        <h2 class="section-title">Built for Speed. Hardened for Stealth.</h2>
+        <p class="section-desc">Production-grade intelligence pipeline with anti-detection at its core.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">&#9889;</div>
+          <div class="feature-title">Real-Time Scraping</div>
+          <div class="feature-desc">GraphQL-based X/Twitter scraping with curl_cffi TLS fingerprinting. Human-like delays, session health checks, and automatic cursor resumption.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#128202;</div>
+          <div class="feature-title">Economic Calendar</div>
+          <div class="feature-desc">Dual-source scraping from Investing.com and ForexFactory. 9 currencies, impact ratings, 15-minute refresh cycle, timezone-normalized.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#128737;</div>
+          <div class="feature-title">Anti-Detection Engine</div>
+          <div class="feature-desc">Chrome 131 JA3/JA4 fingerprinting, lognormal request delays, per-account seeded fingerprints. Zero suspensions track record.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#128268;</div>
+          <div class="feature-title">Public REST API</div>
+          <div class="feature-desc">Zero-auth v1 API with paginated feeds, author analytics, calendar events, and system stats. Ready for custom integrations.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#9889;</div>
+          <div class="feature-title">Live WebSocket Updates</div>
+          <div class="feature-desc">Supabase Realtime integration for instant tweet delivery. Sub-second latency from post publication to your dashboard.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#128274;</div>
+          <div class="feature-title">Smart Deduplication</div>
+          <div class="feature-desc">Two-layer dedup: in-memory fast-path + PostgreSQL UNIQUE constraint safety net. Zero duplicates guaranteed.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#128197;</div>
+          <div class="feature-title">Market-Aligned Scheduling</div>
+          <div class="feature-desc">GitHub Actions cron jobs at market open (9AM ET) and close (3:45PM ET). Economic calendar every 15 minutes, 24/7.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#128190;</div>
+          <div class="feature-title">Hybrid Database</div>
+          <div class="feature-desc">Supabase PostgreSQL for production with automatic SQLite fallback. Async-native with asyncpg and aiosqlite drivers.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#128424;</div>
+          <div class="feature-title">Data Export</div>
+          <div class="feature-desc">One-click export to JSON or Excel/CSV with UTF-8 BOM. Full dataset streaming with no row limits.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ ARCHITECTURE ═════════════════════════════════════════════════════ -->
+  <section class="section bordered fade-section" id="architecture">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-tag">Architecture</div>
+        <h2 class="section-title">From Raw Signal to Actionable Intelligence</h2>
+      </div>
+
+      <!-- Pipeline -->
+      <div class="pipeline" id="pipeline">
+        <div class="pipeline-step active"><div class="pipeline-icon">&#128225;</div><div class="pipeline-label">X Platform</div><div class="pipeline-sub">GraphQL API</div></div>
+        <div class="pipeline-arrow lit">&rarr;</div>
+        <div class="pipeline-step active"><div class="pipeline-icon">&#128270;</div><div class="pipeline-label">Scraper</div><div class="pipeline-sub">curl_cffi + TLS</div></div>
+        <div class="pipeline-arrow">&rarr;</div>
+        <div class="pipeline-step dim"><div class="pipeline-icon">&#9881;&#65039;</div><div class="pipeline-label">Pipeline</div><div class="pipeline-sub">Normalize + Dedup</div></div>
+        <div class="pipeline-arrow">&rarr;</div>
+        <div class="pipeline-step dim"><div class="pipeline-icon">&#128451;&#65039;</div><div class="pipeline-label">Storage</div><div class="pipeline-sub">PostgreSQL</div></div>
+        <div class="pipeline-arrow">&rarr;</div>
+        <div class="pipeline-step dim"><div class="pipeline-icon">&#9889;</div><div class="pipeline-label">Stream</div><div class="pipeline-sub">WebSocket</div></div>
+        <div class="pipeline-arrow">&rarr;</div>
+        <div class="pipeline-step dim"><div class="pipeline-icon">&#128187;</div><div class="pipeline-label">Dashboard</div><div class="pipeline-sub">Next.js Terminal</div></div>
+      </div>
+
+      <!-- Tech stack -->
+      <div class="tech-grid">
+        <div class="tech-card"><div class="tech-category">Backend</div><div class="tech-items">FastAPI, Python 3.11, SQLAlchemy, Pydantic v2</div></div>
+        <div class="tech-card"><div class="tech-category">Frontend</div><div class="tech-items">Next.js 16, React 19, TypeScript, Tailwind v4</div></div>
+        <div class="tech-card"><div class="tech-category">Data</div><div class="tech-items">PostgreSQL (Supabase), SQLite, Redis, asyncpg</div></div>
+        <div class="tech-card"><div class="tech-category">Infra</div><div class="tech-items">GitHub Actions, Docker, Supabase Realtime</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ DASHBOARD PREVIEW ════════════════════════════════════════════════ -->
+  <section class="section fade-section">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-tag">Interface</div>
+        <h2 class="section-title">Terminal-Grade Dashboard</h2>
+        <p class="section-desc">Monospace. Dark. Dense. Every pixel earns its place.</p>
+      </div>
+
+      <div class="dashboard-mock">
+        <div class="dashboard-titlebar">
+          <div class="terminal-dots">
+            <div class="terminal-dot r"></div>
+            <div class="terminal-dot y"></div>
+            <div class="terminal-dot g"></div>
+          </div>
+          <span class="terminal-title" style="margin-left:8px;">XFEED Dashboard</span>
+          <div class="dashboard-meta">
+            <span style="color:var(--accent);">WS:&#9679;LIVE</span>
+            <span style="color:var(--text3);">&#128202; 12,847</span>
+            <span style="color:var(--text3);">&#128101; 342</span>
+          </div>
+        </div>
+
+        <div class="dashboard-grid">
+          <!-- LEFT SIDEBAR -->
+          <div>
+            <div class="panel-title">System Status</div>
+            <div class="status-row"><span class="status-label">Scraper</span><span class="status-value green">&#9679; IDLE</span></div>
+            <div class="status-row"><span class="status-label">Last run</span><span class="status-value">2h ago</span></div>
+            <div class="status-row"><span class="status-label">Today</span><span class="status-value">142 tweets</span></div>
+            <br />
+            <div class="panel-title">Target Lists</div>
+            <div class="list-item"><div class="list-dot" style="background:#4ade80;"></div>FinTwit Breaking</div>
+            <div class="list-item"><div class="list-dot" style="background:#60a5fa;"></div>Macro Alpha</div>
+            <div class="list-item"><div class="list-dot" style="background:#fb923c;"></div>Fed Watch</div>
+            <div class="list-item"><div class="list-dot" style="background:#c084fc;"></div>Crypto Flow</div>
+            <br />
+            <div class="panel-title">Top Authors</div>
+            <div class="list-item" style="font-size:10px;">@zerohedge <span style="color:var(--text3);margin-left:auto;">847</span></div>
+            <div class="list-item" style="font-size:10px;">@DeItaone <span style="color:var(--text3);margin-left:auto;">623</span></div>
+            <div class="list-item" style="font-size:10px;">@unusual_whales <span style="color:var(--text3);margin-left:auto;">412</span></div>
+          </div>
+
+          <!-- CENTER FEED -->
+          <div>
+            <div class="search-bar">
+              <div class="search-input">Search tweets, @handles, keywords...</div>
+              <div class="search-dropdown">All Lists</div>
+            </div>
+
+            <div class="tweet-mock">
+              <div class="tweet-header">
+                <div class="tweet-avatar" style="background:rgba(74,222,128,0.15);color:#4ade80;">Z</div>
+                <span class="tweet-user">@zerohedge</span>
+                <span class="tweet-time">2m</span>
+              </div>
+              <div class="tweet-text">BREAKING: Fed signals pause on rate cuts amid sticky inflation data, markets reprice 2026 dot plot</div>
+              <div class="tweet-metrics">&#128172; 234 &nbsp; &#128257; 842 &nbsp; &#9825; 2.1K &nbsp; &#128065; 1.2M</div>
+            </div>
+
+            <div class="tweet-mock">
+              <div class="tweet-header">
+                <div class="tweet-avatar" style="background:rgba(96,165,250,0.15);color:#60a5fa;">D</div>
+                <span class="tweet-user">@DeItaone</span>
+                <span class="tweet-time">5m</span>
+              </div>
+              <div class="tweet-text">*CHINA TRADE BALANCE FOR FEBRUARY: $125.16B vs $103.5B EXPECTED</div>
+              <div class="tweet-metrics">&#128172; 89 &nbsp; &#128257; 234 &nbsp; &#9825; 876 &nbsp; &#128065; 890K</div>
+            </div>
+
+            <div class="tweet-mock">
+              <div class="tweet-header">
+                <div class="tweet-avatar" style="background:rgba(251,146,60,0.15);color:#fb923c;">U</div>
+                <span class="tweet-user">@unusual_whales</span>
+                <span class="tweet-time">8m</span>
+              </div>
+              <div class="tweet-text">Large SPY call sweep detected: $580 strike, March expiry, $2.3M premium</div>
+              <div class="tweet-metrics">&#128172; 56 &nbsp; &#128257; 156 &nbsp; &#9825; 543 &nbsp; &#128065; 456K</div>
+            </div>
+
+            <div class="tweet-mock">
+              <div class="tweet-header">
+                <div class="tweet-avatar" style="background:rgba(192,132,252,0.15);color:#c084fc;">M</div>
+                <span class="tweet-user">@MacroAlf</span>
+                <span class="tweet-time">12m</span>
+              </div>
+              <div class="tweet-text">Real rates are now the highest since 2007. This is not priced in. Thread on what comes next:</div>
+              <div class="tweet-metrics">&#128172; 412 &nbsp; &#128257; 1.2K &nbsp; &#9825; 3.8K &nbsp; &#128065; 2.1M</div>
+            </div>
+
+            <div class="tweet-mock">
+              <div class="tweet-header">
+                <div class="tweet-avatar" style="background:rgba(244,114,182,0.15);color:#f472b6;">F</div>
+                <span class="tweet-user">@financialjuice</span>
+                <span class="tweet-time">15m</span>
+              </div>
+              <div class="tweet-text">ECB LAGARDE: INFLATION IS ON TRACK TO REACH 2% TARGET BY 2026</div>
+              <div class="tweet-metrics">&#128172; 34 &nbsp; &#128257; 98 &nbsp; &#9825; 321 &nbsp; &#128065; 234K</div>
+            </div>
+          </div>
+
+          <!-- RIGHT PANEL -->
+          <div>
+            <div class="cal-tabs">
+              <div class="cal-tab">Detail</div>
+              <div class="cal-tab active">CAL [E]</div>
+              <span style="margin-left:auto;font-family:var(--mono);font-size:9px;color:var(--accent);">CAL:&#9679;LIVE</span>
+            </div>
+
+            <div class="cal-grid">
+              <span class="header">TIME</span><span class="header">CCY</span><span class="header">&#9733;</span><span class="header">EVENT</span><span class="header" style="text-align:right;">ACT</span>
+
+              <span class="past">08:30</span><span class="past" style="color:#4ade80;">USD</span><span class="past stars-high">&#9733;&#9733;&#9733;</span><span class="past" style="color:var(--text2);">Non-Farm Payrolls</span><span class="past cal-actual filled">228K</span>
+
+              <span class="past">08:30</span><span class="past" style="color:#4ade80;">USD</span><span class="past stars-high">&#9733;&#9733;&#9733;</span><span class="past" style="color:var(--text2);">Unemployment Rate</span><span class="past cal-actual filled">4.2%</span>
+
+              <span class="past">10:00</span><span class="past" style="color:#4ade80;">USD</span><span class="past stars-med">&#9733;&#9733;</span><span class="past" style="color:var(--text2);">ISM Services PMI</span><span class="past cal-actual filled">53.8</span>
+
+              <!-- NOW LINE -->
+              <div class="now-line">
+                <div class="now-line-bar"></div>
+                <span class="now-label">NOW 12:34</span>
+                <div class="now-line-bar"></div>
+              </div>
+
+              <span>13:00</span><span style="color:#60a5fa;">EUR</span><span class="stars-med">&#9733;&#9733;</span><span style="color:var(--text2);">ECB Rate Decision</span><span class="cal-actual">---</span>
+
+              <span>14:00</span><span style="color:#c084fc;">GBP</span><span>&#9733;</span><span style="color:var(--text2);">BoE Speech</span><span class="cal-actual">---</span>
+
+              <span>15:30</span><span style="color:#4ade80;">USD</span><span class="stars-med">&#9733;&#9733;</span><span style="color:var(--text2);">Crude Inventories</span><span class="cal-actual">---</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-mobile">
+          <p style="font-family:var(--mono);font-size:13px;color:var(--text2);">3-column terminal dashboard with live feed, economic calendar, and system monitoring</p>
+          <a href="/" style="display:inline-block;margin-top:16px;font-family:var(--mono);font-size:13px;color:var(--accent);">Open Full Dashboard &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ API ══════════════════════════════════════════════════════════════ -->
+  <section class="section bordered fade-section" id="api">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-tag">Developer API</div>
+        <h2 class="section-title">Zero-Auth Public API</h2>
+        <p class="section-desc">5 endpoints. No API keys. Just GET requests.</p>
+      </div>
+
+      <div class="api-grid">
+        <div>
+          <div class="code-block">
+            <div class="code-bar">
+              <div class="code-bar-left">
+                <div class="terminal-dots"><div class="terminal-dot r"></div><div class="terminal-dot y"></div><div class="terminal-dot g"></div></div>
+                <span class="code-lang">bash</span>
+              </div>
+              <button class="code-copy" onclick="copyCode(this)">Copy</button>
+            </div>
+            <div class="code-body"><span class="comment"># Get latest tweets with pagination</span>
+curl <span class="string">https://api.xfeed.dev/v1/feed?page=1&per_page=20</span>
+
+<span class="comment"># Search by keyword</span>
+curl <span class="string">https://api.xfeed.dev/v1/feed?search=inflation</span>
+
+<span class="comment"># Filter by author</span>
+curl <span class="string">https://api.xfeed.dev/v1/feed?author=zerohedge</span>
+
+<span class="comment"># Economic calendar (high-impact USD)</span>
+curl <span class="string">https://api.xfeed.dev/v1/calendar?currency=USD&impact_min=3</span>
+
+<span class="comment"># System stats</span>
+curl <span class="string">https://api.xfeed.dev/v1/stats</span></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="code-block" style="margin-bottom:16px;">
+            <div class="code-bar">
+              <div class="code-bar-left">
+                <div class="terminal-dots"><div class="terminal-dot r"></div><div class="terminal-dot y"></div><div class="terminal-dot g"></div></div>
+                <span class="code-lang">json</span>
+              </div>
+              <button class="code-copy" onclick="copyCode(this)">Copy</button>
+            </div>
+            <div class="code-body">{
+  <span class="key">"tweets"</span>: [{
+    <span class="key">"id"</span>: <span class="string">"1835415954091925914"</span>,
+    <span class="key">"text"</span>: <span class="string">"BREAKING: Fed signals pause..."</span>,
+    <span class="key">"author_username"</span>: <span class="string">"zerohedge"</span>,
+    <span class="key">"author_followers"</span>: <span class="number">1840000</span>,
+    <span class="key">"like_count"</span>: <span class="number">2100</span>,
+    <span class="key">"view_count"</span>: <span class="number">1200000</span>,
+    <span class="key">"date"</span>: <span class="string">"2026-03-16T13:45:00Z"</span>
+  }],
+  <span class="key">"total"</span>: <span class="number">12847</span>,
+  <span class="key">"page"</span>: <span class="number">1</span>,
+  <span class="key">"total_pages"</span>: <span class="number">643</span>
+}</div>
+          </div>
+
+          <div class="endpoint-grid">
+            <div class="endpoint-card"><span class="endpoint-method">GET</span><span class="endpoint-path">/v1/feed</span><div class="endpoint-desc">Paginated tweet feed</div></div>
+            <div class="endpoint-card"><span class="endpoint-method">GET</span><span class="endpoint-path">/v1/feed/:id</span><div class="endpoint-desc">Single tweet detail</div></div>
+            <div class="endpoint-card"><span class="endpoint-method">GET</span><span class="endpoint-path">/v1/authors</span><div class="endpoint-desc">Author analytics</div></div>
+            <div class="endpoint-card"><span class="endpoint-method">GET</span><span class="endpoint-path">/v1/calendar</span><div class="endpoint-desc">Economic events</div></div>
+            <div class="endpoint-card" style="grid-column:1/-1;"><span class="endpoint-method">GET</span><span class="endpoint-path">/v1/stats</span><div class="endpoint-desc">System statistics &mdash; total tweets, unique authors, latest/oldest tweet timestamps</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ USE CASES ════════════════════════════════════════════════════════ -->
+  <section class="section fade-section">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-tag">Use Cases</div>
+        <h2 class="section-title">Built for Professionals</h2>
+      </div>
+
+      <div class="usecase-grid">
+        <div class="usecase-card">
+          <div class="usecase-icon">&#128200;</div>
+          <div class="usecase-title">Traders & Analysts</div>
+          <ul class="usecase-list">
+            <li><span class="usecase-bullet">&#9656;</span>Pre-market news before the bell opens</li>
+            <li><span class="usecase-bullet">&#9656;</span>Economic calendar with impact ratings</li>
+            <li><span class="usecase-bullet">&#9656;</span>Real-time sentiment from FinTwit</li>
+            <li><span class="usecase-bullet">&#9656;</span>Sub-second alert latency via WebSocket</li>
+          </ul>
+        </div>
+        <div class="usecase-card">
+          <div class="usecase-icon">&#128104;&#8205;&#128187;</div>
+          <div class="usecase-title">Developers & Integrators</div>
+          <ul class="usecase-list">
+            <li><span class="usecase-bullet">&#9656;</span>Zero-auth REST API for custom apps</li>
+            <li><span class="usecase-bullet">&#9656;</span>Supabase Realtime for live data streams</li>
+            <li><span class="usecase-bullet">&#9656;</span>Full source code &mdash; deploy your own instance</li>
+            <li><span class="usecase-bullet">&#9656;</span>Docker + GitHub Actions CI/CD ready</li>
+          </ul>
+        </div>
+        <div class="usecase-card">
+          <div class="usecase-icon">&#128300;</div>
+          <div class="usecase-title">Research Teams</div>
+          <ul class="usecase-list">
+            <li><span class="usecase-bullet">&#9656;</span>Historical tweet archive with full-text search</li>
+            <li><span class="usecase-bullet">&#9656;</span>Multi-list monitoring for competitor analysis</li>
+            <li><span class="usecase-bullet">&#9656;</span>JSON/Excel bulk export for data analysis</li>
+            <li><span class="usecase-bullet">&#9656;</span>Author analytics and influence tracking</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PRICING ══════════════════════════════════════════════════════════ -->
+  <section class="section bordered fade-section" id="pricing">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-tag">Pricing</div>
+        <h2 class="section-title">Simple, Transparent Pricing</h2>
+      </div>
+
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="pricing-tier">Starter</div>
+          <div class="pricing-price"><span class="pricing-amount">$0</span><span class="pricing-period">/mo</span></div>
+          <div class="pricing-desc">Self-hosted, open core</div>
+          <ul class="pricing-features">
+            <li><span class="pricing-check">&#10003;</span>1 scraping account</li>
+            <li><span class="pricing-check">&#10003;</span>3 target lists</li>
+            <li><span class="pricing-check">&#10003;</span>SQLite local storage</li>
+            <li><span class="pricing-check">&#10003;</span>Economic calendar</li>
+            <li><span class="pricing-check">&#10003;</span>Public API access</li>
+            <li><span class="pricing-check">&#10003;</span>Community support</li>
+          </ul>
+          <button class="pricing-btn outline">Get Started</button>
+        </div>
+        <div class="pricing-card highlighted">
+          <div class="pricing-badge">POPULAR</div>
+          <div class="pricing-tier">Pro</div>
+          <div class="pricing-price"><span class="pricing-amount">$49</span><span class="pricing-period">/mo</span></div>
+          <div class="pricing-desc">For serious traders & teams</div>
+          <ul class="pricing-features">
+            <li><span class="pricing-check">&#10003;</span>5 scraping accounts</li>
+            <li><span class="pricing-check">&#10003;</span>Unlimited target lists</li>
+            <li><span class="pricing-check">&#10003;</span>Supabase cloud storage</li>
+            <li><span class="pricing-check">&#10003;</span>Real-time WebSocket feed</li>
+            <li><span class="pricing-check">&#10003;</span>Priority scrape scheduling</li>
+            <li><span class="pricing-check">&#10003;</span>Email alerts on keywords</li>
+            <li><span class="pricing-check">&#10003;</span>Dedicated support</li>
+          </ul>
+          <button class="pricing-btn primary">Get Started</button>
+        </div>
+        <div class="pricing-card">
+          <div class="pricing-tier">Enterprise</div>
+          <div class="pricing-price"><span class="pricing-amount">Custom</span></div>
+          <div class="pricing-desc">Dedicated infrastructure</div>
+          <ul class="pricing-features">
+            <li><span class="pricing-check">&#10003;</span>Unlimited accounts</li>
+            <li><span class="pricing-check">&#10003;</span>Custom anti-detection config</li>
+            <li><span class="pricing-check">&#10003;</span>Dedicated PostgreSQL cluster</li>
+            <li><span class="pricing-check">&#10003;</span>SLA guarantee</li>
+            <li><span class="pricing-check">&#10003;</span>Custom API integrations</li>
+            <li><span class="pricing-check">&#10003;</span>On-premise deployment</li>
+            <li><span class="pricing-check">&#10003;</span>24/7 engineering support</li>
+          </ul>
+          <button class="pricing-btn outline">Contact Us</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ WAITLIST ═════════════════════════════════════════════════════════ -->
+  <section class="waitlist fade-section" id="waitlist">
+    <div class="section-tag">Early Access</div>
+    <h2 class="section-title" style="margin-top:12px;" id="waitlist-title">Get Early Access</h2>
+    <p class="section-desc" style="margin:16px auto 0;" id="waitlist-desc">Join the waitlist for early access. Be among the first to deploy real-time X intelligence.</p>
+
+    <form class="waitlist-form" id="waitlistForm" onsubmit="handleWaitlist(event)">
+      <input class="waitlist-input" type="email" placeholder="trader@example.com" required id="waitlistEmail" />
+      <button class="btn-primary" type="submit">Join Waitlist</button>
+    </form>
+
+    <div class="waitlist-success" id="waitlistSuccess" style="display:none;">
+      <span class="waitlist-success-icon">&#10003;</span>
+      <span class="waitlist-success-text">You're on the list. We'll notify you when we launch.</span>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══════════════════════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="nav-dot"></div>
+          <span style="font-family:var(--mono);font-size:14px;font-weight:600;color:var(--accent);">XFEED</span>
+          <span style="font-family:var(--mono);font-size:12px;color:var(--text3);">&mdash; News Intelligence Platform</span>
+        </div>
+        <div class="footer-links">
+          <a href="/" class="footer-link">Dashboard</a>
+          <button class="footer-link" onclick="scrollTo('features')">Features</button>
+          <button class="footer-link" onclick="scrollTo('api')">API Docs</button>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-copy">&copy; 2026 XFEED. All rights reserved.</span>
+        <span class="footer-tech">Built with FastAPI + Next.js + Supabase</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       JAVASCRIPT
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <script>
+    // ── Smooth scroll ─────────────────────────────────────────────────────
+    function scrollTo(id) {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+      // Close mobile menu
+      document.getElementById('mobileMenu').classList.remove('open');
+    }
+
+    // ── Mobile menu toggle ────────────────────────────────────────────────
+    function toggleMobile() {
+      const menu = document.getElementById('mobileMenu');
+      const toggle = document.getElementById('mobileToggle');
+      menu.classList.toggle('open');
+      toggle.innerHTML = menu.classList.contains('open') ? '&#10005;' : '&#9776;';
+    }
+
+    // ── Typewriter ────────────────────────────────────────────────────────
+    (function() {
+      const texts = [
+        'breaking market news in real-time',
+        'economic events across 9 currencies',
+        'financial influencers at scale',
+        'pre-market sentiment before the bell'
+      ];
+      const el = document.getElementById('typewriter');
+      let textIdx = 0, charIdx = 0, deleting = false;
+
+      function tick() {
+        const current = texts[textIdx];
+        if (!deleting && charIdx <= current.length) {
+          el.textContent = current.slice(0, charIdx);
+          charIdx++;
+          if (charIdx > current.length) {
+            setTimeout(() => { deleting = true; tick(); }, 2500);
+            return;
+          }
+          setTimeout(tick, 50);
+        } else if (deleting && charIdx >= 0) {
+          el.textContent = current.slice(0, charIdx);
+          charIdx--;
+          if (charIdx < 0) {
+            deleting = false;
+            textIdx = (textIdx + 1) % texts.length;
+            charIdx = 0;
+            setTimeout(tick, 300);
+            return;
+          }
+          setTimeout(tick, 25);
+        }
+      }
+      tick();
+    })();
+
+    // ── Intersection Observer: fade-in sections ───────────────────────────
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-section').forEach(el => observer.observe(el));
+
+    // ── Animated counters ─────────────────────────────────────────────────
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseInt(el.dataset.target);
+          if (!target) return;
+          const suffix = el.dataset.suffix || '';
+          const duration = 2000;
+          const start = performance.now();
+
+          function animate(now) {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            el.textContent = Math.round(target * eased).toLocaleString() + suffix;
+            if (progress < 1) requestAnimationFrame(animate);
+          }
+          requestAnimationFrame(animate);
+          counterObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('.metric-value[data-target]').forEach(el => counterObserver.observe(el));
+
+    // ── Pipeline animation ────────────────────────────────────────────────
+    (function() {
+      const steps = document.querySelectorAll('#pipeline .pipeline-step');
+      const arrows = document.querySelectorAll('#pipeline .pipeline-arrow');
+      let currentStep = 0;
+
+      setInterval(() => {
+        currentStep = (currentStep + 1) % steps.length;
+        steps.forEach((step, i) => {
+          step.classList.toggle('active', i <= currentStep);
+          step.classList.toggle('dim', i > currentStep);
+        });
+        arrows.forEach((arrow, i) => {
+          arrow.classList.toggle('lit', i < currentStep);
+        });
+      }, 1500);
+    })();
+
+    // ── Copy code ─────────────────────────────────────────────────────────
+    function copyCode(btn) {
+      const code = btn.closest('.code-block').querySelector('.code-body').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        btn.textContent = 'Copied!';
+        setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+      });
+    }
+
+    // ── Waitlist form ─────────────────────────────────────────────────────
+    function handleWaitlist(e) {
+      e.preventDefault();
+      const email = document.getElementById('waitlistEmail').value;
+      if (!email.includes('@')) return;
+
+      document.getElementById('waitlistForm').style.display = 'none';
+      document.getElementById('waitlist-desc').style.display = 'none';
+      document.getElementById('waitlist-title').textContent = "You're on the list.";
+      document.getElementById('waitlistSuccess').style.display = 'inline-flex';
+    }
+
+    // ── Feature cards staggered animation ─────────────────────────────────
+    const cardObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const cards = entry.target.querySelectorAll('.feature-card');
+          cards.forEach((card, i) => {
+            setTimeout(() => {
+              card.style.opacity = '1';
+              card.style.transform = 'translateY(0)';
+            }, i * 100);
+          });
+          cardObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    const featuresGrid = document.querySelector('.features-grid');
+    if (featuresGrid) {
+      featuresGrid.querySelectorAll('.feature-card').forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      });
+      cardObserver.observe(featuresGrid);
+    }
+
+    // ── Nav background on scroll ──────────────────────────────────────────
+    window.addEventListener('scroll', () => {
+      const nav = document.querySelector('.nav');
+      if (window.scrollY > 50) {
+        nav.style.borderBottomColor = 'rgba(39,39,42,0.8)';
+      } else {
+        nav.style.borderBottomColor = 'rgba(39,39,42,0.5)';
+      }
+    });
+  </script>
+</body>
+</html>
