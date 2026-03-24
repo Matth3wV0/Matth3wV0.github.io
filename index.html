@@ -119,7 +119,7 @@
                     <span class="font-mono" data-i18n="hero_status">Open to Work</span>
                 </div>
 
-                <p class="hero-tagline">Security · Automation · CTF</p>
+                <p class="hero-tagline">Security · Full-Stack · AI · CTF</p>
                 <h1 class="hero-title">Võ Trọng <span class="highlight glitch" data-text="Đức">Đức</span></h1>
                 <p class="hero-subtitle" data-i18n="hero_role">Security Engineer | Automation Specialist</p>
                 <p class="hero-description" data-i18n="hero_description">Building secure systems and automating complex
@@ -170,7 +170,7 @@
 
                     <div class="about-stats">
                         <div class="card stat-card">
-                            <div class="stat-value">5+</div>
+                            <div class="stat-value">10+</div>
                             <div class="stat-label" data-i18n="stat_projects">Projects</div>
                         </div>
                         <div class="card stat-card">
@@ -217,10 +217,12 @@
                         <h4><i data-lucide="code-2" style="width:18px;height:18px;"></i> <span data-i18n="skills_development">Development</span></h4>
                         <div class="skill-tags">
                             <span class="skill-tag blue">Python</span>
+                            <span class="skill-tag blue">TypeScript</span>
                             <span class="skill-tag blue">JavaScript</span>
+                            <span class="skill-tag blue">Next.js / React</span>
+                            <span class="skill-tag blue">FastAPI</span>
                             <span class="skill-tag blue">Bash</span>
                             <span class="skill-tag blue">SQL</span>
-                            <span class="skill-tag blue">HTML/CSS</span>
                             <span class="skill-tag blue">C/C++</span>
                         </div>
                     </div>
@@ -240,11 +242,15 @@
                         <h4><i data-lucide="server" style="width:18px;height:18px;"></i> <span data-i18n="skills_infra">Infrastructure & Tools</span></h4>
                         <div class="skill-tags">
                             <span class="skill-tag">Docker</span>
+                            <span class="skill-tag">PostgreSQL</span>
+                            <span class="skill-tag">Redis</span>
+                            <span class="skill-tag">Cloudflare</span>
+                            <span class="skill-tag">Vercel</span>
+                            <span class="skill-tag">Prisma / Drizzle</span>
                             <span class="skill-tag">Linux</span>
                             <span class="skill-tag">Git</span>
                             <span class="skill-tag">Telegram API</span>
                             <span class="skill-tag">Selenium</span>
-                            <span class="skill-tag">BeautifulSoup</span>
                         </div>
                     </div>
                 </div>
@@ -263,6 +269,161 @@
                     on a card to view detailed information</p>
 
                 <div class="grid-3">
+                    <!-- CyberPulse Project -->
+                    <div class="card project-card card-glow-green spotlight-card"
+                        style="cursor: pointer; grid-column: span 2;">
+                        <div class="project-header">
+                            <div class="project-icon"><i data-lucide="shield-alert"></i></div>
+                            <span class="tag tag-green" data-i18n="project_cyberpulse_tag">Security · AI</span>
+                        </div>
+                        <h3 class="project-title" data-i18n="project_cyberpulse_title">CyberPulse</h3>
+                        <p class="project-description" data-i18n="project_cyberpulse_desc">Real-time cybersecurity intelligence platform aggregating 32+ trusted sources. AI-powered pipeline (Anthropic Claude) automates CVE enrichment with NVD/CISA/EPSS data, generates bilingual EN/VI threat reports, and delivers daily newsletters — all on a fully Dockerized async stack.</p>
+                        <div class="project-tags">
+                            <span class="tag tag-gray">Python · FastAPI · Celery</span>
+                            <span class="tag tag-gray">Next.js 14</span>
+                            <span class="tag tag-gray">Claude AI</span>
+                            <span class="tag tag-gray">PostgreSQL · Redis</span>
+                            <span class="tag tag-gray">Docker</span>
+                        </div>
+                        <div class="project-stats">
+                            <div>
+                                <div class="project-stat-value">32+</div>
+                                <div class="project-stat-label" data-i18n="project_cyberpulse_stat1">Trusted Sources</div>
+                            </div>
+                            <div>
+                                <div class="project-stat-value">EN/VI</div>
+                                <div class="project-stat-label" data-i18n="project_cyberpulse_stat2">AI Threat Reports</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SentinelSOC Project -->
+                    <div class="card project-card card-glow-green spotlight-card"
+                        style="cursor: pointer;">
+                        <div class="project-header">
+                            <div class="project-icon"><i data-lucide="monitor-check"></i></div>
+                            <span class="tag tag-green" data-i18n="project_sentinel_tag">Security</span>
+                        </div>
+                        <h3 class="project-title" data-i18n="project_sentinel_title">SentinelSOC</h3>
+                        <p class="project-description" data-i18n="project_sentinel_desc">Enterprise-grade SOC analyst platform: 10 MITRE ATT&CK-mapped detection rules, 6 IR playbooks, forensic analysis tools, and 90+ analyst training scenarios — with real-time WebSocket alerting and one-command Docker deploy.</p>
+                        <div class="project-tags">
+                            <span class="tag tag-gray">React 18 · TypeScript</span>
+                            <span class="tag tag-gray">FastAPI</span>
+                            <span class="tag tag-gray">MITRE ATT&CK</span>
+                            <span class="tag tag-gray">WebSocket</span>
+                        </div>
+                        <div class="project-stats">
+                            <div>
+                                <div class="project-stat-value">10</div>
+                                <div class="project-stat-label" data-i18n="project_sentinel_stat1">ATT&CK Rules</div>
+                            </div>
+                            <div>
+                                <div class="project-stat-value">90+</div>
+                                <div class="project-stat-label" data-i18n="project_sentinel_stat2">Training Scenarios</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- HIEN ERP Project -->
+                    <div class="card project-card card-glow-blue spotlight-card"
+                        style="cursor: pointer;">
+                        <div class="project-header">
+                            <div class="project-icon" style="background:rgba(0,136,255,0.15);"><i data-lucide="layout-dashboard" style="color:#0088ff;"></i></div>
+                            <span class="tag tag-blue" data-i18n="project_hien_tag">Full-Stack · Production</span>
+                        </div>
+                        <h3 class="project-title" data-i18n="project_hien_title">HIEN ERP</h3>
+                        <p class="project-description mb-0" data-i18n="project_hien_desc">Production ERP for Hiên Concept & Củi Lũ Concept ceramic workshops (HCMC). Manages bookings, production workflow, shipping, and revenue — on Cloudflare Pages + D1 with 5-role RBAC.</p>
+                        <div class="project-tags">
+                            <span class="tag tag-gray">Next.js 16</span>
+                            <span class="tag tag-gray">Drizzle · D1</span>
+                            <span class="tag tag-gray">Cloudflare</span>
+                            <span class="tag tag-gray">TypeScript</span>
+                        </div>
+                        <div class="project-stats">
+                            <div>
+                                <div class="project-stat-value">2</div>
+                                <div class="project-stat-label" data-i18n="project_hien_stat1">Workshop Brands</div>
+                            </div>
+                            <div>
+                                <div class="project-stat-value">Edge</div>
+                                <div class="project-stat-label" data-i18n="project_hien_stat2">DB at Edge</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Xperise BD CRM Project -->
+                    <div class="card project-card card-glow-blue spotlight-card"
+                        style="cursor: pointer;">
+                        <div class="project-header">
+                            <div class="project-icon" style="background:rgba(0,136,255,0.15);"><i data-lucide="users" style="color:#0088ff;"></i></div>
+                            <span class="tag tag-blue" data-i18n="project_xperise_tag">Full-Stack · SaaS</span>
+                        </div>
+                        <h3 class="project-title" data-i18n="project_xperise_title">Xperise BD CRM</h3>
+                        <p class="project-description mb-0" data-i18n="project_xperise_desc">Internal CRM replacing 426-contact Excel sheets for Xperise's BD team. Turborepo monorepo (Next.js + Fastify), 7-stage deal pipeline, 4-role RBAC, BullMQ email campaign queue, and Apollo.io enrichment.</p>
+                        <div class="project-tags">
+                            <span class="tag tag-gray">Turborepo</span>
+                            <span class="tag tag-gray">Next.js · Fastify</span>
+                            <span class="tag tag-gray">Neon PostgreSQL</span>
+                            <span class="tag tag-gray">BullMQ · Redis</span>
+                        </div>
+                        <div class="project-stats">
+                            <div>
+                                <div class="project-stat-value">426+</div>
+                                <div class="project-stat-label" data-i18n="project_xperise_stat1">Contacts Migrated</div>
+                            </div>
+                            <div>
+                                <div class="project-stat-value">4</div>
+                                <div class="project-stat-label" data-i18n="project_xperise_stat2">BD Staff Roles</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Personal Finance Project -->
+                    <div class="card project-card card-glow-blue spotlight-card"
+                        style="cursor: pointer;">
+                        <div class="project-header">
+                            <div class="project-icon" style="background:rgba(0,136,255,0.15);"><i data-lucide="wallet" style="color:#0088ff;"></i></div>
+                            <span class="tag tag-blue" data-i18n="project_finance_tag">Full-Stack</span>
+                        </div>
+                        <h3 class="project-title" data-i18n="project_finance_title">Personal Finance</h3>
+                        <p class="project-description mb-0" data-i18n="project_finance_desc">Multi-user finance platform with 60+ categories, multi-currency live exchange rates, budget alerts, and recurring transaction automation. Bilingual VI/EN, PDF + Excel export. Free-tier deploy on Vercel + Supabase.</p>
+                        <div class="project-tags">
+                            <span class="tag tag-gray">Next.js · Prisma</span>
+                            <span class="tag tag-gray">Supabase</span>
+                            <span class="tag tag-gray">shadcn/ui</span>
+                            <span class="tag tag-gray">Recharts</span>
+                        </div>
+                        <div class="project-stats">
+                            <div>
+                                <div class="project-stat-value">60+</div>
+                                <div class="project-stat-label" data-i18n="project_finance_stat1">Default Categories</div>
+                            </div>
+                            <div>
+                                <div class="project-stat-value">VI/EN</div>
+                                <div class="project-stat-label" data-i18n="project_finance_stat2">Bilingual</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Marketing Automation Project -->
+                    <div class="card project-card spotlight-card"
+                        style="grid-column: span 2;">
+                        <div style="display:flex; gap:1.5rem; align-items:flex-start; flex-wrap:wrap;">
+                            <div class="project-icon" style="background:rgba(168,85,247,0.15); flex-shrink:0;"><i data-lucide="image-plus" style="color:#a855f7;"></i></div>
+                            <div style="flex:1; min-width:0;">
+                                <div style="margin-bottom:0.5rem;"><span class="tag" style="background:rgba(168,85,247,0.15);color:#a855f7;border:1px solid rgba(168,85,247,0.3);" data-i18n="project_marketing_tag">AI · Automation</span></div>
+                                <h3 class="project-title" data-i18n="project_marketing_title">Marketing Automation</h3>
+                                <p class="project-description mb-0" data-i18n="project_marketing_desc">Server-side image composition engine for multinational marketing campaigns. Processes batch template rendering via Sharp, integrates AI content generation (Vercel AI SDK v6), and automates campaign scheduling through configurable async concurrency pipelines — built for a live corporate client.</p>
+                                <div class="project-tags" style="margin-top:0.75rem;">
+                                    <span class="tag tag-gray">Next.js 15</span>
+                                    <span class="tag tag-gray">Sharp</span>
+                                    <span class="tag tag-gray">Vercel AI SDK v6</span>
+                                    <span class="tag tag-gray">TypeScript</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- NIDS Project -->
                     <div class="card project-card card-glow-green spotlight-card" data-project="nids"
                         style="cursor: pointer; grid-column: span 2;">
