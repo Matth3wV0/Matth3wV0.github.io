@@ -204,6 +204,12 @@
                         <div class="skill-tags">
                             <span class="skill-tag">Suricata</span>
                             <span class="skill-tag">ELK Stack</span>
+                            <span class="skill-tag">ClickStack SIEM</span>
+                            <span class="skill-tag">Cloudflare Zero Trust</span>
+                            <span class="skill-tag">Jamf / MDM</span>
+                            <span class="skill-tag">DLP (Netwrix / Fortra)</span>
+                            <span class="skill-tag">Cloud WAF (Radware)</span>
+                            <span class="skill-tag">Burp Suite</span>
                             <span class="skill-tag">Wireshark</span>
                             <span class="skill-tag">Volatility</span>
                             <span class="skill-tag">IDA Pro</span>
@@ -271,61 +277,6 @@
                 <div class="grid-3">
 
                     <!-- ── SECURITY · FEATURED ───────────────────────────────────── -->
-
-                    <!-- CyberPulse — Security AI flagship (span 2) -->
-                    <div class="card project-card card-glow-green spotlight-card"
-                        style="cursor: pointer; grid-column: span 2;">
-                        <div class="project-header">
-                            <div class="project-icon"><i data-lucide="shield-alert"></i></div>
-                            <span class="tag tag-green" data-i18n="project_cyberpulse_tag">Security · AI</span>
-                        </div>
-                        <h3 class="project-title" data-i18n="project_cyberpulse_title">CyberPulse</h3>
-                        <p class="project-description" data-i18n="project_cyberpulse_desc">Real-time cybersecurity intelligence platform aggregating 32+ trusted sources. AI-powered pipeline (Anthropic Claude) automates CVE enrichment with NVD/CISA/EPSS data, generates bilingual EN/VI threat reports, and delivers daily newsletters — all on a fully Dockerized async stack.</p>
-                        <div class="project-tags">
-                            <span class="tag tag-gray">Python · FastAPI · Celery</span>
-                            <span class="tag tag-gray">Next.js 14</span>
-                            <span class="tag tag-gray">Claude AI</span>
-                            <span class="tag tag-gray">PostgreSQL · Redis</span>
-                            <span class="tag tag-gray">Docker</span>
-                        </div>
-                        <div class="project-stats">
-                            <div>
-                                <div class="project-stat-value">32+</div>
-                                <div class="project-stat-label" data-i18n="project_cyberpulse_stat1">Trusted Sources</div>
-                            </div>
-                            <div>
-                                <div class="project-stat-value">EN/VI</div>
-                                <div class="project-stat-label" data-i18n="project_cyberpulse_stat2">AI Threat Reports</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- SentinelSOC — Enterprise SOC platform (span 1) -->
-                    <div class="card project-card card-glow-green spotlight-card"
-                        style="cursor: pointer;">
-                        <div class="project-header">
-                            <div class="project-icon"><i data-lucide="monitor-check"></i></div>
-                            <span class="tag tag-green" data-i18n="project_sentinel_tag">Security</span>
-                        </div>
-                        <h3 class="project-title" data-i18n="project_sentinel_title">SentinelSOC</h3>
-                        <p class="project-description" data-i18n="project_sentinel_desc">Enterprise-grade SOC analyst platform: 10 MITRE ATT&CK-mapped detection rules, 6 IR playbooks, forensic analysis tools, and 90+ analyst training scenarios — with real-time WebSocket alerting and one-command Docker deploy.</p>
-                        <div class="project-tags">
-                            <span class="tag tag-gray">React 18 · TypeScript</span>
-                            <span class="tag tag-gray">FastAPI</span>
-                            <span class="tag tag-gray">MITRE ATT&CK</span>
-                            <span class="tag tag-gray">WebSocket</span>
-                        </div>
-                        <div class="project-stats">
-                            <div>
-                                <div class="project-stat-value">10</div>
-                                <div class="project-stat-label" data-i18n="project_sentinel_stat1">ATT&CK Rules</div>
-                            </div>
-                            <div>
-                                <div class="project-stat-value">90+</div>
-                                <div class="project-stat-label" data-i18n="project_sentinel_stat2">Training Scenarios</div>
-                            </div>
-                        </div>
-                    </div>
 
                     <!-- Hybrid NIDS — ML-powered IDS (span 2) -->
                     <div class="card project-card card-glow-green spotlight-card" data-project="nids"
@@ -447,7 +398,7 @@
                             <span class="tag tag-blue" data-i18n="project_hien_tag">Full-Stack · Production</span>
                         </div>
                         <h3 class="project-title" data-i18n="project_hien_title">HIEN ERP</h3>
-                        <p class="project-description mb-0" data-i18n="project_hien_desc">Production ERP for Hiên Concept & Củi Lũ Concept ceramic workshops (HCMC). Manages bookings, production workflow, shipping, and revenue — on Cloudflare Pages + D1 with 5-role RBAC.</p>
+                        <p class="project-description mb-0" data-i18n="project_hien_desc">Production multi-tenant ERP for Hiên Concept & Củi Lũ Concept ceramic workshops (HCMC) — ~130K LOC TypeScript, 78 tables, per-tenant RBAC isolation. OWASP Top 10 audit found and fixed 42 vulnerabilities, including 2 Criticals and a class of cross-tenant IDOR.</p>
                         <div class="project-tags">
                             <span class="tag tag-gray">Next.js 16</span>
                             <span class="tag tag-gray">Drizzle · D1</span>
@@ -768,6 +719,25 @@
                 </div>
 
                 <div class="timeline">
+                    <!-- Trusting Social -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="card timeline-content">
+                            <div class="timeline-header">
+                                <div class="timeline-company">
+                                    <img src="assets/logo/Logo_TrustingSocial.png" alt="Trusting Social"
+                                        class="timeline-logo">
+                                    <span class="timeline-company-name">Trusting Social</span>
+                                </div>
+                                <span class="timeline-date" data-i18n="exp_trusting_date">May - Aug 2026</span>
+                            </div>
+                            <p class="timeline-role" data-i18n="exp_trusting_role">SecOps Engineer Intern</p>
+                            <div class="timeline-description" data-i18n="exp_trusting_desc">SecOps monitoring and
+                                detection engineering across endpoint, DLP, and Zero Trust — plus an internal XDR
+                                platform for log correlation and AI-assisted incident analysis.</div>
+                        </div>
+                    </div>
+
                     <!-- Viettel IDC -->
                     <div class="timeline-item">
                         <div class="timeline-dot blue"></div>

@@ -35,3 +35,6 @@ __pycache__/
 *.tar.gz
 
 .claude/settings.local.json
+
+# OMC agent state
+.omc/
